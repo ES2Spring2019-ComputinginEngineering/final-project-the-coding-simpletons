@@ -25,30 +25,19 @@ def readDataFile():
         
     numDays = len(dayIndices)
     
-    """
-    dailyTemp = np.zeros(numDays)  # Daily dry bulb
-    dailyHum = np.zeros(numDays)  # Daily humidity
-    dailySeaPress = np.zeros(numDays)  # Daily sea pressure
-    dailyDiffNormTemp = np.zeros(numDays)  # Daily difference from normal temp
-    dailyMaxTemp = np.zeros(numDays)  # Daily dry bulb
-    dailyMinTemp = np.zeros(numDays) # Daily dry bulb
-    dailyWindDirec = np.zeros(numDays) # Daily sustained wind direction
-    dailyPeakWind = np.zeros(numDays)  # Daily gusting speeds
-    dailyPrecip = np.zeros(numDays)  # Daily precipitation
-    dailyWindSpeed = np.zeros(numDays)  # Daily sustained wind speeds
-    """
+    #Initializing daily values
     
-    dates = []
-    dailyTemp = []
-    dailyHum = []
-    dailySeaPress = []
-    dailyDiffNormTemp = []
-    dailyMaxTemp = []
-    dailyMinTemp = []
-    dailyWindDirec = []
-    dailyPeakWind = []
-    dailyPrecip = []
-    dailyWindSpeed = []
+    dates = [] 
+    dailyTemp = [] # Daily dry bulb
+    dailyHum = [] # Daily humidity
+    dailySeaPress = [] # Daily sea pressure
+    dailyDiffNormTemp = [] # Daily difference from normal temp
+    dailyMaxTemp = [] # Daily dry bulb
+    dailyMinTemp = [] # Daily dry bulb
+    dailyWindDirec = [] # Daily sustained wind direction
+    dailyPeakWind = [] # Daily gusting speeds
+    dailyPrecip = [] # Daily precipitation
+    dailyWindSpeed = [] # Daily sustained wind speeds
     
     badCounter = 0
     for i in range(numDays):
@@ -81,36 +70,16 @@ def readDataFile():
             
     print(str(badCounter) + ' daily values did not contain useable data')
     
-    valuesOfInterest.append(dates)
-    valuesOfInterest.append(dailyTemp)
-    valuesOfInterest.append(dailyHum)
-    valuesOfInterest.append(dailySeaPress)
-    valuesOfInterest.append(dailyDiffNormTemp)
-    valuesOfInterest.append(dailyMaxTemp)
-    valuesOfInterest.append(dailyMinTemp)
-    valuesOfInterest.append(dailyWindDirec)
-    valuesOfInterest.append(dailyPeakWind)
-    valuesOfInterest.append(dailyPrecip)
-    valuesOfInterest.append(dailyWindSpeed)
-    
-    """
-    hourlytemp = np.zeros(numRows-1) # Hourly dry bulb temps
-    hourlypercip = np.zeros(numRows-1) # Hourly percipitation
-    hourlyseapress = np.zeros(numRows-1) # Hourly sea level pressure
-    hourlyhum = np.zeros(numRows-1) # Hourly relative humidity
-    hourlyVis = np.zeros(numRows-1)  # Hourly visibility
-    hourlyPeakWind = np.zeros(numRows-1) # Hourly peak wind speed
-    hourlyWind = np.zeros(numRows-1) # Hourly sustained wind speed
-    """
-    
-    hours = []
-    hourlytemp = []
-    hourlyprecip = []
-    hourlyseapress = []
-    hourlyhum = []
-    hourlyVis = []
-    hourlyPeakWind = []
-    hourlyWind = []
+    #Initializing hourly values
+   
+    hours = [] # Time values, by the hour-ish
+    hourlyTemp = [] # Hourly dry bulb temps
+    hourlyPrecip = [] # Hourly percipitation
+    hourlySeaPress = [] # Hourly sea level pressure
+    hourlyHum = [] # Hourly relative humidity
+    hourlyVis = [] # Hourly visibility
+    hourlyPeakWind = [] # Hourly peak wind speed
+    hourlyWindSpeed = [] # Hourly sustained wind speed
             
     badCounter2 = 0
     for i in range(numRows):
@@ -127,33 +96,89 @@ def readDataFile():
             badCounter2 += 1
         else:
             hours.append(data[i][1][11:])
-            hourlytemp.append(float(data[i][43]))
-            hourlyprecip.append(float(data[i][44]))
-            hourlyseapress.append(float(data[i][49]))
-            hourlyhum.append(float(data[i][48]))
+            hourlyTemp.append(float(data[i][43]))
+            hourlyPrecip.append(float(data[i][44]))
+            hourlySeaPress.append(float(data[i][49]))
+            hourlyHum.append(float(data[i][48]))
             hourlyVis.append(float(data[i][52]))
             hourlyPeakWind.append(float(data[i][55]))
-            hourlyWind.append(float(data[i][56]))
+            hourlyWindSpeed.append(float(data[i][56]))
             
     print(str(badCounter2) + ' hourly values did not contain useable data')
-    
-    valuesOfInterest.append(hours)
-    valuesOfInterest.append(hourlytemp)
-    valuesOfInterest.append(hourlyprecip)
-    valuesOfInterest.append(hourlyseapress)
-    valuesOfInterest.append(hourlyhum)
-    valuesOfInterest.append(hourlyVis)
-    valuesOfInterest.append(hourlyPeakWind)
-    valuesOfInterest.append(hourlyWind)
             
-    #SOME NORMALIZATION STEP WILL BE NECESSARY
-    """
-    for i in range(numRows - 1):
-        nGlucose[i] = (glucose[i] - np.amin(glucose))/(np.amax(glucose)- np.amin(glucose))
-        nHemoglobin[i] = (hemoglobin[i] - np.amin(hemoglobin))/(np.amax(hemoglobin)- np.amin(hemoglobin))
-    """
+    #Normalization and array conversion
+    
+    ndailyTemp = np.zeros(len(dailyTemp))
+    ndailyHum = np.zeros(len(dailyHum))
+    ndailySeaPress = np.zeros(len(dailySeaPress))
+    ndailyDiffNormTemp = np.zeros(len(dailyDiffNormTemp))
+    ndailyMaxTemp = np.zeros(len(dailyMaxTemp))
+    ndailyMinTemp = np.zeros(len(dailyMinTemp))
+    ndailyWindDirec = np.zeros(len(dailyWindDirec))
+    ndailyPeakWind = np.zeros(len(dailyPeakWind))
+    ndailyPrecip = np.zeros(len(dailyPrecip))
+    ndailyWindSpeed = np.zeros(len(dailyWindSpeed))
+    
+    nhourlyTemp = np.zeros(len(hourlyTemp))
+    nhourlyPrecip = np.zeros(len(hourlyPrecip))
+    nhourlySeaPress = np.zeros(len(hourlySeaPress))
+    nhourlyHum = np.zeros(len(hourlyHum))
+    nhourlyVis = np.zeros(len(hourlyVis))
+    nhourlyPeakWind = np.zeros(len(hourlyPeakWind))
+    nhourlyWindSpeed = np.zeros(len(hourlyWindSpeed))
+    
+
+    for i in range(len(dates)):
+        ndailyTemp[i] = (dailyTemp[i] - np.amin(dailyTemp))/(np.amax(dailyTemp)- np.amin(dailyTemp))
+        ndailyHum[i] = (dailyHum[i] - np.amin(dailyHum))/(np.amax(dailyHum)- np.amin(dailyHum))
+        ndailySeaPress[i] = (dailySeaPress[i] - np.amin(dailySeaPress))/(np.amax(dailySeaPress)- np.amin(dailySeaPress))
+        ndailyDiffNormTemp[i] = (dailyDiffNormTemp[i] - np.amin(dailyDiffNormTemp))/(np.amax(dailyDiffNormTemp)- np.amin(dailyDiffNormTemp))
+        ndailyMaxTemp[i] = (dailyMaxTemp[i] - np.amin(dailyMaxTemp))/(np.amax(dailyMaxTemp)- np.amin(dailyMaxTemp))
+        ndailyMinTemp[i] = (dailyMinTemp[i] - np.amin(dailyMinTemp))/(np.amax(dailyMinTemp)- np.amin(dailyMinTemp))
+        ndailyWindDirec[i] = (dailyWindDirec[i] - np.amin(dailyWindDirec))/(np.amax(dailyWindDirec)- np.amin(dailyWindDirec))
+        ndailyPeakWind[i] = (dailyPeakWind[i] - np.amin(dailyPeakWind))/(np.amax(dailyPeakWind)- np.amin(dailyPeakWind))
+        ndailyPrecip[i] = (dailyPrecip[i] - np.amin(dailyPrecip))/(np.amax(dailyPrecip)- np.amin(dailyPrecip))
+        ndailyWindSpeed[i] = (dailyWindSpeed[i] - np.amin(dailyWindSpeed))/(np.amax(dailyWindSpeed)- np.amin(dailyWindSpeed))
+   
+    for i in range(len(hours)):
+        nhourlyTemp[i] = (hourlyTemp[i] - np.amin(hourlyTemp))/(np.amax(hourlyTemp)- np.amin(hourlyTemp))
+        nhourlyPrecip[i] = (hourlyPrecip[i] - np.amin(hourlyPrecip))/(np.amax(hourlyPrecip)- np.amin(hourlyPrecip))
+        nhourlySeaPress[i] = (hourlySeaPress[i] - np.amin(hourlySeaPress))/(np.amax(hourlySeaPress)- np.amin(hourlySeaPress))
+        nhourlyHum[i] = (hourlyHum[i] - np.amin(hourlyHum))/(np.amax(hourlyHum)- np.amin(hourlyHum))
+        nhourlyVis[i] = (hourlyVis[i] - np.amin(hourlyVis))/(np.amax(hourlyVis)- np.amin(hourlyVis))
+        nhourlyPeakWind[i] = (hourlyPeakWind[i] - np.amin(hourlyPeakWind))/(np.amax(hourlyPeakWind)- np.amin(hourlyPeakWind))
+        nhourlyWindSpeed[i] = (hourlyWindSpeed[i] - np.amin(hourlyWindSpeed))/(np.amax(hourlyWindSpeed)- np.amin(hourlyWindSpeed))
+
+    
+    valuesOfInterest.append(dates)
+    valuesOfInterest.append(ndailyTemp)
+    valuesOfInterest.append(ndailyHum)
+    valuesOfInterest.append(ndailySeaPress)
+    valuesOfInterest.append(ndailyDiffNormTemp)
+    valuesOfInterest.append(ndailyMaxTemp)
+    valuesOfInterest.append(ndailyMinTemp)
+    valuesOfInterest.append(ndailyWindDirec)
+    valuesOfInterest.append(ndailyPeakWind)
+    valuesOfInterest.append(ndailyPrecip)
+    valuesOfInterest.append(ndailyWindSpeed)
+    
+        
+    valuesOfInterest.append(hours)
+    valuesOfInterest.append(nhourlyTemp)
+    valuesOfInterest.append(nhourlyPrecip)
+    valuesOfInterest.append(nhourlySeaPress)
+    valuesOfInterest.append(nhourlyHum)
+    valuesOfInterest.append(nhourlyVis)
+    valuesOfInterest.append(nhourlyPeakWind)
+    valuesOfInterest.append(nhourlyWindSpeed)
     
     return valuesOfInterest
+
+
+
+
+
+
 
 
 dates, dailyTemp, dailyHum, dailySeaPress, dailyDiffNormTemp, dailyMaxTemp, dailyMinTemp, dailyWindDirec, dailyPeakWind, dailyPrecip, dailyWinds, hours, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind = readDataFile()
