@@ -2,6 +2,7 @@
 
 import csv
 import numpy as np
+import matplotlib.pyplot as plt
 
 def readDataFile():
     valuesOfInterest = []
@@ -195,6 +196,23 @@ def nearest_neighbor(type_1, type_2, percip, new_1, new_2):
     raining = int(percip[smallesti])
     return raining
 
+def graphData(pressure, humidity, percipitation):
+    # graphing our parsed data    
+    plt.plot(percipitation[percipitation==0],humidity[percipitation==0],'r.',label ='Case 0')
+    # datapoints who's classification is 0 gets plotted in red
+    plt.plot(pressure[not (percipitation==0)],humidity[(not percipitation==0)],'b.',label='Case 1')
+    # datapoints who's classification is 1 gets plotted in blue
+   
+    # labeling our axis
+    plt.xlabel('pressure')
+    plt.ylabel('humidity')
+    
+    # adding a legend for our two data types
+    plt.legend(loc = 2)
+    plt.title('Normalized pressure and humidity with Rain')
+    plt.show()
+    
+
 
 
 dates, dailyTemp, dailyHum, dailySeaPress, dailyDiffNormTemp, dailyMaxTemp, dailyMinTemp, dailyWindDirec, dailyPeakWind, dailyPrecip, dailyWinds, hours, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind = readDataFile()
@@ -203,3 +221,5 @@ next_hum = trending(hourlyhum)
 next_press = trending(hourlyseapress)
 
 will_it_rain = nearest_neighbor(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
+
+graphData(hourlyseapress, hourlyhum, hourlyprecip)
