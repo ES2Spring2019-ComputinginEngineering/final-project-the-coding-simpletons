@@ -196,13 +196,11 @@ def nearest_neighbor(type_1, type_2, percip, new_1, new_2):
     raining = int(percip[smallesti])
     return raining
 
-def graphData(pressure, humidity, percipitation):
-    # graphing our parsed data 
+def graphData(pressure, humidity, percipitation, newx, newy):
+    # graphing our parsed, and normalized data 
     plt.plot(pressure ,humidity ,'b.',label='Rain')
     plt.plot(pressure[percipitation==0],humidity[percipitation==0],'r.',label ='No rain')
-    # datapoints who's classification is 0 gets plotted in red
-    #plt.plot(pressure[not (percipitation==0)],humidity[(not percipitation==0)],'b.',label='Case 1')
-    # datapoints who's classification is 1 gets plotted in blue
+    plt.plot(newx, newy, 'g*')
     
     # labeling our axis
     plt.xlabel('Pressure')
@@ -223,4 +221,4 @@ next_press = trending(hourlyseapress)
 
 will_it_rain = nearest_neighbor(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 
-graphData(hourlyseapress, hourlyhum, hourlyprecip)
+graphData(hourlyseapress, hourlyhum, hourlyprecip, next_press, next_hum)
