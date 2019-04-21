@@ -174,11 +174,32 @@ def readDataFile():
     
     return valuesOfInterest
 
+def trending(values):
+    change = []
+    length = values.size
+    final_day = values[length - 1]
+    for i in range(length - 2):
+        delta = (values[i+1] - values[i])
+        change.append(delta)
+    avechange = np.mean(change)
+    next_day = final_day + avechange
+    return next_day
 
-
-
-
+def nearest_neighbor(type_1, type_2, percip, new_1, new_2):
+    distance_arr = np.zeros(type_1.size)
+    for i in range(type_1.size):
+        distance_squared = (((type_1[i]-new_1)**2)+(type_2[i]-new_2)**2)
+        distance = np.sqrt(distance_squared)
+        distance_arr[i] = distance
+    smallesti = np.argmin(distance_arr)
+    raining = int(percip[smallesti])
+    return raining
 
 
 
 dates, dailyTemp, dailyHum, dailySeaPress, dailyDiffNormTemp, dailyMaxTemp, dailyMinTemp, dailyWindDirec, dailyPeakWind, dailyPrecip, dailyWinds, hours, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind = readDataFile()
+
+next_hum = trending(hourlyhum)
+next_press = trending(hourlyseapress)
+
+will_it_rain = nearest_neighbor(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
