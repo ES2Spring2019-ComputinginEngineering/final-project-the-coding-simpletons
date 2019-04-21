@@ -197,18 +197,19 @@ def nearest_neighbor(type_1, type_2, percip, new_1, new_2):
     return raining
 
 def graphData(pressure, humidity, percipitation):
-    # graphing our parsed data    
-    plt.plot(percipitation[percipitation==0],humidity[percipitation==0],'r.',label ='Case 0')
+    # graphing our parsed data 
+    plt.plot(pressure ,humidity ,'b.',label='Rain')
+    plt.plot(pressure[percipitation==0],humidity[percipitation==0],'r.',label ='No rain')
     # datapoints who's classification is 0 gets plotted in red
-    plt.plot(pressure[not (percipitation==0)],humidity[(not percipitation==0)],'b.',label='Case 1')
+    #plt.plot(pressure[not (percipitation==0)],humidity[(not percipitation==0)],'b.',label='Case 1')
     # datapoints who's classification is 1 gets plotted in blue
-   
+    
     # labeling our axis
-    plt.xlabel('pressure')
-    plt.ylabel('humidity')
+    plt.xlabel('Pressure')
+    plt.ylabel('Humidity')
     
     # adding a legend for our two data types
-    plt.legend(loc = 2)
+    plt.legend(loc = 3)
     plt.title('Normalized pressure and humidity with Rain')
     plt.show()
     
