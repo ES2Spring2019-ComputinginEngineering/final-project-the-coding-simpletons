@@ -3,6 +3,7 @@
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import cm
 
 def readDataFile():
     valuesOfInterest = []
@@ -222,18 +223,14 @@ def kNearestNeighborClassifier(type_1, type_2, percip, new_1, new_2):
     raining = int(np.median(closest))
     return raining
 
-def graphData(pressure, humidity, precipitation, newx, newy):
+def graphData(pressure, humidity, windspeed, visibility, temperature, precipitation, newx, newy):
     # graphing our parsed, and normalized data 
     sevenday= precipitation[0:169]
     plt.plot(pressure[0:169] ,humidity[0:169] ,'b.',label='Rain')
     plt.plot(pressure[0:169][sevenday==0],humidity[0:169][sevenday==0],'r.',label ='No rain')
     plt.plot(newx, newy, 'g*', label='Tomorrow')
-    
-    # labeling our axis
     plt.xlabel('Pressure')
     plt.ylabel('Humidity')
-    
-    # adding a legend for our two data types
     plt.legend(loc = 3)
     plt.title('7 Day Hourly Pressure and Humidity with Prediction')
     plt.show()
@@ -242,29 +239,36 @@ def graphData(pressure, humidity, precipitation, newx, newy):
     plt.plot(pressure[precipitation!=0],humidity[precipitation!=0],'b.',label='Rain')
     plt.plot(pressure[precipitation==0],humidity[precipitation==0],'r.',label ='No rain')
     plt.plot(newx, newy, 'g*', label='Tomorrow')
-    
-    # labeling our axis
     plt.xlabel('Pressure')
     plt.ylabel('Humidity')
-    
-    # adding a legend for our two data types
     plt.legend(loc = 3)
     plt.title('All Pressure and Humidity with Prediction')
     plt.show()
     
     # graphing our parsed, and normalized data with color intensitites for amount of rain
-    plt.scatter(pressure, humidity, c = precipitation,label='Precipitation')
+    plt.scatter(pressure, humidity, c = precipitation, cmap=cm.Blues)
     plt.plot(newx, newy, 'g*', label='Tomorrow')
-    plt.colorbar()
-    
-    # labeling our axis
+    plt.colorbar(label='Precipitation')
     plt.xlabel('Pressure')
     plt.ylabel('Humidity')
-    
-    # adding a legend for our two data types
     plt.legend(loc = 3)
     plt.title('All Pressure and Humidity with Prediction')
     plt.show()
+    
+    #graphs every unqiue pair of the selected hourly variables
+    selectValues = [pressure, humidity, windspeed, visibility, temperature]
+    selectLabels = ['pressure', 'humidity', 'windspeed', 'visibility', 'temperature']
+    for i in range(len(selectValues)):
+        for j in range(len(selectValues)):
+            if (j > i):
+                # graphing our parsed, and normalized data 
+                plt.plot(selectValues[i][precipitation!=0],selectValues[j][precipitation!=0],'b.',label='Rain')
+                plt.plot(selectValues[i][precipitation==0],selectValues[j][precipitation==0],'r.',label ='No rain')
+                plt.xlabel(selectLabels[i])
+                plt.ylabel(selectLabels[j])
+                plt.legend(loc = 3)
+                plt.title(selectLabels[j] + ' vs. ' + selectLabels[i])
+                plt.show()
 
 
 
@@ -278,4 +282,4 @@ next_press = trending(hourlyseapress)
 will_it_rain = nearest_neighbor(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 is_it_raining = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 
-graphData(hourlyseapress, hourlyhum, hourlyprecip, next_press, next_hum)
+graphData(hourlyseapress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip, next_press, next_hum)
