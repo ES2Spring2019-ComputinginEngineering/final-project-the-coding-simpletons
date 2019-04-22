@@ -222,9 +222,10 @@ def kNearestNeighborClassifier(type_1, type_2, percip, new_1, new_2):
 
 def graphData(pressure, humidity, percipitation, newx, newy):
     # graphing our parsed, and normalized data 
-    plt.plot(pressure ,humidity ,'b.',label='Rain')
-    plt.plot(pressure[percipitation==0],humidity[percipitation==0],'r.',label ='No rain')
-    plt.plot(newx, newy, 'g*')
+    sevenday= percipitation[0:169]
+    plt.plot(pressure[0:169] ,humidity[0:169] ,'b.',label='Rain')
+    plt.plot(pressure[0:169][sevenday==0],humidity[0:169][sevenday==0],'r.',label ='No rain')
+    plt.plot(newx, newy, 'g*', label='Tomorrow')
     
     # labeling our axis
     plt.xlabel('Pressure')
@@ -232,9 +233,22 @@ def graphData(pressure, humidity, percipitation, newx, newy):
     
     # adding a legend for our two data types
     plt.legend(loc = 3)
-    plt.title('Normalized Pressure and Humidity with Rain')
+    plt.title('7 Day Hourly Pressure and Humidity with Prediction')
     plt.show()
     
+    # graphing our parsed, and normalized data 
+    plt.plot(pressure,humidity,'b.',label='Rain')
+    plt.plot(pressure[percipitation==0],humidity[percipitation==0],'r.',label ='No rain')
+    plt.plot(newx, newy, 'g*', label='Tomorrow')
+    
+    # labeling our axis
+    plt.xlabel('Pressure')
+    plt.ylabel('Humidity')
+    
+    # adding a legend for our two data types
+    plt.legend(loc = 3)
+    plt.title('All Pressure and Humidity with Prediction')
+    plt.show()
 
 
 
@@ -243,7 +257,7 @@ dates, dailyTemp, dailyHum, dailySeaPress, dailyDiffNormTemp, dailyMaxTemp, dail
 next_hum = trending(hourlyhum)
 next_press = trending(hourlyseapress)
 
-class_rain = Class_rain(hourlyprecip)
+#class_rain = Class_rain(hourlyprecip)
 
 will_it_rain = nearest_neighbor(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 is_it_raining = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
