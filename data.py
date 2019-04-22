@@ -56,7 +56,7 @@ def readDataFile():
             float(data[dayIndices[i]][36])
         except:
             badCounter += 1
-        else:
+        else: #completed for days when all values can be converted to floats (cells not empty or letters)
             dates.append(data[dayIndices[i]][1][:10])
             dailyTemp.append(float(data[dayIndices[i]][19]))
             dailyHum.append(float(data[dayIndices[i]][20]))
@@ -75,7 +75,7 @@ def readDataFile():
    
     hours = [] # Time values, by the hour-ish
     hourlyTemp = [] # Hourly dry bulb temps
-    hourlyPrecip = [] # Hourly percipitation
+    hourlyPrecip = [] # Hourly precipitation
     hourlySeaPress = [] # Hourly sea level pressure
     hourlyHum = [] # Hourly relative humidity
     hourlyVis = [] # Hourly visibility
@@ -95,7 +95,7 @@ def readDataFile():
             float(data[i][56])
         except:
             badCounter2 += 1
-        else:
+        else: #completed for hours when all values can be converted to floats (cells not empty or letters)
             hours.append(data[i][1][11:])
             hourlyTemp.append(float(data[i][43]))
             hourlyPrecip.append(float(data[i][44]))
@@ -177,8 +177,8 @@ def readDataFile():
 
 def Class_rain(percip):
     class_rain = np.zeros(percip.size)
-    for i in (class_rain):
-        if percip[i] == 0:  #yo why doesnt this work?
+    for i in range(percip.size):
+        if percip[i] == 0:  #yo why doesn't this work?
             class_rain[i] = 0
         else:
             class_rain[i] = 1
@@ -207,6 +207,8 @@ def nearest_neighbor(type_1, type_2, percip, new_1, new_2):
     raining = int(percip[smallesti])
     return raining
 
+
+#Instead of Using Median we could use Percentage of nearest points that are rain to predict likelihood
 def kNearestNeighborClassifier(type_1, type_2, percip, new_1, new_2):
     closest = np.zeros(5)
     distance_arr = np.zeros(type_1.size)
@@ -220,9 +222,9 @@ def kNearestNeighborClassifier(type_1, type_2, percip, new_1, new_2):
     raining = int(np.median(closest))
     return raining
 
-def graphData(pressure, humidity, percipitation, newx, newy):
+def graphData(pressure, humidity, precipitation, newx, newy):
     # graphing our parsed, and normalized data 
-    sevenday= percipitation[0:169]
+    sevenday= precipitation[0:169]
     plt.plot(pressure[0:169] ,humidity[0:169] ,'b.',label='Rain')
     plt.plot(pressure[0:169][sevenday==0],humidity[0:169][sevenday==0],'r.',label ='No rain')
     plt.plot(newx, newy, 'g*', label='Tomorrow')
@@ -237,9 +239,23 @@ def graphData(pressure, humidity, percipitation, newx, newy):
     plt.show()
     
     # graphing our parsed, and normalized data 
-    plt.plot(pressure,humidity,'b.',label='Rain')
-    plt.plot(pressure[percipitation==0],humidity[percipitation==0],'r.',label ='No rain')
+    plt.plot(pressure[precipitation!=0],humidity[precipitation!=0],'b.',label='Rain')
+    plt.plot(pressure[precipitation==0],humidity[precipitation==0],'r.',label ='No rain')
     plt.plot(newx, newy, 'g*', label='Tomorrow')
+    
+    # labeling our axis
+    plt.xlabel('Pressure')
+    plt.ylabel('Humidity')
+    
+    # adding a legend for our two data types
+    plt.legend(loc = 3)
+    plt.title('All Pressure and Humidity with Prediction')
+    plt.show()
+    
+    # graphing our parsed, and normalized data with color intensitites for amount of rain
+    plt.scatter(pressure, humidity, c = precipitation,label='Precipitation')
+    plt.plot(newx, newy, 'g*', label='Tomorrow')
+    plt.colorbar()
     
     # labeling our axis
     plt.xlabel('Pressure')
