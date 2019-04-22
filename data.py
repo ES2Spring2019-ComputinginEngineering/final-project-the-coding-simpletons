@@ -175,6 +175,17 @@ def readDataFile():
     
     return valuesOfInterest
 
+def Class_rain(percip):
+    class_rain = np.zeros(percip.size)
+    for i in (class_rain):
+        if percip[i] == 0:  #yo why doesnt this work?
+            class_rain[i] = 0
+        else:
+            class_rain[i] = 1
+    print(class_rain)
+    return class_rain
+
+
 def trending(values):
     change = []
     length = values.size
@@ -196,6 +207,19 @@ def nearest_neighbor(type_1, type_2, percip, new_1, new_2):
     raining = int(percip[smallesti])
     return raining
 
+def kNearestNeighborClassifier(type_1, type_2, percip, new_1, new_2):
+    closest = np.zeros(5)
+    distance_arr = np.zeros(type_1.size)
+    for i in range(type_1.size):
+        distance_squared = (((type_1[i]-new_1)**2)+(type_2[i]-new_2)**2)
+        distance = np.sqrt(distance_squared)
+        distance_arr[i] = distance
+    indexes = np.argsort(distance_arr)
+    for i in range(5):
+        closest[i] = percip[indexes[i]] 
+    raining = int(np.median(closest))
+    return raining
+
 def graphData(pressure, humidity, percipitation, newx, newy):
     # graphing our parsed, and normalized data 
     plt.plot(pressure ,humidity ,'b.',label='Rain')
@@ -208,7 +232,7 @@ def graphData(pressure, humidity, percipitation, newx, newy):
     
     # adding a legend for our two data types
     plt.legend(loc = 3)
-    plt.title('Normalized pressure and humidity with Rain')
+    plt.title('Normalized Pressure and Humidity with Rain')
     plt.show()
     
 
@@ -220,5 +244,8 @@ next_hum = trending(hourlyhum)
 next_press = trending(hourlyseapress)
 
 will_it_rain = nearest_neighbor(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
+is_it_raining = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 
 graphData(hourlyseapress, hourlyhum, hourlyprecip, next_press, next_hum)
+
+class_rain = Class_rain(hourlyprecip)
