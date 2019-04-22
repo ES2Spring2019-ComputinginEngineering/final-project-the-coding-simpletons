@@ -243,9 +243,9 @@ dates, dailyTemp, dailyHum, dailySeaPress, dailyDiffNormTemp, dailyMaxTemp, dail
 next_hum = trending(hourlyhum)
 next_press = trending(hourlyseapress)
 
+class_rain = Class_rain(hourlyprecip)
+
 will_it_rain = nearest_neighbor(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 is_it_raining = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 
 graphData(hourlyseapress, hourlyhum, hourlyprecip, next_press, next_hum)
-
-class_rain = Class_rain(hourlyprecip)
