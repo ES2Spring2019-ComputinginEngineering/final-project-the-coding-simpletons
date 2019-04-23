@@ -373,7 +373,7 @@ def graphing(K, humidity, visibility, pressure, centroid, newassignments):    #s
     ax = fig.add_subplot(111, projection='3d')
     for i in range(K):
         centlabel = 'Centroid ' + str(i+1) 
-        ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, label = centlabel) 
+        ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, label = centlabel)  
         labelname = 'Case ' + str(i+1) 
         ax.scatter(humidity[newassignments==i],visibility[newassignments==i], visibility[newassignments==i],label = labelname) 
      
@@ -399,7 +399,7 @@ next_press = trending(hourlyseapress)
 will_it_rain = nearest_neighbor(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 is_it_raining = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 
-#graphData(hourlyseapress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip, next_hum, 0.5, next_press)
+graphData(hourlyseapress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip, next_hum, 0.5, next_press)
 
 K=3
 centroids = create_centroids(K)
