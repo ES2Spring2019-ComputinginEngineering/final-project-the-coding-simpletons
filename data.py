@@ -364,22 +364,22 @@ def graphing(K, humidity, visibility, pressure, centroid, newassignments):    #s
     centx = centroid[:,0]
     centy = centroid[:,1]
     centz = centroid[:,2]
-    
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
     for i in range(K):
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
-        centlabel = 'Case ' + str(i) 
-        ax.scatter(centx[i], centy[i], centz[i], label = centlabel) 
+        centlabel = 'Centroid ' + str(i+1) 
+        ax.scatter(centx[i], centy[i], centz[i], '*', label = centlabel) 
         labelname = 'Case ' + str(i) 
         ax.scatter(humidity[newassignments==i],visibility[newassignments==i], visibility[newassignments==i],label = labelname) 
         
-    '''
+    
     # making headings and a legend for the graph
-    plt.xlabel('Hemoglobin')
-    plt.ylabel('Glucose')
-    plt.title('Classified Data Using ' + str(K) + ' Centroids')
+    ax.set_xlabel('Humidity')
+    ax.set_ylabel('Visibility')
+    ax.set_label('Precipitation')
+    ax.set_title('Classified Data Using ' + str(K) + ' Centroids')
     plt.legend(bbox_to_anchor = (1.25, 1.025)) # positioning the legend so that it does not interfere with the data points
-    '''
+    
     plt.show()
 
 
