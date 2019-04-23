@@ -4,6 +4,7 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
+from mpl_toolkits.mplot3d import Axes3D
 
 def readDataFile():
     valuesOfInterest = []
@@ -254,6 +255,18 @@ def graphData(pressure, humidity, windspeed, visibility, temperature, precipitat
     plt.legend(loc = 3)
     plt.title('All Pressure and Humidity with Prediction')
     plt.show()
+    
+    # graphing our parsed, and normalized data 
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.scatter(humidity[precipitation!=0], visibility[precipitation!=0], pressure[precipitation!=0], label='Rain')
+    ax.scatter(humidity[precipitation==0], visibility[precipitation==0], pressure[precipitation==0], label ='No rain')
+    ax.set_xlabel('Humidity')
+    ax.set_ylabel('Visibility')
+    ax.set_zlabel('Pressure')
+    ax.legend(loc = 3)
+    ax.set_title('Pressure, Humidity, and Visibility Classified by Precipitationn\n', fontsize = 14)
+    ax.show()
     
     #graphs every unqiue pair of the selected hourly variables
     selectValues = [pressure, humidity, windspeed, visibility, temperature]
