@@ -4,7 +4,6 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
-from mpl_toolkits.mplot3d import Axes3D
 
 def readDataFile():
     valuesOfInterest = []
@@ -224,7 +223,7 @@ def kNearestNeighborClassifier(type_1, type_2, percip, new_1, new_2):
     raining = int(np.median(closest))
     return raining
 
-def graphData(pressure, humidity, windspeed, visibility, temperature, precipitation, newx, newy, newz):
+def graphData(pressure, humidity, windspeed, visibility, temperature, precipitation, newx, newz, newy):
     # graphing our parsed, and normalized data 
     sevenday= precipitation[0:169]
     plt.plot(pressure[0:169] ,humidity[0:169] ,'b.',label='Rain')
@@ -304,7 +303,7 @@ def create_centroids(K):
     return np.random.random((K,3))
 
 def assign(centroids, humidity, pressure, visibility):
-    K = 3
+    K = 2
     distances = np.zeros((K, len(visibility)))
     
     for i in range(K):
@@ -316,7 +315,7 @@ def assign(centroids, humidity, pressure, visibility):
         
     assignments = np.argmin(distances, axis = 0)  
     
-    if (0 in assignments) and (1 in assignments) and (2 in assignments):
+    if (0 in assignments) and (1 in assignments):# and (2 in assignments):
         return assignments
     else:
         centroids = create_centroids(K)
@@ -324,7 +323,7 @@ def assign(centroids, humidity, pressure, visibility):
         return assignments
     
 def updateCent(centroids, assignments, humidity, pressure, visibility):
-    K = 3
+    K = 2
     
     newcentroids = np.zeros(centroids.shape)
     
@@ -372,18 +371,27 @@ def graphing(K, humidity, visibility, pressure, centroid, newassignments):    #s
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     for i in range(K):
-        centlabel = 'Centroid ' + str(i+1) 
-        ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, label = centlabel)  
-        labelname = 'Case ' + str(i+1) 
-        ax.scatter(humidity[newassignments==i],visibility[newassignments==i], visibility[newassignments==i],label = labelname) 
-     
+        if (np.median(visibility[assignments == i]) == 1):
+            centlabel = 'Centroid No Rain' 
+            labelname = 'No Rain'
+            centcolor = 'orange'
+            valuecolor = 'maroon'
+        else:
+            centlabel = 'Centroid Rain'
+            labelname = 'Rain'
+            centcolor = 'blue'
+            valuecolor = 'teal'
+        #ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, color = centcolor, label = centlabel)  
+        ax.scatter(humidity[newassignments==i],visibility[newassignments==i], pressure[newassignments==i], color = valuecolor, label = labelname) 
+        ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, color = centcolor, label = centlabel)  
+
     
     # making headings and a legend for the graph
     ax.set_xlabel('Humidity')
     ax.set_ylabel('Visibility')
-    ax.set_label('Precipitation')
+    ax.set_zlabel('Pressure')
     ax.set_title('Classified Data Using ' + str(K) + ' Centroids')
-    plt.legend(bbox_to_anchor = (1.25, 1.025)) # positioning the legend so that it does not interfere with the data points
+    plt.legend(bbox_to_anchor = (1.43, 1.025)) # positioning the legend so that it does not interfere with the data points
     
     plt.show()
 
@@ -399,9 +407,9 @@ next_press = trending(hourlyseapress)
 will_it_rain = nearest_neighbor(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 is_it_raining = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 
-graphData(hourlyseapress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip, next_hum, 0.5, next_press)
+graphData(hourlyseapress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip, next_hum, 0.95, next_press)
 
-K=3
+K=2
 centroids = create_centroids(K)
 
 final_centroids, assignments = iteration(centroids, hourlyhum, hourlyseapress, hourlyVis)
