@@ -224,7 +224,7 @@ def kNearestNeighborClassifier(type_1, type_2, percip, new_1, new_2):
     raining = int(np.median(closest))
     return raining
 
-def graphData(pressure, humidity, windspeed, visibility, temperature, precipitation, newx, newy):
+def graphData(pressure, humidity, windspeed, visibility, temperature, precipitation, newx, newy, newz):
     # graphing our parsed, and normalized data 
     sevenday= precipitation[0:169]
     plt.plot(pressure[0:169] ,humidity[0:169] ,'b.',label='Rain')
@@ -259,15 +259,29 @@ def graphData(pressure, humidity, windspeed, visibility, temperature, precipitat
     # graphing our parsed, and normalized data 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
+    ax.view_init(elev=50, azim=200)
     ax.scatter(humidity[precipitation!=0], visibility[precipitation!=0], pressure[precipitation!=0], label='Rain')
     ax.scatter(humidity[precipitation==0], visibility[precipitation==0], pressure[precipitation==0], label ='No rain')
+    ax.scatter(newx, newy, newz, color = 'black', label='Tomorrow')
     ax.set_xlabel('Humidity')
     ax.set_ylabel('Visibility')
     ax.set_zlabel('Pressure')
     ax.legend(loc = 3)
     ax.set_title('Pressure, Humidity, and Visibility Classified by Precipitationn\n', fontsize = 14)
-    ax.show()
+    plt.show()
     
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.scatter(humidity[precipitation!=0], visibility[precipitation!=0], pressure[precipitation!=0], label='Rain')
+    ax.scatter(humidity[precipitation==0], visibility[precipitation==0], pressure[precipitation==0], label ='No rain')
+    ax.scatter(newx, newy, newz, color = 'black', label='Tomorrow')
+    ax.set_xlabel('Humidity')
+    ax.set_ylabel('Visibility')
+    ax.set_zlabel('Pressure')
+    ax.legend(loc = 3)
+    ax.set_title('Pressure, Humidity, and Visibility Classified by Precipitationn\n', fontsize = 14)
+    plt.show()
+    """
     #graphs every unqiue pair of the selected hourly variables
     selectValues = [pressure, humidity, windspeed, visibility, temperature]
     selectLabels = ['pressure', 'humidity', 'windspeed', 'visibility', 'temperature']
@@ -282,9 +296,9 @@ def graphData(pressure, humidity, windspeed, visibility, temperature, precipitat
                 plt.legend(loc = 3)
                 plt.title(selectLabels[j] + ' vs. ' + selectLabels[i])
                 plt.show()
+    """
 
-
-
+#def interpolationPredictions: (use daily values, interpolate last week or so)
 dates, dailyTemp, dailyHum, dailySeaPress, dailyDiffNormTemp, dailyMaxTemp, dailyMinTemp, dailyWindDirec, dailyPeakWind, dailyPrecip, dailyWinds, hours, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind = readDataFile()
 
 next_hum = trending(hourlyhum)
@@ -295,4 +309,4 @@ next_press = trending(hourlyseapress)
 will_it_rain = nearest_neighbor(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 is_it_raining = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 
-graphData(hourlyseapress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip, next_press, next_hum)
+graphData(hourlyseapress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip, next_hum, 0.5, next_press)
