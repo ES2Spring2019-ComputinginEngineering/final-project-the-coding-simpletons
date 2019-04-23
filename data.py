@@ -369,7 +369,7 @@ def graphing(K, humidity, visibility, pressure, centroid, newassignments):    #s
     for i in range(K):
         centlabel = 'Centroid ' + str(i+1) 
         ax.scatter(centx[i], centy[i], centz[i], '*', label = centlabel) 
-        labelname = 'Case ' + str(i) 
+        labelname = 'Case ' + str(i+1) 
         ax.scatter(humidity[newassignments==i],visibility[newassignments==i], visibility[newassignments==i],label = labelname) 
         
     
