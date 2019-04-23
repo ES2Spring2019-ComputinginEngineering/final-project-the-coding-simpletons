@@ -315,9 +315,14 @@ def assign(centroids, humidity, pressure, visibility):
         distances[i] = np.sqrt(((x-humidity)**2)+((y-visibility)**2)+((z-pressure)**2))
         
     assignments = np.argmin(distances, axis = 0)  
-          
-    return assignments
-
+    
+    if (0 in assignments) and (1 in assignments) and (2 in assignments):
+        return assignments
+    else:
+        centroids = create_centroids(K)
+        assignments = assign(centroids, humidity, pressure, visibility)
+        return assignments
+    
 def updateCent(centroids, assignments, humidity, pressure, visibility):
     K = 3
     
@@ -368,10 +373,14 @@ def graphing(K, humidity, visibility, pressure, centroid, newassignments):    #s
     ax = fig.add_subplot(111, projection='3d')
     for i in range(K):
         centlabel = 'Centroid ' + str(i+1) 
+<<<<<<< HEAD
+        ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, label = centlabel) 
+=======
         ax.scatter(centx[i], centy[i], centz[i], '*', label = centlabel) 
+>>>>>>> 496f5e6f6631682f4715e6de2966b6aea0a0443e
         labelname = 'Case ' + str(i+1) 
         ax.scatter(humidity[newassignments==i],visibility[newassignments==i], visibility[newassignments==i],label = labelname) 
-        
+     
     
     # making headings and a legend for the graph
     ax.set_xlabel('Humidity')
