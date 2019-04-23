@@ -2,7 +2,7 @@
 '''
 date
 image
-rain/percipitation
+rain/percipitation  (give percentages from k nearest neighbor)
 temp (high/low)
 winds
 humidity
