@@ -297,6 +297,91 @@ def graphData(pressure, humidity, windspeed, visibility, temperature, precipitat
                 plt.title(selectLabels[j] + ' vs. ' + selectLabels[i])
                 plt.show()
     """
+    
+# clustering
+
+def create_centroids(K):    
+    return np.random.random((K,3))
+
+def assign(centroids, humidity, pressure, visibility):
+    K = 3
+    distances = np.zeros((K, len(visibility)))
+    
+    for i in range(K):
+        z = centroids[i,2]
+        y = centroids[i,1] 
+        x = centroids[i,0] 
+        
+        distances[i] = np.sqrt(((x-humidity)**2)+((y-visibility)**2)+((z-pressure)**2))
+        
+    assignments = np.argmin(distances, axis = 0)  
+          
+    return assignments
+
+def updateCent(centroids, assignments, humidity, pressure, visibility):
+    K = 3
+    
+    newcentroids = np.zeros(centroids.shape)
+    
+    for i in range(K): 
+        hum = [] 
+        press = []
+        vis = []
+        for j in range(assignments.size): 
+            if assignments[j] == i: 
+                hum.append(humidity[j])
+                press.append(pressure[j])
+                vis.append(visibility[j])
+        newcentroids[i,0] = np.mean(hum)
+        newcentroids[i,1] = np.mean(vis)
+        newcentroids[i,2] = np.mean(press)
+        
+    return newcentroids # returns the array of new centroids
+
+def iteration(centroids, humidity, pressure, visibility):    
+    assignments = assign(centroids, humidity, pressure, visibility) 
+    newcentroids = updateCent(centroids, assignments, humidity, pressure, visibility) 
+    discent = centroids - newcentroids 
+    centroids = newcentroids 
+    maxdist = np.abs(np.amax(discent)) 
+    count = 0
+    while maxdist >= (1*(10**(-300))): 
+        newassignments = assign(centroids, humidity, pressure, visibility) 
+        newcentroids = updateCent(centroids, newassignments, humidity, pressure, visibility)         
+        discent = centroids - newcentroids 
+        centroids = newcentroids 
+        assignments = newassignments
+        maxdist = np.amax(np.abs(discent)) 
+        count += 1         
+    print('Centroids moved ' + str(count) + ' times') # to check that the function ran
+    assignments = assign(centroids, humidity, pressure, visibility)
+    
+    return centroids, assignments 
+
+#graphing centroids
+    
+def graphing(K, humidity, visibility, pressure, centroid, newassignments):    #seperating the centroid array so that it can be cycled through in the loop
+    centx = centroid[:,0]
+    centy = centroid[:,1]
+    centz = centroid[:,2]
+    
+    for i in range(K):
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        centlabel = 'Case ' + str(i) 
+        ax.scatter(centx[i], centy[i], centz[i], label = centlabel) 
+        labelname = 'Case ' + str(i) 
+        ax.scatter(humidity[newassignments==i],visibility[newassignments==i], visibility[newassignments==i],label = labelname) 
+        
+    '''
+    # making headings and a legend for the graph
+    plt.xlabel('Hemoglobin')
+    plt.ylabel('Glucose')
+    plt.title('Classified Data Using ' + str(K) + ' Centroids')
+    plt.legend(bbox_to_anchor = (1.25, 1.025)) # positioning the legend so that it does not interfere with the data points
+    '''
+    plt.show()
+
 
 #def interpolationPredictions: (use daily values, interpolate last week or so)
 dates, dailyTemp, dailyHum, dailySeaPress, dailyDiffNormTemp, dailyMaxTemp, dailyMinTemp, dailyWindDirec, dailyPeakWind, dailyPrecip, dailyWinds, hours, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind = readDataFile()
@@ -309,4 +394,11 @@ next_press = trending(hourlyseapress)
 will_it_rain = nearest_neighbor(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 is_it_raining = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 
-graphData(hourlyseapress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip, next_hum, 0.5, next_press)
+#graphData(hourlyseapress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip, next_hum, 0.5, next_press)
+
+K=3
+centroids = create_centroids(K)
+
+final_centroids, assignments = iteration(centroids, hourlyhum, hourlyseapress, hourlyVis)
+
+graphing(K, hourlyhum, hourlyVis, hourlyseapress, final_centroids, assignments)
