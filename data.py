@@ -4,6 +4,7 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
+from mpl_toolkits.mplot3d import Axes3D
 
 def readDataFile():
     valuesOfInterest = []
@@ -179,7 +180,7 @@ def readDataFile():
 def Class_rain(percip):
     class_rain = np.zeros(percip.size)
     for i in range(percip.size):
-        if percip[i] == 0:  #yo why doesn't this work?
+        if percip[i] == 0: 
             class_rain[i] = 0
         else:
             class_rain[i] = 1
@@ -234,7 +235,7 @@ def graphData(pressure, humidity, windspeed, visibility, temperature, precipitat
     plt.legend(loc = 3)
     plt.title('7 Day Hourly Pressure and Humidity with Prediction')
     plt.show()
-    
+    '''
     # graphing our parsed, and normalized data 
     plt.plot(pressure[precipitation!=0],humidity[precipitation!=0],'b.',label='Rain')
     plt.plot(pressure[precipitation==0],humidity[precipitation==0],'r.',label ='No rain')
@@ -244,7 +245,7 @@ def graphData(pressure, humidity, windspeed, visibility, temperature, precipitat
     plt.legend(loc = 3)
     plt.title('All Pressure and Humidity with Prediction')
     plt.show()
-    
+    '''
     # graphing our parsed, and normalized data with color intensitites for amount of rain
     plt.scatter(pressure, humidity, c = precipitation, cmap=cm.Blues)
     plt.plot(newx, newy, 'g*', label='Tomorrow')
@@ -280,7 +281,7 @@ def graphData(pressure, humidity, windspeed, visibility, temperature, precipitat
     ax.legend(loc = 3)
     ax.set_title('Pressure, Humidity, and Visibility Classified by Precipitationn\n', fontsize = 14)
     plt.show()
-    """
+    
     #graphs every unqiue pair of the selected hourly variables
     selectValues = [pressure, humidity, windspeed, visibility, temperature]
     selectLabels = ['pressure', 'humidity', 'windspeed', 'visibility', 'temperature']
@@ -295,7 +296,7 @@ def graphData(pressure, humidity, windspeed, visibility, temperature, precipitat
                 plt.legend(loc = 3)
                 plt.title(selectLabels[j] + ' vs. ' + selectLabels[i])
                 plt.show()
-    """
+
     
 # clustering
 
@@ -340,7 +341,7 @@ def updateCent(centroids, assignments, humidity, pressure, visibility):
         newcentroids[i,1] = np.mean(vis)
         newcentroids[i,2] = np.mean(press)
         
-    return newcentroids # returns the array of new centroids
+    return newcentroids 
 
 def iteration(centroids, humidity, pressure, visibility):    
     assignments = assign(centroids, humidity, pressure, visibility) 
@@ -357,14 +358,14 @@ def iteration(centroids, humidity, pressure, visibility):
         assignments = newassignments
         maxdist = np.amax(np.abs(discent)) 
         count += 1         
-    print('Centroids moved ' + str(count) + ' times') # to check that the function ran
+    print('Centroids moved ' + str(count) + ' times')
     assignments = assign(centroids, humidity, pressure, visibility)
     
     return centroids, assignments 
 
 #graphing centroids
     
-def graphing(K, humidity, visibility, pressure, centroid, newassignments):    #seperating the centroid array so that it can be cycled through in the loop
+def graphing(K, humidity, visibility, pressure, centroid, newassignments):   
     centx = centroid[:,0]
     centy = centroid[:,1]
     centz = centroid[:,2]
@@ -374,16 +375,15 @@ def graphing(K, humidity, visibility, pressure, centroid, newassignments):    #s
         if (np.median(visibility[assignments == i]) == 1):
             centlabel = 'Centroid No Rain' 
             labelname = 'No Rain'
-            centcolor = 'orange'
-            valuecolor = 'maroon'
+            centcolor = 'maroon'
+            valuecolor = 'orange'
         else:
             centlabel = 'Centroid Rain'
             labelname = 'Rain'
             centcolor = 'blue'
             valuecolor = 'teal'
-        #ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, color = centcolor, label = centlabel)  
-        ax.scatter(humidity[newassignments==i],visibility[newassignments==i], pressure[newassignments==i], color = valuecolor, label = labelname) 
         ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, color = centcolor, label = centlabel)  
+        ax.scatter(humidity[newassignments==i],visibility[newassignments==i], pressure[newassignments==i], color = valuecolor, label = labelname) 
 
     
     # making headings and a legend for the graph
@@ -391,9 +391,8 @@ def graphing(K, humidity, visibility, pressure, centroid, newassignments):    #s
     ax.set_ylabel('Visibility')
     ax.set_zlabel('Pressure')
     ax.set_title('Classified Data Using ' + str(K) + ' Centroids')
-    plt.legend(bbox_to_anchor = (1.43, 1.025)) # positioning the legend so that it does not interfere with the data points
-    
-    plt.show()
+    plt.legend(bbox_to_anchor = (1.43, 1.025))
+    plt.show
 
 
 #def interpolationPredictions: (use daily values, interpolate last week or so)
