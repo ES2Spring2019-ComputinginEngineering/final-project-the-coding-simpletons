@@ -222,7 +222,12 @@ def kNearestNeighborClassifier(type_1, type_2, percip, new_1, new_2):
     for i in range(5):
         closest[i] = percip[indexes[i]] 
     raining = int(np.median(closest))
-    return raining
+    rain = 0
+    for i in range(closest.size):
+        if closest[i] == 1:
+            rain += 1
+    percentage = rain / 5
+    return raining, percentage
 
 def graphData(pressure, humidity, windspeed, visibility, temperature, precipitation, newx, newz, newy):
     # graphing our parsed, and normalized data 
@@ -282,7 +287,10 @@ def graphData(pressure, humidity, windspeed, visibility, temperature, precipitat
     ax.set_title('Pressure, Humidity, and Visibility Classified by Precipitationn\n', fontsize = 14)
     plt.show()
     
+    
+    # dont use these EVER!!!
     #graphs every unqiue pair of the selected hourly variables
+    '''
     selectValues = [pressure, humidity, windspeed, visibility, temperature]
     selectLabels = ['pressure', 'humidity', 'windspeed', 'visibility', 'temperature']
     for i in range(len(selectValues)):
@@ -296,7 +304,7 @@ def graphData(pressure, humidity, windspeed, visibility, temperature, precipitat
                 plt.legend(loc = 3)
                 plt.title(selectLabels[j] + ' vs. ' + selectLabels[i])
                 plt.show()
-
+    '''
     
 # clustering
 
@@ -394,7 +402,7 @@ def graphing(K, humidity, visibility, pressure, centroid, newassignments):
     plt.legend(bbox_to_anchor = (1.43, 1.025))
     plt.show
 
-
+'''
 #def interpolationPredictions: (use daily values, interpolate last week or so)
 dates, dailyTemp, dailyHum, dailySeaPress, dailyDiffNormTemp, dailyMaxTemp, dailyMinTemp, dailyWindDirec, dailyPeakWind, dailyPrecip, dailyWinds, hours, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind = readDataFile()
 
@@ -404,7 +412,7 @@ next_press = trending(hourlyseapress)
 #class_rain = Class_rain(hourlyprecip)
 
 will_it_rain = nearest_neighbor(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
-is_it_raining = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
+is_it_raining, rain_percent = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 
 graphData(hourlyseapress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip, next_hum, 0.95, next_press)
 
@@ -414,3 +422,5 @@ centroids = create_centroids(K)
 final_centroids, assignments = iteration(centroids, hourlyhum, hourlyseapress, hourlyVis)
 
 graphing(K, hourlyhum, hourlyVis, hourlyseapress, final_centroids, assignments)
+'''
+rain_percent = 1.0
