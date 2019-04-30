@@ -3,8 +3,6 @@
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import cm
-from mpl_toolkits.mplot3d import Axes3D
 
 def readDataFile():
     valuesOfInterest = []
@@ -177,16 +175,6 @@ def readDataFile():
     
     return valuesOfInterest
 
-def Class_rain(percip):
-    class_rain = np.zeros(percip.size)
-    for i in range(percip.size):
-        if percip[i] == 0: 
-            class_rain[i] = 0
-        else:
-            class_rain[i] = 1
-    print(class_rain)
-    return class_rain
-
 
 def trending(values):
     change = []
@@ -225,37 +213,8 @@ def kNearestNeighborClassifier(type_1, type_2, percip, new_1, new_2):
     return raining
 
 def graphData(pressure, humidity, windspeed, visibility, temperature, precipitation, newx, newz, newy):
-    # graphing our parsed, and normalized data 
-    sevenday= precipitation[0:169]
-    plt.plot(pressure[0:169] ,humidity[0:169] ,'b.',label='Rain')
-    plt.plot(pressure[0:169][sevenday==0],humidity[0:169][sevenday==0],'r.',label ='No rain')
-    plt.plot(newx, newy, 'g*', label='Tomorrow')
-    plt.xlabel('Pressure')
-    plt.ylabel('Humidity')
-    plt.legend(loc = 3)
-    plt.title('7 Day Hourly Pressure and Humidity with Prediction')
-    plt.show()
-    '''
-    # graphing our parsed, and normalized data 
-    plt.plot(pressure[precipitation!=0],humidity[precipitation!=0],'b.',label='Rain')
-    plt.plot(pressure[precipitation==0],humidity[precipitation==0],'r.',label ='No rain')
-    plt.plot(newx, newy, 'g*', label='Tomorrow')
-    plt.xlabel('Pressure')
-    plt.ylabel('Humidity')
-    plt.legend(loc = 3)
-    plt.title('All Pressure and Humidity with Prediction')
-    plt.show()
-    '''
-    # graphing our parsed, and normalized data with color intensitites for amount of rain
-    plt.scatter(pressure, humidity, c = precipitation, cmap=cm.Blues)
-    plt.plot(newx, newy, 'g*', label='Tomorrow')
-    plt.colorbar(label='Precipitation')
-    plt.xlabel('Pressure')
-    plt.ylabel('Humidity')
-    plt.legend(loc = 3)
-    plt.title('All Pressure and Humidity with Prediction')
-    plt.show()
-    
+    #matplotlib.use('MacOSX')
+    #print(matplotlib.is_interactive())
     # graphing our parsed, and normalized data 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -281,7 +240,8 @@ def graphData(pressure, humidity, windspeed, visibility, temperature, precipitat
     ax.legend(loc = 3)
     ax.set_title('Pressure, Humidity, and Visibility Classified by Precipitationn\n', fontsize = 14)
     plt.show()
-    
+
+def exploringGraphs(pressure, humidity, windspeed, visibility, temperature, precipitation):
     #graphs every unqiue pair of the selected hourly variables
     selectValues = [pressure, humidity, windspeed, visibility, temperature]
     selectLabels = ['pressure', 'humidity', 'windspeed', 'visibility', 'temperature']
@@ -401,7 +361,6 @@ dates, dailyTemp, dailyHum, dailySeaPress, dailyDiffNormTemp, dailyMaxTemp, dail
 next_hum = trending(hourlyhum)
 next_press = trending(hourlyseapress)
 
-#class_rain = Class_rain(hourlyprecip)
 
 will_it_rain = nearest_neighbor(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 is_it_raining = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
