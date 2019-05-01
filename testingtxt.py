@@ -5,11 +5,25 @@ Created on Tue Apr 30 20:19:20 2019
 
 @author: benpradko
 """
-from PIL import Image
-from presentation import *
-import tkinter as tk
 
-class Application(tk.Frame):
+from PIL import Image
+#from presentation import *
+import tkinter as tk
+import imageio
+from scipy import ndimage
+import matplotlib.pyplot as plt
+from matplotlib import cm
+import numpy as np
+
+rain = 0
+percentage = 20
+temp = 3
+hi = 5
+lo = 1
+wind = 45
+hum = 86
+
+class interface(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
@@ -17,24 +31,31 @@ class Application(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        self.hi_there = tk.Button(self)
-        self.hi_there["text"] = "Hello World\n(click me)"
-        self.hi_there["command"] = self.say_hi
-        self.hi_there.pack(side="top")
+        tk.Button(root,text="Rain",command=self.rain).pack(side="top")
+        tk.Button(root,text="Temperature (High/Low)",command=self.temp).pack(side="top")      
+        tk.Button(root,text="Humidity",command=self.hum).pack(side="top")        
+        tk.Button(root,text="Wind Speed",command=self.wind).pack(side="top")
 
-        self.quit = tk.Button(self, text="QUIT", fg="red",
-                              command=self.master.destroy)
-        self.quit.pack(side="bottom")
-
-    def say_hi(self):
-        print("hi there, everyone!")
+    def rain(self):
+        if rain == 1:
+            im = np.array(imageio.imread('SUN.png', as_gray=False), dtype = "int64")
+        else:
+            print("Chance of Rain: " + str(percentage) + "\n")
+            im = np.array(imageio.imread('RAIN.jpg', as_gray=False), dtype = "int64")
+        plt.figure()
+        plt.imshow(im)
+        plt.axis('off')
+        plt.show()
+        
+    def temp(self):
+        print("Temperature: " + str(temp) + "F\n High: " + str(hi) + "F\n Low:  " + str(lo) +  "F\n")
+        
+    def hum(self):
+        print("Humidity: " + str(hum) + "\n")
+        
+    def wind(self):
+        print("Wind: " + str(wind) + "\n")
 
 root = tk.Tk()
-app = Application(master=root)
-app.mainloop()
-
-sunny = Image.open('SUN.png')
-#
-#top = tk.Tk()
-#top.mainloop()
-print(app.master)
+face = interface(master=root)
+face.mainloop()
