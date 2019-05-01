@@ -155,6 +155,7 @@ def readDataFile():
         nhourlyWindSpeed[i] = (hourlyWindSpeed[i] - np.amin(hourlyWindSpeed))/(np.amax(hourlyWindSpeed)- np.amin(hourlyWindSpeed))
 
     #adds these values to a list to be returned
+    valuesOfInterest.append(bestDateSet)
     valuesOfInterest.append(time)
     valuesOfInterest.append(hourlyTemp)
     valuesOfInterest.append(hourlyPrecip)
@@ -173,7 +174,21 @@ def readDataFile():
 
     return valuesOfInterest
 
-
+def dataOfInterest(): #2/8/19 to 2/16/19
+    bestDateSet, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind = readDataFile()
+    sliceStart = 0
+    sliceEnd = 0
+    counter = 0
+    for i in range(len(time)):
+        if (time[i] in bestDateSet):
+            counter += 1
+            if (sliceStart == 0):
+                sliceStart = i
+            elif(counter == 9):
+                sliceEnd = i
+    
+    return [sliceStart, sliceEnd]
+    
 def exploringGraphs(pressure, humidity, windspeed, visibility, temperature, precipitation):
     #graphs every unqiue pair of the selected hourly variables
     selectValues = [pressure, humidity, windspeed, visibility, temperature]
