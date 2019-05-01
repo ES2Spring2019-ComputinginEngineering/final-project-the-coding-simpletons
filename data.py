@@ -24,56 +24,9 @@ def readDataFile():
             dayIndices.append(index)
         index += 1
         
-    numDays = len(dayIndices)
-    """
-    #Initializing daily values
-    
-    dates = [] 
-    dailyTemp = [] # Daily dry bulb
-    dailyHum = [] # Daily humidity
-    dailySeaPress = [] # Daily sea pressure
-    dailyDiffNormTemp = [] # Daily difference from normal temp
-    dailyMaxTemp = [] # Daily dry bulb
-    dailyMinTemp = [] # Daily dry bulb
-    dailyWindDirec = [] # Daily sustained wind direction
-    dailyPeakWind = [] # Daily gusting speeds
-    dailyPrecip = [] # Daily precipitation
-    dailyWindSpeed = [] # Daily sustained wind speeds
-    
-    badCounter = 0
-    for i in range(numDays):
-        try:
-            data[dayIndices[i]][1][:10]
-            float(data[dayIndices[i]][19])
-            float(data[dayIndices[i]][20])
-            float(data[dayIndices[i]][21])
-            float(data[dayIndices[i]][26])
-            float(data[dayIndices[i]][28])
-            float(data[dayIndices[i]][29])
-            float(data[dayIndices[i]][35])
-            float(data[dayIndices[i]][31])
-            float(data[dayIndices[i]][32])
-            float(data[dayIndices[i]][36])
-        except:
-            badCounter += 1
-        else: #completed for days when all values can be converted to floats (cells not empty or letters)
-            dates.append(data[dayIndices[i]][1][:10])
-            dailyTemp.append(float(data[dayIndices[i]][19]))
-            dailyHum.append(float(data[dayIndices[i]][20]))
-            dailySeaPress.append(float(data[dayIndices[i]][21]))
-            dailyDiffNormTemp.append(float(data[dayIndices[i]][26]))
-            dailyMaxTemp.append(float(data[dayIndices[i]][28]))
-            dailyMinTemp.append(float(data[dayIndices[i]][29]))
-            dailyWindDirec.append(float(data[dayIndices[i]][35]))
-            dailyPeakWind.append(float(data[dayIndices[i]][31]))
-            dailyPrecip.append(float(data[dayIndices[i]][32]))
-            dailyWindSpeed.append(float(data[dayIndices[i]][36]))
-            
-    print(str(badCounter) + ' daily values did not contain useable data')
-    """
     #Initializing hourly values
    
-    hours = [] # Time values, by the hour-ish
+    time = [] # Time values, by the hour-ish
     hourlyTemp = [] # Hourly dry bulb temps
     hourlyPrecip = [] # Hourly precipitation
     hourlySeaPress = [] # Hourly sea level pressure
@@ -96,7 +49,7 @@ def readDataFile():
         except:
             badCounter2 += 1
         else: #completed for hours when all values can be converted to floats (cells not empty or letters)
-            hours.append(data[i][1][:])
+            time.append(data[i][1][:])
             hourlyTemp.append(float(data[i][43]))
             hourlyPrecip.append(float(data[i][44]))
             hourlySeaPress.append(float(data[i][49]))
@@ -110,39 +63,39 @@ def readDataFile():
     
     #Makes a list of the dates with hourly values associated with them
     dates = []
-    for i in hours:
+    for i in time:
         if (i[:10] not in dates):
             dates.append(i[:10])
     
     
     #Measures the number of hourly associated with each day and removes the hourly values
     #from the list if two or less hourly values are associated with that day
-    newHours = []              
+    newTime = []              
     for i in range(len(dates)):
         
         counter = 1
         lowerIndex = 0
         upperIndex = 0
         
-        for j in range(len(hours) - 1):
-            if (dates[i] in hours[j]):
+        for j in range(len(time) - 1):
+            if (dates[i] in time[j]):
                 if (counter == 1):
                     lowerIndex = j
                 counter += 1 
-                if ((hours[j+1][:10] != dates[i]) or ((j+1) == (len(hours) - 1))):
+                if ((time[j+1][:10] != dates[i]) or ((j+1) == (len(time) - 1))):
                    upperIndex = j+1
                    break
         if (counter > 2):
-            newHours = newHours + hours[lowerIndex:upperIndex]
+            newTime = newTime + time[lowerIndex:upperIndex]
             
-    hours = newHours
+    time = newTime
     
     
     #Removes the dates from the dates list that have two or less hourly values
     #associated with that day
     newDates = []
     for i in dates:
-        for j in hours:
+        for j in time:
             if (i in j):
                 newDates.append(i)
                 break
@@ -181,20 +134,9 @@ def readDataFile():
     for i in maxIndices:
         for j in dateRanges[i]:
             bestDateSet.append(dates[j])
-        
+    print('The best set of days is ' + str(bestDateSet))
+    
     #Normalization and array conversion
-    """
-    ndailyTemp = np.zeros(len(dailyTemp))
-    ndailyHum = np.zeros(len(dailyHum))
-    ndailySeaPress = np.zeros(len(dailySeaPress))
-    ndailyDiffNormTemp = np.zeros(len(dailyDiffNormTemp))
-    ndailyMaxTemp = np.zeros(len(dailyMaxTemp))
-    ndailyMinTemp = np.zeros(len(dailyMinTemp))
-    ndailyWindDirec = np.zeros(len(dailyWindDirec))
-    ndailyPeakWind = np.zeros(len(dailyPeakWind))
-    ndailyPrecip = np.zeros(len(dailyPrecip))
-    ndailyWindSpeed = np.zeros(len(dailyWindSpeed))
-    """
     nhourlyTemp = np.zeros(len(hourlyTemp))
     nhourlyPrecip = np.zeros(len(hourlyPrecip))
     nhourlySeaPress = np.zeros(len(hourlySeaPress))
@@ -203,20 +145,7 @@ def readDataFile():
     nhourlyPeakWind = np.zeros(len(hourlyPeakWind))
     nhourlyWindSpeed = np.zeros(len(hourlyWindSpeed))
     
-    """
-    for i in range(len(dates)):
-        ndailyTemp[i] = (dailyTemp[i] - np.amin(dailyTemp))/(np.amax(dailyTemp)- np.amin(dailyTemp))
-        ndailyHum[i] = (dailyHum[i] - np.amin(dailyHum))/(np.amax(dailyHum)- np.amin(dailyHum))
-        ndailySeaPress[i] = (dailySeaPress[i] - np.amin(dailySeaPress))/(np.amax(dailySeaPress)- np.amin(dailySeaPress))
-        ndailyDiffNormTemp[i] = (dailyDiffNormTemp[i] - np.amin(dailyDiffNormTemp))/(np.amax(dailyDiffNormTemp)- np.amin(dailyDiffNormTemp))
-        ndailyMaxTemp[i] = (dailyMaxTemp[i] - np.amin(dailyMaxTemp))/(np.amax(dailyMaxTemp)- np.amin(dailyMaxTemp))
-        ndailyMinTemp[i] = (dailyMinTemp[i] - np.amin(dailyMinTemp))/(np.amax(dailyMinTemp)- np.amin(dailyMinTemp))
-        ndailyWindDirec[i] = (dailyWindDirec[i] - np.amin(dailyWindDirec))/(np.amax(dailyWindDirec)- np.amin(dailyWindDirec))
-        ndailyPeakWind[i] = (dailyPeakWind[i] - np.amin(dailyPeakWind))/(np.amax(dailyPeakWind)- np.amin(dailyPeakWind))
-        ndailyPrecip[i] = (dailyPrecip[i] - np.amin(dailyPrecip))/(np.amax(dailyPrecip)- np.amin(dailyPrecip))
-        ndailyWindSpeed[i] = (dailyWindSpeed[i] - np.amin(dailyWindSpeed))/(np.amax(dailyWindSpeed)- np.amin(dailyWindSpeed))
-    """
-    for i in range(len(hours)):
+    for i in range(len(time)):
         nhourlyTemp[i] = (hourlyTemp[i] - np.amin(hourlyTemp))/(np.amax(hourlyTemp)- np.amin(hourlyTemp))
         nhourlyPrecip[i] = (hourlyPrecip[i] - np.amin(hourlyPrecip))/(np.amax(hourlyPrecip)- np.amin(hourlyPrecip))
         nhourlySeaPress[i] = (hourlySeaPress[i] - np.amin(hourlySeaPress))/(np.amax(hourlySeaPress)- np.amin(hourlySeaPress))
@@ -225,21 +154,15 @@ def readDataFile():
         nhourlyPeakWind[i] = (hourlyPeakWind[i] - np.amin(hourlyPeakWind))/(np.amax(hourlyPeakWind)- np.amin(hourlyPeakWind))
         nhourlyWindSpeed[i] = (hourlyWindSpeed[i] - np.amin(hourlyWindSpeed))/(np.amax(hourlyWindSpeed)- np.amin(hourlyWindSpeed))
 
-    valuesOfInterest.append(dates)
-    """
-    valuesOfInterest.append(ndailyTemp)
-    valuesOfInterest.append(ndailyHum)
-    valuesOfInterest.append(ndailySeaPress)
-    valuesOfInterest.append(ndailyDiffNormTemp)
-    valuesOfInterest.append(ndailyMaxTemp)
-    valuesOfInterest.append(ndailyMinTemp)
-    valuesOfInterest.append(ndailyWindDirec)
-    valuesOfInterest.append(ndailyPeakWind)
-    valuesOfInterest.append(ndailyPrecip)
-    valuesOfInterest.append(ndailyWindSpeed)
-    """
-    
-    valuesOfInterest.append(hours)
+    #adds these values to a list to be returned
+    valuesOfInterest.append(time)
+    valuesOfInterest.append(hourlyTemp)
+    valuesOfInterest.append(hourlyPrecip)
+    valuesOfInterest.append(hourlySeaPress)
+    valuesOfInterest.append(hourlyHum)
+    valuesOfInterest.append(hourlyVis)
+    valuesOfInterest.append(hourlyPeakWind)
+    valuesOfInterest.append(hourlyWindSpeed)
     valuesOfInterest.append(nhourlyTemp)
     valuesOfInterest.append(nhourlyPrecip)
     valuesOfInterest.append(nhourlySeaPress)
