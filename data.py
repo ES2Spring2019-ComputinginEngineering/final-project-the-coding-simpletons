@@ -176,48 +176,23 @@ def readDataFile():
     return valuesOfInterest
 
 
-def trending(values):
-    change = []
-    length = values.size
-    final_day = values[length - 1]
-    for i in range(length - 2):
-        delta = (values[i+1] - values[i])
-        change.append(delta)
-    avechange = np.mean(change)
-    next_day = final_day + avechange
-    return next_day
-
-def nearest_neighbor(type_1, type_2, percip, new_1, new_2):
-    distance_arr = np.zeros(type_1.size)
-    for i in range(type_1.size):
-        distance_squared = (((type_1[i]-new_1)**2)+(type_2[i]-new_2)**2)
-        distance = np.sqrt(distance_squared)
-        distance_arr[i] = distance
-    smallesti = np.argmin(distance_arr)
-    raining = int(percip[smallesti])
-    return raining
-
-
-#Instead of Using Median we could use Percentage of nearest points that are rain to predict likelihood
-def kNearestNeighborClassifier(type_1, type_2, percip, new_1, new_2):
-    closest = np.zeros(5)
-    distance_arr = np.zeros(type_1.size)
-    for i in range(type_1.size):
-        distance_squared = (((type_1[i]-new_1)**2)+(type_2[i]-new_2)**2)
-        distance = np.sqrt(distance_squared)
-        distance_arr[i] = distance
-    indexes = np.argsort(distance_arr)
-    for i in range(5):
-        closest[i] = percip[indexes[i]] 
-    raining = int(np.median(closest))
-    rain = 0
-    for i in range(closest.size):
-        if closest[i] == 1:
-            rain += 1
-    percentage = rain / 5
-    return raining, percentage
-
-def graphData(pressure, humidity, windspeed, visibility, temperature, precipitation, newx, newz, newy):
+def exploringGraphs(pressure, humidity, windspeed, visibility, temperature, precipitation):
+    #graphs every unqiue pair of the selected hourly variables
+    selectValues = [pressure, humidity, windspeed, visibility, temperature]
+    selectLabels = ['pressure', 'humidity', 'windspeed', 'visibility', 'temperature']
+    for i in range(len(selectValues)):
+        for j in range(len(selectValues)):
+            if (j > i):
+                # graphing our parsed, and normalized data 
+                plt.plot(selectValues[i][precipitation!=0],selectValues[j][precipitation!=0],'b.',label='Rain')
+                plt.plot(selectValues[i][precipitation==0],selectValues[j][precipitation==0],'r.',label ='No rain')
+                plt.xlabel(selectLabels[i])
+                plt.ylabel(selectLabels[j])
+                plt.legend(loc = 3)
+                plt.title(selectLabels[j] + ' vs. ' + selectLabels[i])
+                plt.show()
+                
+def graphData3D(pressure, humidity, windspeed, visibility, temperature, precipitation, newx, newz, newy):
     #matplotlib.use('MacOSX')
     #print(matplotlib.is_interactive())
     # graphing our parsed, and normalized data 
@@ -245,143 +220,3 @@ def graphData(pressure, humidity, windspeed, visibility, temperature, precipitat
     ax.legend(loc = 3)
     ax.set_title('Pressure, Humidity, and Visibility Classified by Precipitationn\n', fontsize = 14)
     plt.show()
-    
-    
-    # dont use these EVER!!!
-
-
-def exploringGraphs(pressure, humidity, windspeed, visibility, temperature, precipitation):
-    #graphs every unqiue pair of the selected hourly variables
-    '''
-    selectValues = [pressure, humidity, windspeed, visibility, temperature]
-    selectLabels = ['pressure', 'humidity', 'windspeed', 'visibility', 'temperature']
-    for i in range(len(selectValues)):
-        for j in range(len(selectValues)):
-            if (j > i):
-                # graphing our parsed, and normalized data 
-                plt.plot(selectValues[i][precipitation!=0],selectValues[j][precipitation!=0],'b.',label='Rain')
-                plt.plot(selectValues[i][precipitation==0],selectValues[j][precipitation==0],'r.',label ='No rain')
-                plt.xlabel(selectLabels[i])
-                plt.ylabel(selectLabels[j])
-                plt.legend(loc = 3)
-                plt.title(selectLabels[j] + ' vs. ' + selectLabels[i])
-                plt.show()
-    '''
-    
-# clustering
-
-def create_centroids(K):    
-    return np.random.random((K,3))
-
-def assign(centroids, humidity, pressure, visibility):
-    K = 2
-    distances = np.zeros((K, len(visibility)))
-    
-    for i in range(K):
-        z = centroids[i,2]
-        y = centroids[i,1] 
-        x = centroids[i,0] 
-        
-        distances[i] = np.sqrt(((x-humidity)**2)+((y-visibility)**2)+((z-pressure)**2))
-        
-    assignments = np.argmin(distances, axis = 0)  
-    
-    if (0 in assignments) and (1 in assignments):# and (2 in assignments):
-        return assignments
-    else:
-        centroids = create_centroids(K)
-        assignments = assign(centroids, humidity, pressure, visibility)
-        return assignments
-    
-def updateCent(centroids, assignments, humidity, pressure, visibility):
-    K = 2
-    
-    newcentroids = np.zeros(centroids.shape)
-    
-    for i in range(K): 
-        hum = [] 
-        press = []
-        vis = []
-        for j in range(assignments.size): 
-            if assignments[j] == i: 
-                hum.append(humidity[j])
-                press.append(pressure[j])
-                vis.append(visibility[j])
-        newcentroids[i,0] = np.mean(hum)
-        newcentroids[i,1] = np.mean(vis)
-        newcentroids[i,2] = np.mean(press)
-        
-    return newcentroids 
-
-def iteration(centroids, humidity, pressure, visibility):    
-    assignments = assign(centroids, humidity, pressure, visibility) 
-    newcentroids = updateCent(centroids, assignments, humidity, pressure, visibility) 
-    discent = centroids - newcentroids 
-    centroids = newcentroids 
-    maxdist = np.abs(np.amax(discent)) 
-    count = 0
-    while maxdist >= (1*(10**(-300))): 
-        newassignments = assign(centroids, humidity, pressure, visibility) 
-        newcentroids = updateCent(centroids, newassignments, humidity, pressure, visibility)         
-        discent = centroids - newcentroids 
-        centroids = newcentroids 
-        assignments = newassignments
-        maxdist = np.amax(np.abs(discent)) 
-        count += 1         
-    print('Centroids moved ' + str(count) + ' times')
-    assignments = assign(centroids, humidity, pressure, visibility)
-    
-    return centroids, assignments 
-
-#graphing centroids
-    
-def graphing(K, humidity, visibility, pressure, centroid, newassignments):   
-    centx = centroid[:,0]
-    centy = centroid[:,1]
-    centz = centroid[:,2]
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    for i in range(K):
-        if (np.median(visibility[newassignments == i]) == 1):
-            centlabel = 'Centroid No Rain' 
-            labelname = 'No Rain'
-            centcolor = 'maroon'
-            valuecolor = 'orange'
-        else:
-            centlabel = 'Centroid Rain'
-            labelname = 'Rain'
-            centcolor = 'blue'
-            valuecolor = 'teal'
-        ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, color = centcolor, label = centlabel)  
-        ax.scatter(humidity[newassignments==i],visibility[newassignments==i], pressure[newassignments==i], color = valuecolor, label = labelname) 
-
-    
-    # making headings and a legend for the graph
-    ax.set_xlabel('Humidity')
-    ax.set_ylabel('Visibility')
-    ax.set_zlabel('Pressure')
-    ax.set_title('Classified Data Using ' + str(K) + ' Centroids')
-    plt.legend(bbox_to_anchor = (1.43, 1.025))
-    plt.show
-
-'''
-#def interpolationPredictions: (use daily values, interpolate last week or so)
-dates, dailyTemp, dailyHum, dailySeaPress, dailyDiffNormTemp, dailyMaxTemp, dailyMinTemp, dailyWindDirec, dailyPeakWind, dailyPrecip, dailyWinds, hours, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind = readDataFile()
-
-next_hum = trending(hourlyhum)
-next_press = trending(hourlyseapress)
-
-
-will_it_rain = nearest_neighbor(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
-is_it_raining, rain_percent = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
-
-graphData(hourlyseapress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip, next_hum, 0.95, next_press)
-
-K=2
-centroids = create_centroids(K)
-
-final_centroids, assignments = iteration(centroids, hourlyhum, hourlyseapress, hourlyVis)
-
-graphing(K, hourlyhum, hourlyVis, hourlyseapress, final_centroids, assignments)
-'''
-rain_percent = 1.0
