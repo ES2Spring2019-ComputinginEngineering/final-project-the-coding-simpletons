@@ -5,14 +5,9 @@ Created on Tue Apr 30 20:19:20 2019
 
 @author: benpradko
 """
-
-from PIL import Image
-#from presentation import *
 import tkinter as tk
 import imageio
-from scipy import ndimage
 import matplotlib.pyplot as plt
-from matplotlib import cm
 import numpy as np
 
 rain = 0

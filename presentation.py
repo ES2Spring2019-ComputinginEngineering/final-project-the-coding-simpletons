@@ -9,12 +9,14 @@ humidity
 pressure
 visibility
 '''
+from prediction import *
 from data import *
-from PIL import Image
+from clustering import *
 
-sunny = Image.open('SUN.png') 
-
-rainy = Image.open('RAIN.jpg') 
+import tkinter as tk
+import imageio
+import matplotlib.pyplot as plt
+import numpy as np
 
 rain_value, rain_percent = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 
@@ -34,4 +36,38 @@ pressure = 'interpolated pressure'
 
 visibility = 'interpolated visibility'
 
-sunny.show()
+
+class interface(tk.Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.pack()
+        self.create_widgets()
+
+    def create_widgets(self):
+        tk.Button(root,text="Rain",command=self.rain).pack(side="top")
+        tk.Button(root,text="Temperature (High/Low)",command=self.temp).pack(side="top")      
+        tk.Button(root,text="Humidity",command=self.hum).pack(side="top")        
+        tk.Button(root,text="Wind Speed",command=self.wind).pack(side="top")
+
+    def rain(self):
+        if rain_value == 1:
+            im = np.array(imageio.imread('SUN.png', as_gray=False), dtype = "int64")
+        else:
+            print("Chance of Rain: " + str(rain_percent) + "\n")
+            im = np.array(imageio.imread('RAIN.jpg', as_gray=False), dtype = "int64")
+        plt.figure()
+        plt.imshow(im)
+        plt.axis('off')
+        plt.show()
+        
+    def temp(self):
+        print("Temperature: " + str(ave_temp) + "F\n High: " + str(high_temp) + "F\n Low:  " + str(low_temp) +  "F\n")
+        
+    def hum(self):
+        print("Humidity: " + str(humidity) + "\n")
+        
+    def wind(self):
+        print("Wind: " + str(winds) + "\n")
+
+root = tk.Tk()
