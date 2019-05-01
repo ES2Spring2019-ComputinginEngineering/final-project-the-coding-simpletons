@@ -15,9 +15,9 @@ import prediction
 # DEMONSTRATION CODE
 
 #dates, dailyTemp, dailyHum, dailySeaPress, dailyDiffNormTemp, dailyMaxTemp, dailyMinTemp, dailyWindDirec, dailyPeakWind, dailyPrecip, dailyWinds, 
-dates, hours, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind = data.readDataFile()
+hours, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind = data.readDataFile()
 
-dailyVis = prediction.tomorrow(dailyHum, hourlyVis, hours, dailySeaPress, dailyTemp)
+#dailyVis = prediction.tomorrow(dailyHum, hourlyVis, hours, dailySeaPress, dailyTemp)
 #next_hum = trending(hourlyhum)
 #next_press = trending(hourlyseapress)
 #next_vis = trending(hourlyVis)
