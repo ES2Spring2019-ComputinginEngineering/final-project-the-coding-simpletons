@@ -2,16 +2,23 @@
 
 import numpy as np
 
-def trending(values):
-    change = []
-    length = values.size
-    final_day = values[length - 1]
-    for i in range(length - 2):
-        delta = (values[i+1] - values[i])
-        change.append(delta)
-    avechange = np.mean(change)
-    next_day = final_day + avechange
-    return next_day
+def tomorrow(dailyHum, hourlyVis, hours, dailyPress, dailyTemp):
+    dayIndices = [0] #Indices that mark the start of a new day in the hourly values
+    dailyVis = []
+    for i in range(len(hours) - 1):
+        if (int(hours[i][11:13]) > int(hours[i+1][11:13])):
+            dayIndices.append(i + 1)
+    
+    for i in range(len(dayIndices)):
+        if (i == (len(dayIndices) - 1)):
+            dailyVis.append(np.average(hourlyVis[dayIndices[i:]]))
+        else:
+            dailyVis.append(np.average(hourlyVis[dayIndices[i]:dayIndices[i+1]]))
+        
+    return dailyVis
+
+#SOMEHOW CHECK WHICH DAYS THESE HOURLY VALUES ARE ASSOCIATED WITH? DO WE HAVE ONE WEEK REPRESENTED?
+        
 
 def nearest_neighbor(type_1, type_2, percip, new_1, new_2):
     distance_arr = np.zeros(type_1.size)
