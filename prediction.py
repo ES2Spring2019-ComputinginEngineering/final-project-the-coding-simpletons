@@ -2,20 +2,9 @@
 
 import numpy as np
 
-def tomorrow(dailyHum, hourlyVis, hours, dailyPress, dailyTemp):
-    dayIndices = [0] #Indices that mark the start of a new day in the hourly values
-    dailyVis = []
-    for i in range(len(hours) - 1):
-        if (int(hours[i][11:13]) > int(hours[i+1][11:13])):
-            dayIndices.append(i + 1)
-    
-    for i in range(len(dayIndices)):
-        if (i == (len(dayIndices) - 1)):
-            dailyVis.append(np.average(hourlyVis[dayIndices[i:]]))
-        else:
-            dailyVis.append(np.average(hourlyVis[dayIndices[i]:dayIndices[i+1]]))
-        
-    return dailyVis
+def tomorrow():
+
+    return 
 
 #SOMEHOW CHECK WHICH DAYS THESE HOURLY VALUES ARE ASSOCIATED WITH? DO WE HAVE ONE WEEK REPRESENTED?
         
@@ -49,3 +38,11 @@ def kNearestNeighborClassifier(type_1, type_2, percip, new_1, new_2):
             rain += 1
     percentage = rain / 5
     return raining, percentage
+
+# Getting our predicted values in terms of actual numbers
+def denormalize(normal, data_set):
+    maximum = np.amax(data_set)
+    minimum = np.amin(data_set)
+    value = (normal*(maximum-minimum)) + minimum
+    return value
+    

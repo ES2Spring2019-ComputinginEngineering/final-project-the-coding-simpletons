@@ -12,7 +12,6 @@ visibility
 from prediction import *
 from data import *
 from clustering import *
-
 import tkinter as tk
 import imageio
 import matplotlib.pyplot as plt
@@ -41,7 +40,7 @@ class interface(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
-        self.pack()
+        self.pack() 
         self.create_widgets()
 
     def create_widgets(self):
@@ -49,6 +48,8 @@ class interface(tk.Frame):
         tk.Button(root,text="Temperature (High/Low)",command=self.temp).pack(side="top")      
         tk.Button(root,text="Humidity",command=self.hum).pack(side="top")        
         tk.Button(root,text="Wind Speed",command=self.wind).pack(side="top")
+        tk.Button(root,text="Pressure",command=self.press).pack(side="top")
+        tk.Button(root,text="Visibility",command=self.vis).pack(side="top")
 
     def rain(self):
         if rain_value == 1:
@@ -65,9 +66,18 @@ class interface(tk.Frame):
         print("Temperature: " + str(ave_temp) + "F\n High: " + str(high_temp) + "F\n Low:  " + str(low_temp) +  "F\n")
         
     def hum(self):
-        print("Humidity: " + str(humidity) + "\n")
+        print("Humidity: " + str(humidity) + "%\n")
         
     def wind(self):
-        print("Wind: " + str(winds) + "\n")
+        print("Wind: " + str(winds) + "mph\n")
+        
+    def press(self):
+        print("Pressure: " + str(pressure) + "Pa\n")
+    
+    def vis(self):
+        if visibility == 1:
+            print("Visibility: Clear Skies\n")
+        else:
+            print("Visibility: " + str(visibility) + "\n")
 
 root = tk.Tk()
