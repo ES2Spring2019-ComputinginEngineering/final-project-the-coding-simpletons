@@ -1,41 +1,22 @@
-# Ben and Rónán
-'''
-date
-image
-rain/percipitation  (give percentages from k nearest neighbor)
-temp (high/low)
-winds
-humidity
-pressure
-visibility
-'''
-from prediction import *
-from data import *
-from clustering import *
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Apr 30 20:19:20 2019
 
+@author: benpradko
+"""
 import tkinter as tk
 import imageio
 import matplotlib.pyplot as plt
 import numpy as np
 
-rain_value, rain_percent = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
-
-ave_temp = 'interpolated ave'
-
-high_temp = 'interpolated high'
-
-low_temp = 'interpolated low'
-
-temp = 'interpolated ave' + '(high_temp/low_temp)'
-
-winds = 'interpolated speed' + 'direction'
-
-humidity = 'interpolated humidity'
-
-pressure = 'interpolated pressure'
-
-visibility = 'interpolated visibility'
-
+rain = 0
+percentage = 20
+temp = 3
+hi = 5
+lo = 1
+wind = 45
+hum = 86
 
 class interface(tk.Frame):
     def __init__(self, master=None):
@@ -51,10 +32,10 @@ class interface(tk.Frame):
         tk.Button(root,text="Wind Speed",command=self.wind).pack(side="top")
 
     def rain(self):
-        if rain_value == 1:
+        if rain == 1:
             im = np.array(imageio.imread('SUN.png', as_gray=False), dtype = "int64")
         else:
-            print("Chance of Rain: " + str(rain_percent) + "\n")
+            print("Chance of Rain: " + str(percentage) + "\n")
             im = np.array(imageio.imread('RAIN.jpg', as_gray=False), dtype = "int64")
         plt.figure()
         plt.imshow(im)
@@ -62,12 +43,14 @@ class interface(tk.Frame):
         plt.show()
         
     def temp(self):
-        print("Temperature: " + str(ave_temp) + "F\n High: " + str(high_temp) + "F\n Low:  " + str(low_temp) +  "F\n")
+        print("Temperature: " + str(temp) + "F\n High: " + str(hi) + "F\n Low:  " + str(lo) +  "F\n")
         
     def hum(self):
-        print("Humidity: " + str(humidity) + "\n")
+        print("Humidity: " + str(hum) + "\n")
         
     def wind(self):
-        print("Wind: " + str(winds) + "\n")
+        print("Wind: " + str(wind) + "\n")
 
 root = tk.Tk()
+face = interface(master=root)
+face.mainloop()
