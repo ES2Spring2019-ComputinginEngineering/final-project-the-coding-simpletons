@@ -135,6 +135,7 @@ def readDataFile():
         for j in dateRanges[i]:
             bestDateSet.append(dates[j])
     print('The best set of days is ' + str(bestDateSet))
+    
     #Normalization and array conversion
     nhourlyTemp = np.zeros(len(hourlyTemp))
     nhourlyPrecip = np.zeros(len(hourlyPrecip))
@@ -155,6 +156,13 @@ def readDataFile():
 
     #adds these values to a list to be returned
     valuesOfInterest.append(time)
+    valuesOfInterest.append(hourlyTemp)
+    valuesOfInterest.append(hourlyPrecip)
+    valuesOfInterest.append(hourlySeaPress)
+    valuesOfInterest.append(hourlyHum)
+    valuesOfInterest.append(hourlyVis)
+    valuesOfInterest.append(hourlyPeakWind)
+    valuesOfInterest.append(hourlyWindSpeed)
     valuesOfInterest.append(nhourlyTemp)
     valuesOfInterest.append(nhourlyPrecip)
     valuesOfInterest.append(nhourlySeaPress)
