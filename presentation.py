@@ -18,7 +18,7 @@ import imageio
 import matplotlib.pyplot as plt
 import numpy as np
 
-rain_value, rain_percent = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
+#rain_value, rain_percent = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
 
 ave_temp = 'interpolated ave'
 
