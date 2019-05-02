@@ -16,7 +16,7 @@ import prediction
 
 #dates, dailyTemp, dailyHum, dailySeaPress, dailyDiffNormTemp, dailyMaxTemp, dailyMinTemp, dailyWindDirec, dailyPeakWind, dailyPrecip, dailyWinds, 
 bestDateSet, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind = data.readDataFile()
-indexRange = dataOfInterest()
+#indexRange = dataOfInterest()
 #dailyVis = prediction.tomorrow(dailyHum, hourlyVis, hours, dailySeaPress, dailyTemp)
 #next_hum = trending(hourlyhum)
 #next_press = trending(hourlyseapress)
@@ -49,7 +49,7 @@ import prediction
 
 # DEMONSTRATION CODE
 
-dates, hours, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind = data.readDataFile()
+#dates, hours, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind = data.readDataFile()
 
 #next_hum = trending(hourlyhum)
 #next_press = trending(hourlyseapress)
@@ -69,8 +69,9 @@ centroids = clustering.create_centroids(K)
 #clustering.graphing(K, hourlyhum, hourlyVis, hourlyseapress, final_centroids, assignments)
 
 
-#import presentation as pressi
-#import tkinter as tk
+import presentation as pressi
+import tkinter as tk
 
-#face = pressi.interface(master=root)
-#face.mainloop()
+root = tk.Tk()
+face = pressi.interface(master=root)
+face.mainloop()
