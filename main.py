@@ -19,6 +19,7 @@ bestDateSet, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVi
 
 dateRange = data.sliceOfInterest(bestDateSet, time)
 
+btime, bhourlytemp, bhourlyprecip, bhourlyseapress, bhourlyhum, bhourlyVis, bhourlyPeakWind, bhourlyWind, bnhourlytemp, bnhourlyprecip, bnhourlyseapress, bnhourlyhum, bnhourlyVis, bnhourlyPeakWind, bnhourlyWind = data.dataOfInterest(dateRange, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind)
 #indexRange = dataOfInterest()
 
 nexthum, nextvis, nextpress, nexttemp, nextwind, Nnexthum, Nnextvis, Nnextpress, Nnexttemp, Nnextwind = prediction.tomorrow(bestDateSet, time, hourlyhum, hourlyVis, hourlyseapress, hourlytemp, hourlyWind, nhourlyhum, nhourlyVis, nhourlyseapress, nhourlytemp, nhourlyWind)
