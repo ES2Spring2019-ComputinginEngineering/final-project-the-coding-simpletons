@@ -1,14 +1,14 @@
 #Ben and Rónán
 
 import numpy as np
-
+'''
 def tomorrow(indexes, dates, data):
     weights=[1, ((np.e)**(1/2)),np.e,((np.e)**(3/2)), ((np.e)**(2)),((np.e)**(5/2)),((np.e)**(3))]
     weighted=[]
     for i in indexes:
         if dates
     return 
-
+'''
 #SOMEHOW CHECK WHICH DAYS THESE HOURLY VALUES ARE ASSOCIATED WITH? DO WE HAVE ONE WEEK REPRESENTED?
         
 
