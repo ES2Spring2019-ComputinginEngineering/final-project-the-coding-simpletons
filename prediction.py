@@ -9,7 +9,6 @@ def tomorrow(indexes, dates, data):
         if dates
     return 
 
-#SOMEHOW CHECK WHICH DAYS THESE HOURLY VALUES ARE ASSOCIATED WITH? DO WE HAVE ONE WEEK REPRESENTED?
         
 
 def nearest_neighbor(type_1, type_2, percip, new_1, new_2):
@@ -20,6 +19,7 @@ def nearest_neighbor(type_1, type_2, percip, new_1, new_2):
         distance_arr[i] = distance
     smallesti = np.argmin(distance_arr)
     raining = int(percip[smallesti])
+    
     return raining
 
 
@@ -40,6 +40,7 @@ def kNearestNeighborClassifier(type_1, type_2, percip, new_1, new_2):
         if closest[i] == 1:
             rain += 1
     percentage = rain / 5
+    
     return raining, percentage
 
 # Getting our predicted values in terms of actual numbers
@@ -47,5 +48,6 @@ def denormalize(normal, data_set):
     maximum = np.amax(data_set)
     minimum = np.amin(data_set)
     value = (normal*(maximum-minimum)) + minimum
+    
     return value
     
