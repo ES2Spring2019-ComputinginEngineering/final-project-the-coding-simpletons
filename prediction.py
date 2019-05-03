@@ -3,25 +3,17 @@
 import numpy as np
 
 def weights(best, time, data):
-    
-    weights=[(1/28), (2/28), (3/28), (4/28), (5/28), (6/28), (7/28)]
+    #1770 is 1 the sum of through 59
+    weights = []
+    for i in range(1, 60):
+        weights.append(i/1770)
+        
     weighted=[]
     for i in range(len(time)):
-        if time[i][:10] == best[0]:
-            weighted.append((data[i])*weights[0])
-        elif time[i][:10]== best[1]:
-            weighted.append((data[i])*weights[1])
-        elif time[i][:10]== best[2]:
-            weighted.append((data[i])*weights[2])
-        elif time[i][:10]== best[3]:
-            weighted.append((data[i])*weights[3])
-        elif time[i][:10]== best[4]:
-            weighted.append((data[i])*weights[4])
-        elif time[i][:10]== best[5]:
-            weighted.append((data[i])*weights[5])
-        elif time[i][:10]== best[6]:
-            weighted.append((data[i])*weights[6])
-    prediction = np.mean(weighted)
+       weighted.append((data[i])*weights[i])
+            
+    prediction = np.sum(weighted)
+    
     return prediction
 
 def tomorrow(best, dates, humidity, visibility, pressure, temp, wind, Nhumidity, Nvisibility, Npressure, Ntemp, Nwind):
