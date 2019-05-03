@@ -192,6 +192,28 @@ def sliceOfInterest(bestDateSet, time): #2/8/19 to 2/15/19 7 days to pull data f
                 break
     
     return [start, end]
+
+def dataOfInterest(sliceRange, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind):
+    returnValues = []
+    a = sliceRange[0]
+    b = sliceRange[1]
+    
+    returnValues.append(hourlytemp[a:b])
+    returnValues.append(hourlyprecip[a:b])
+    returnValues.append(hourlyseapress[a:b])
+    returnValues.append(hourlyhum[a:b])
+    returnValues.append(hourlyVis[a:b])
+    returnValues.append(hourlyPeakWind[a:b])
+    returnValues.append(hourlyWind[a:b])
+    returnValues.append(nhourlytemp[a:b])
+    returnValues.append(nhourlyprecip[a:b])
+    returnValues.append(nhourlyseapress[a:b])
+    returnValues.append(nhourlyhum[a:b])
+    returnValues.append(nhourlyVis[a:b])
+    returnValues.append(nhourlyPeakWind[a:b])
+    returnValues.append(nhourlyWind[a:b])
+    
+    return returnValues
     
 def exploringGraphs(pressure, humidity, windspeed, visibility, temperature, precipitation):
     #graphs every unqiue pair of the selected hourly variables
