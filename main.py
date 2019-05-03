@@ -54,15 +54,9 @@ import prediction
 
 # DEMONSTRATION CODE
 
-#dates, hours, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind = data.readDataFile()
 
-#next_hum = trending(hourlyhum)
-#next_press = trending(hourlyseapress)
-#next_vis = trending(hourlyVis)
-
-
-#will_it_rain = prediction.nearest_neighbor(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
-#is_it_raining, rain_percent = prediction.kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
+will_it_rain = prediction.nearest_neighbor(nhourlyhum, nhourlyseapress, nhourlyVis, hourlyprecip, Nnexthum, Nnextpress, Nnextvis)
+is_it_raining, rain_percent = prediction.kNearestNeighborClassifier(nhourlyhum, nhourlyseapress, nhourlyVis, hourlyprecip, Nnexthum, Nnextpress, Nnextvis)
 
 #data.graphData3D(hourlyseapress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip, next_hum, 0.95, next_press)
 

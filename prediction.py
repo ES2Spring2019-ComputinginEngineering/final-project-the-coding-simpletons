@@ -60,10 +60,10 @@ def tomorrow(best, time, humidity, visibility, pressure, temp, wind, Nhumidity, 
 #SOMEHOW CHECK WHICH DAYS THESE HOURLY VALUES ARE ASSOCIATED WITH? DO WE HAVE ONE WEEK REPRESENTED?
         
 
-def nearest_neighbor(type_1, type_2, percip, new_1, new_2):
+def nearest_neighbor(type_1, type_2, type_3, percip, new_1, new_2, new_3):
     distance_arr = np.zeros(type_1.size)
     for i in range(type_1.size):
-        distance_squared = (((type_1[i]-new_1)**2)+(type_2[i]-new_2)**2)
+        distance_squared = (((type_1[i]-new_1)**2)+((type_2[i]-new_2)**2)+((type_3[i]-new_3)**2))
         distance = np.sqrt(distance_squared)
         distance_arr[i] = distance
     smallesti = np.argmin(distance_arr)
@@ -72,11 +72,11 @@ def nearest_neighbor(type_1, type_2, percip, new_1, new_2):
 
 
 #Instead of Using Median we could use Percentage of nearest points that are rain to predict likelihood
-def kNearestNeighborClassifier(type_1, type_2, percip, new_1, new_2):
+def kNearestNeighborClassifier(type_1, type_2, type_3, percip, new_1, new_2, new_3):
     closest = np.zeros(5)
     distance_arr = np.zeros(type_1.size)
     for i in range(type_1.size):
-        distance_squared = (((type_1[i]-new_1)**2)+(type_2[i]-new_2)**2)
+        distance_squared = (((type_1[i]-new_1)**2)+((type_2[i]-new_2)**2)+((type_3[i]-new_3)**2))
         distance = np.sqrt(distance_squared)
         distance_arr[i] = distance
     indexes = np.argsort(distance_arr)
