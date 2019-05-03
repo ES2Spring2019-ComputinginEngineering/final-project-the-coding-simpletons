@@ -174,20 +174,24 @@ def readDataFile():
 
     return valuesOfInterest
 
-def dataOfInterest(): #2/8/19 to 2/16/19
-    bestDateSet, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind = readDataFile()
-    sliceStart = 0
-    sliceEnd = 0
-    counter = 0
+def sliceOfInterest(bestDateSet, time): #2/8/19 to 2/15/19 7 days to pull data from, 1 day to compare with predictions 
+    start = 0 #start of the slice
+    end = 0 #end of the slice
+    dates = [] #used as a form of counter in this case so to know what dates have already been looked at
     for i in range(len(time)):
-        if (time[i] in bestDateSet):
-            counter += 1
-            if (sliceStart == 0):
-                sliceStart = i
-            elif(counter == 9):
-                sliceEnd = i
+        
+        if (time[i][:10] in bestDateSet):
+            if (time[i][:10] not in dates):
+                dates.append(time[i][:10])
+            
+            if (start == 0):
+                start = i #the index of the first hourly value for the 1st day in the bestDateSet
+                
+            elif (len(dates) == len(bestDateSet)): 
+                end = i #the index of the first hourly value for the 9th day in the bestDateSet
+                break
     
-    return [sliceStart, sliceEnd]
+    return [start, end]
     
 def exploringGraphs(pressure, humidity, windspeed, visibility, temperature, precipitation):
     #graphs every unqiue pair of the selected hourly variables
