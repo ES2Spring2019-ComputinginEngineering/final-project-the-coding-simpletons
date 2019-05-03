@@ -4,7 +4,7 @@ import numpy as np
 
 def weights(best, time, data):
     
-    weights=[1, ((np.e)**(1/2)),np.e,((np.e)**(3/2)), ((np.e)**(2)),((np.e)**(5/2)),((np.e)**(3))]
+    weights=[(1/28), (2/28), (3/28), (4/28), (5/28), (6/28), (7/28)]
     weighted=[]
     for i in range(len(time)):
         if time[i][:10] == best[0]:
@@ -38,7 +38,33 @@ def tomorrow(best, dates, humidity, visibility, pressure, temp, wind, Nhumidity,
     
     return nexthum, nextvis, nextpress, nexttemp, nextwind, Nnexthum, Nnextvis, Nnextpress, Nnexttemp, Nnextwind
         
-
+"""
+def tomorrow(best, time, humidity, visibility, pressure, temp, wind, Nhumidity, Nvisibility, Npressure, Ntemp, Nwind):
+    weights=[(1/28), (2/28), (3/28), (4/28), (5/28), (6/28), (7/28)] #all add up to 1
+    weighted=[]
+    data = [humidity, visibility, pressure, temp, wind, Nhumidity, Nvisibility, Npressure, Ntemp, Nwind]
+    arrData = np.asarray(data)
+    
+    for i in range(len(time)):
+        if time[i][:10] == best[0]:
+            weighted.append((arrData[:][i])*weights[0])
+        elif time[i][:10]== best[1]:
+            weighted.append((arrData[:][i])*weights[1])
+        elif time[i][:10]== best[2]:
+            weighted.append((arrData[:][i])*weights[2])
+        elif time[i][:10]== best[3]:
+            weighted.append((arrData[:][i])*weights[3])
+        elif time[i][:10]== best[4]:
+            weighted.append((arrData[:][i])*weights[4])
+        elif time[i][:10]== best[5]:
+            weighted.append((arrData[:][i])*weights[5])
+        elif time[i][:10]== best[6]:
+            weighted.append((arrData[:][i])*weights[6])
+     
+    return weighted
+    #prediction = np.mean(weighted)
+    #return nexthum, nextvis, nextpress, nexttemp, nextwind, Nnexthum, Nnextvis, Nnextpress, Nnexttemp, Nnextwind
+"""
 #SOMEHOW CHECK WHICH DAYS THESE HOURLY VALUES ARE ASSOCIATED WITH? DO WE HAVE ONE WEEK REPRESENTED?
         
 
