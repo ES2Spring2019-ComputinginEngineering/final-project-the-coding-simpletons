@@ -21,7 +21,7 @@ dateRange = data.sliceOfInterest(bestDateSet, time)
 
 #indexRange = dataOfInterest()
 
-#dailyVis = prediction.tomorrow(dailyHum, hourlyVis, hours, dailySeaPress, dailyTemp)
+nexthum, nextvis, nextpress, nexttemp, nextwind, Nnexthum, Nnextvis, Nnextpress, Nnexttemp, Nnextwind = prediction.tomorrow(bestDateSet, time, hourlyhum, hourlyVis, hourlyseapress, hourlytemp, hourlyWind, nhourlyhum, nhourlyVis, nhourlyseapress, nhourlytemp, nhourlyWind)
 #next_hum = trending(hourlyhum)
 #next_press = trending(hourlyseapress)
 #next_vis = trending(hourlyVis)

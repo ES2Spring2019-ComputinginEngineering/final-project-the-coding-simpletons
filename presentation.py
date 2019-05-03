@@ -47,7 +47,7 @@ class interface(tk.Frame):
 
     def create_widgets(self):
         tk.Button(root,text="Rain",command=self.rain).pack(side="top")
-        tk.Button(root,text="Temperature (High/Low)",command=self.temp).pack(side="top")      
+        tk.Button(root,text="Average Temperature",command=self.temp).pack(side="top")      
         tk.Button(root,text="Humidity",command=self.hum).pack(side="top")        
         tk.Button(root,text="Wind Speed",command=self.wind).pack(side="top")
         tk.Button(root,text="Pressure",command=self.press).pack(side="top")
@@ -65,7 +65,7 @@ class interface(tk.Frame):
         plt.show()
         
     def temp(self):
-        print("Temperature: " + str(ave_temp) + "F\n High: " + str(high_temp) + "F\n Low:  " + str(low_temp) +  "F\n")
+        print("Average Temperature: " + str(ave_temp) + "F\n")
         
     def hum(self):
         print("Humidity: " + str(humidity) + "%\n")

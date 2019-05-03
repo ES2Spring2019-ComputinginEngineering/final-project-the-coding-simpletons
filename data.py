@@ -193,11 +193,12 @@ def sliceOfInterest(bestDateSet, time): #2/8/19 to 2/15/19 7 days to pull data f
     
     return [start, end]
 
-def dataOfInterest(sliceRange, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind):
+def dataOfInterest(sliceRange, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind):
     returnValues = []
-    a = sliceRange[0]
-    b = sliceRange[1]
+    a = sliceRange[0] #start of the slice
+    b = sliceRange[1] #end of the slice
     
+    returnValues.append(time[a:b])
     returnValues.append(hourlytemp[a:b])
     returnValues.append(hourlyprecip[a:b])
     returnValues.append(hourlyseapress[a:b])
