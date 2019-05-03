@@ -35,6 +35,8 @@ pressure = 'interpolated pressure'
 
 visibility = 'interpolated visibility'
 
+root = tk.Tk()
+
 
 class interface(tk.Frame):
     def __init__(self, master=None):
@@ -80,4 +82,3 @@ class interface(tk.Frame):
         else:
             print("Visibility: " + str(visibility) + "\n")
 
-root = tk.Tk()
