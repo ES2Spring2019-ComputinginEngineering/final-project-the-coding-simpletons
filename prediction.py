@@ -3,6 +3,7 @@
 import numpy as np
 
 def weights(best, time, data):
+    
     weights=[1, ((np.e)**(1/2)),np.e,((np.e)**(3/2)), ((np.e)**(2)),((np.e)**(5/2)),((np.e)**(3))]
     weighted=[]
     for i in range(len(time)):

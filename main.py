@@ -73,10 +73,11 @@ centroids = clustering.create_centroids(K)
 
 #clustering.graphing(K, hourlyhum, hourlyVis, hourlyseapress, final_centroids, assignments)
 
-
+'''
 import presentation as pressi
 import tkinter as tk
 
 root = tk.Tk()
 face = pressi.interface(master=root)
 face.mainloop()
+'''
