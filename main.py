@@ -25,13 +25,11 @@ btime, bhourlytemp, bhourlyprecip, bhourlyseapress, bhourlyhum, bhourlyVis, bhou
 nexthum, nextpress, nextvis, nexttemp, nextwind, Nnexthum, Nnextvis, Nnextpress, Nnexttemp, Nnextwind = prediction.tomorrow(bestDateSet, btime, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, bnhourlyhum, bnhourlyVis, bnhourlyseapress, bnhourlytemp, bnhourlyWind)
 
 prediction.predictedAccuracy(bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthum, nextpress, nextvis, nexttemp, nextwind)
-#next_hum = trending(hourlyhum)
-#next_press = trending(hourlyseapress)
-#next_vis = trending(hourlyVis)
+
 
 
 #will_it_rain = prediction.nearest_neighbor(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
-#is_it_raining, rain_percent = prediction.kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
+#is_it_raining, rain_percent = prediction.kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyVis, hourlyprecip, next_hum, next_press, next_vis)
 
 #data.graphData3D(hourlyseapress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip, next_hum, 0.95, next_press)
 
@@ -48,9 +46,7 @@ clustering.graphing(K, hourlyhum, hourlyVis, hourlyseapress, final_centroids, as
 
 
 # IMPORT STATEMENTS
-import data 
-import clustering
-import prediction
+
 
 
 
@@ -69,11 +65,10 @@ centroids = clustering.create_centroids(K)
 
 #clustering.graphing(K, hourlyhum, hourlyVis, hourlyseapress, final_centroids, assignments)
 
-'''
-import presentation as pressi
+
+import presentation
 import tkinter as tk
 
 root = tk.Tk()
-face = pressi.interface(master=root)
+face = presentation.interface(master=root)
 face.mainloop()
-'''

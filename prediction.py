@@ -60,9 +60,9 @@ def nearest_neighbor(humidity, pressure, visibility, precip, nhumidity, npressur
 #In addition to using the median we could use the percentage of nearest points that are rain to predict likelihood
 def kNearestNeighborClassifier(humidity, pressure, visibility, precip, nhumidity, npressure, nvisibility):
     closest = np.zeros(10)
-    distance_arr = np.zeros(humidity.size)
+    distance_arr = np.zeros(len(humidity))
     
-    for i in range(humidity.size):
+    for i in range(len(humidity)):
         distance_squared = (((humidity[i]-nhumidity)**2)+((pressure[i]-npressure)**2)+((visibility[i]-nvisibility)**2))
         distance = np.sqrt(distance_squared)
         distance_arr[i] = distance
