@@ -18,32 +18,6 @@ print('The best set of days ranges from:\n' + str(bestDateSet[0]) + ' to ' + str
 
 data.graphData3D(nhourlyhum, nhourlyseapress, nhourlyVis, nhourlyprecip, Nnexthum, Nnextvis, Nnextpress)
 
-
-
-#data.graphData3D(nhourlyseapress, nhourlyhum, nhourlyWind, nhourlyVis, nhourlytemp, nhourlyprecip, Nnexthum, Nnextvis, Nnextpress)
-
-"""
-K=2
-centroids = clustering.create_centroids(K)
-
-final_centroids, assignments = clustering.iteration(centroids, hourlyhum, hourlyseapress, hourlyVis)
-
-clustering.graphing(K, hourlyhum, hourlyVis, hourlyseapress, final_centroids, assignments)
-"""
-
-# This files should not contain any function defitions
-
-
-# IMPORT STATEMENTS
-
-
-
-
-# DEMONSTRATION CODE
-
-
-data.graphData3D(nhourlyhum, nhourlyseapress, nhourlyVis, nhourlyprecip, Nnexthum, Nnextpress, Nnextvis)
-
 K=2
 centroids = clustering.create_centroids(K)
 
