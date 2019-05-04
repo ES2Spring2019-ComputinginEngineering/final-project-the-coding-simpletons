@@ -67,6 +67,37 @@ def iteration(centroids, humidity, pressure, visibility):
     
     return centroids, assignments 
 
+def clusterAccuracy(predClassification, dataClassification, finalCentroids):
+    
+    falsePositives = 0
+    falseNegatives = 0
+    truePositives = 0
+    trueNegatives = 0
+    positives = 0 
+    negatives = 0
+    """
+    for i in range(classification.size):
+        if(classification[i] == dataClassification[i]):
+            if(classification[i] == 1):
+                truePositives += 1
+                positives += 1
+                else:
+                    trueNegatives += 1
+                    negatives += 1
+            else:
+                if(classification[i] == 0):
+                    falsePositives += 1
+                    positives += 1
+                else:
+                    falseNegatives += 1
+                    negatives += 1
+    """
+    print('False Positives Rate: ' + str((falsePositives/positives)*100))
+    print('False Negatives Rate: ' + str((falseNegatives/negatives)*100))
+    print('True Positives Rate: ' + str((truePositives/positives)*100))
+    print('True Negatives Rate: ' + str((trueNegatives/negatives)*100))
+    print('(Values given in percent)')
+                        
 def graphing(K, humidity, visibility, pressure, centroid, newassignments):   
     centx = centroid[:,0]
     centy = centroid[:,1]

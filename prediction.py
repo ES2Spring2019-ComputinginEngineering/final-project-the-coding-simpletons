@@ -3,32 +3,41 @@
 import numpy as np
 
 def weights(best, time, data):
-    #1770 is 1 the sum of through 59
+    #1653 is 1 the sum of through 57
     weights = []
-    for i in range(1, 60):
-        weights.append(i/1770)
+    for i in range(1, 58): #57 hourly values from the week prior to the 8th day
+        weights.append(i/1653)
         
     weighted=[]
-    for i in range(len(time)):
+    for i in range(len(time[:-2])):
        weighted.append((data[i])*weights[i])
             
     prediction = np.sum(weighted)
     
     return prediction
 
-def tomorrow(best, dates, humidity, visibility, pressure, temp, wind, Nhumidity, Nvisibility, Npressure, Ntemp, Nwind):
-    Nnexthum= weights(best, dates, Nhumidity)
-    Nnextvis= weights(best, dates, Nvisibility)
-    Nnextpress= weights(best, dates, Npressure)
-    Nnexttemp = weights(best, dates, Ntemp)
-    Nnextwind = weights(best, dates, Nwind)
-    nexthum= weights(best, dates, humidity)
-    nextvis= weights(best, dates, visibility)
-    nextpress= weights(best, dates, pressure)
-    nexttemp = weights(best, dates, temp)
-    nextwind = weights(best, dates, wind)
+def tomorrow(best, time, humidity, visibility, pressure, temp, wind, Nhumidity, Nvisibility, Npressure, Ntemp, Nwind):
+    Nnexthum= weights(best, time, Nhumidity)
+    Nnextvis= weights(best, time, Nvisibility)
+    Nnextpress= weights(best, time, Npressure)
+    Nnexttemp = weights(best, time, Ntemp)
+    Nnextwind = weights(best, time, Nwind)
+    nexthum= weights(best, time, humidity)
+    nextvis= weights(best, time, visibility)
+    nextpress= weights(best, time, pressure)
+    nexttemp = weights(best, time, temp)
+    nextwind = weights(best, time, wind)
     
     return nexthum, nextvis, nextpress, nexttemp, nextwind, Nnexthum, Nnextvis, Nnextpress, Nnexttemp, Nnextwind
+
+def predictedAccuracy(humidity, visibility, pressure, temp, wind, nexthum, nextvis, nextpress, nexttemp, nextwind):
+    actualValues = [humidity[57:], visibility[57:], pressure[57:], temp[57:], wind[57:]]
+    predictedValues = [nexthum[57:], nextvis[57:], nextpress[57:], nexttemp[57:], nextwind[57:]]
+    values = ['humidity', 'visibility', 'pressure', 'temperature', 'wind']
+    for i in range(len(values)):
+        percentError = ((predictedValues[i] - np.mean(actualValues[i]))/(np.mean(actualValues[i])))*100
+        #uses the mean of the actual values because this gives an approximation of the daily value from the hourly values
+        print('The percent error associated with the predicted ' + values[i] + ' value was ' + str(percentError) + '%')
         
 """
 def tomorrow(best, time, humidity, visibility, pressure, temp, wind, Nhumidity, Nvisibility, Npressure, Ntemp, Nwind):
