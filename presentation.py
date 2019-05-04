@@ -56,6 +56,7 @@ class interface(tk.Frame):
         tk.Button(root,text="Wind Speed",command=self.wind).pack(side="top")
         tk.Button(root,text="Pressure",command=self.press).pack(side="top")
         tk.Button(root,text="Visibility",command=self.vis).pack(side="top")
+        tk.Button(root,text="All Done.", command=root.destroy).pack(side="top")
 
     def rain(self):
         if rain_value == 0:
@@ -81,7 +82,7 @@ class interface(tk.Frame):
         print("Pressure: " + str(pressure) + "Pa\n")
     
     def vis(self):
-        if visibility == 1:
+        if visibility > .98:
             print("Visibility: Clear Skies\n")
         else:
             print("Visibility: " + str(visibility) + "\n")
