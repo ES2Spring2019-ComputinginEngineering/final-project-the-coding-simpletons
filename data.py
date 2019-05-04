@@ -145,7 +145,7 @@ def readDataFile():
     nhourlyPeakWind = np.zeros(len(hourlyPeakWind))
     nhourlyWindSpeed = np.zeros(len(hourlyWindSpeed))
     
-    for i in range(len(time)):
+    for i in range(len(hourlyTemp)):
         nhourlyTemp[i] = (hourlyTemp[i] - np.amin(hourlyTemp))/(np.amax(hourlyTemp)- np.amin(hourlyTemp))
         nhourlyPrecip[i] = (hourlyPrecip[i] - np.amin(hourlyPrecip))/(np.amax(hourlyPrecip)- np.amin(hourlyPrecip))
         nhourlySeaPress[i] = (hourlySeaPress[i] - np.amin(hourlySeaPress))/(np.amax(hourlySeaPress)- np.amin(hourlySeaPress))
@@ -245,7 +245,7 @@ def graphData3D(humidity, pressure, visibility, precipitation, nhum, npress, nvi
     ax.set_xlabel('Humidity')
     ax.set_ylabel('Visibility')
     ax.set_zlabel('Pressure')
-    ax.legend(loc = 3)
+    ax.legend(bbox_to_anchor = (1.43, 1.025))
     ax.set_title('Pressure, Humidity, and Visibility Classified by Precipitationn\n', fontsize = 14)
     plt.show()
     
@@ -257,6 +257,6 @@ def graphData3D(humidity, pressure, visibility, precipitation, nhum, npress, nvi
     ax.set_xlabel('Humidity')
     ax.set_ylabel('Visibility')
     ax.set_zlabel('Pressure')
-    ax.legend(loc = 3)
+    ax.legend(bbox_to_anchor = (1.43, 1.025))
     ax.set_title('Pressure, Humidity, and Visibility Classified by Precipitationn\n', fontsize = 14)
     plt.show()
