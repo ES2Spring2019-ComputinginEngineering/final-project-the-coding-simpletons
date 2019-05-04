@@ -58,7 +58,7 @@ def readDataFile():
             hourlyPeakWind.append(float(data[i][55]))
             hourlyWindSpeed.append(float(data[i][56]))
             
-    print(str(badCounter2) + ' hourly values did not contain useable data\n')
+    #print(str(badCounter2) + ' hourly values did not contain useable data\n')
     
     
     #Makes a list of the dates with hourly values associated with them
@@ -134,7 +134,7 @@ def readDataFile():
     for i in maxIndices:
         for j in dateRanges[i]:
             bestDateSet.append(dates[j])
-    print('The best set of days ranges from:\n' + str(bestDateSet[0]) + ' to ' + str(bestDateSet[maxDays - 1]))
+    #print('The best set of days ranges from:\n' + str(bestDateSet[0]) + ' to ' + str(bestDateSet[maxDays - 1]))
     
     #Normalization and array conversion
     nhourlyTemp = np.zeros(len(hourlyTemp))

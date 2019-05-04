@@ -11,7 +11,6 @@ visibility
 '''
 import prediction
 import data
-from clustering import *
 import tkinter as tk
 import imageio
 import matplotlib.pyplot as plt

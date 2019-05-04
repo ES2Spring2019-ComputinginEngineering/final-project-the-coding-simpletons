@@ -26,6 +26,7 @@ def weights(bestDateSet, time):
     
     return weights
 
+
 def weightedValues(time, weights, data):
     weighted = []        
     
@@ -35,6 +36,7 @@ def weightedValues(time, weights, data):
     prediction = np.sum(weighted)
     
     return prediction
+
 
 def tomorrow(bestDateSet, time, humidity, pressure, visibility, temp, wind, Nhumidity, Npressure, Nvisibility):
     worth = weights(bestDateSet, time)
@@ -59,6 +61,7 @@ def predictedAccuracy(data, nextdata):
     percentError = np.abs(((nextdata - np.mean(actual))/(np.mean(actual)))*100)
     #uses the mean of the actual values because this gives an approximation of the daily value from the hourly values
     return percentError
+
 
 def nearest_neighbor(humidity, pressure, visibility, precip, nhumidity, npressure, nvisibility):
     distance_arr = np.zeros(humidity.size)
@@ -100,6 +103,7 @@ def kNearestNeighborClassifier(humidity, pressure, visibility, precip, nhumidity
     likelihood = (rain/10)*100
     
     return raining, likelihood
+
 
 # Getting our predicted values in terms of actual numbers
 def denormalize(normal, data_set):
