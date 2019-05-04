@@ -20,7 +20,6 @@ bestDateSet, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVi
 dateRange = data.sliceOfInterest(bestDateSet, time)
 
 btime, bhourlytemp, bhourlyprecip, bhourlyseapress, bhourlyhum, bhourlyVis, bhourlyPeakWind, bhourlyWind, bnhourlytemp, bnhourlyprecip, bnhourlyseapress, bnhourlyhum, bnhourlyVis, bnhourlyPeakWind, bnhourlyWind = data.dataOfInterest(dateRange, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind)
-#indexRange = dataOfInterest()
 
 nexthum, nextpress, nextvis, nexttemp, nextwind, Nnexthum, Nnextpress, Nnextvis = prediction.tomorrow(bestDateSet, btime, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, bnhourlyhum, bnhourlyseapress, bnhourlyVis)
 
@@ -54,9 +53,9 @@ clustering.graphing(K, hourlyhum, hourlyVis, hourlyseapress, final_centroids, as
 K=2
 centroids = clustering.create_centroids(K)
 
-final_centroids, assignments = clustering.iteration(centroids, hourlyhum, hourlyseapress, hourlyVis)
+final_centroids, assignments = clustering.iteration(centroids, nhourlyhum, nhourlyseapress, nhourlyVis)
 
-clustering.graphing(hourlyhum, hourlyVis, hourlyseapress, final_centroids, assignments)
+clustering.graphing(nhourlyhum, nhourlyVis, nhourlyseapress, final_centroids, assignments)
 
 """
 import presentation
