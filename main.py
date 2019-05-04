@@ -58,9 +58,9 @@ clustering.graphing(K, hourlyhum, hourlyVis, hourlyseapress, final_centroids, as
 K=2
 centroids = clustering.create_centroids(K)
 
-#final_centroids, assignments = clustering.iteration(centroids, hourlyhum, hourlyseapress, hourlyVis)
+final_centroids, assignments = clustering.iteration(centroids, hourlyhum, hourlyseapress, hourlyVis)
 
-#clustering.graphing(K, hourlyhum, hourlyVis, hourlyseapress, final_centroids, assignments)
+clustering.graphing(hourlyhum, hourlyVis, hourlyseapress, final_centroids, assignments)
 
 """
 import presentation

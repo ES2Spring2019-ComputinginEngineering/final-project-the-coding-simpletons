@@ -82,7 +82,7 @@ class interface(tk.Frame):
         print("Pressure: " + str(pressure) + "Pa\n")
     
     def vis(self):
-        if visibility > .98:
+        if visibility > 9.7:
             print("Visibility: Clear Skies\n")
         else:
             print("Visibility: " + str(visibility) + "\n")

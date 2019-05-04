@@ -1,6 +1,7 @@
 #Ben and Rónán
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 # clustering
 
@@ -8,7 +9,7 @@ def create_centroids(K):
     return np.random.random((K,3))
 
 def assign(centroids, humidity, pressure, visibility):
-    K = 2
+    K = centroids.shape[0]
     distances = np.zeros((K, len(visibility)))
     
     for i in range(K):
@@ -28,7 +29,7 @@ def assign(centroids, humidity, pressure, visibility):
         return assignments
     
 def updateCent(centroids, assignments, humidity, pressure, visibility):
-    K = 2
+    K = centroids.shape[0]
     
     newcentroids = np.zeros(centroids.shape)
     
@@ -100,12 +101,15 @@ def clusterAccuracy(predClassification, dataClassification, finalCentroids, visi
     print('True Negatives Rate: ' + str((trueNegatives/negatives)*100))
     print('(Values given in percent)')
                         
-def graphing(K, humidity, visibility, pressure, centroid, newassignments):   
-    centx = centroid[:,0]
-    centy = centroid[:,1]
-    centz = centroid[:,2]
+def graphing(humidity, visibility, pressure, centroids, newassignments):
+    K = centroids.shape[0]
+    centx = centroids[:,0]
+    centy = centroids[:,1]
+    centz = centroids[:,2]
+    
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
+    
     for i in range(K):
         if (np.median(visibility[newassignments == i]) == 1):
             centlabel = 'Centroid No Rain' 
