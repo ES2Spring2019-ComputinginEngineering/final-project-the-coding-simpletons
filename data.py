@@ -58,7 +58,7 @@ def readDataFile():
             hourlyPeakWind.append(float(data[i][55]))
             hourlyWindSpeed.append(float(data[i][56]))
             
-    print(str(badCounter2) + ' hourly values did not contain useable data')
+    print(str(badCounter2) + ' hourly values did not contain useable data\n')
     
     
     #Makes a list of the dates with hourly values associated with them

@@ -53,6 +53,13 @@ def tomorrow(bestDateSet, time, humidity, pressure, visibility, temp, wind, Nhum
     
     return nexthum, nextpress, nextvis, nexttemp, nextwind, Nnexthum, Nnextpress, Nnextvis
 
+<<<<<<< HEAD
+def predictedAccuracy(data, nextdata):
+    actual = data[57:]
+    percentError = np.abs(((nextdata - np.mean(actual))/(np.mean(actual)))*100)
+    #uses the mean of the actual values because this gives an approximation of the daily value from the hourly values
+    return percentError
+=======
 def predictedAccuracy(humidity, pressure, visibility, temp, wind, nexthum, nextpress, nextvis, nexttemp, nextwind):
     actualValues = [humidity[57:], visibility[57:], pressure[57:], temp[57:], wind[57:]]
     predictedValues = [nexthum, nextvis, nextpress, nexttemp, nextwind]
@@ -63,6 +70,7 @@ def predictedAccuracy(humidity, pressure, visibility, temp, wind, nexthum, nextp
         #uses the mean of the actual values because this gives an approximation of the daily value from the hourly values
         print(values[i] + ' was: ' + str(round(percentError)) + '%\n')
         
+>>>>>>> 314d0b2114d7e60ab57eedf8452e95715d130ba8
 
 def nearest_neighbor(humidity, pressure, visibility, precip, nhumidity, npressure, nvisibility):
     distance_arr = np.zeros(humidity.size)
