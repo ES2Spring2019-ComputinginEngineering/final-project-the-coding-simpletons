@@ -67,7 +67,7 @@ def iteration(centroids, humidity, pressure, visibility):
     
     return centroids, assignments 
 
-def clusterAccuracy(predClassification, dataClassification, finalCentroids):
+def clusterAccuracy(predClassification, dataClassification, finalCentroids, visibility):
     
     falsePositives = 0
     falseNegatives = 0
@@ -75,17 +75,19 @@ def clusterAccuracy(predClassification, dataClassification, finalCentroids):
     trueNegatives = 0
     positives = 0 
     negatives = 0
+    
+    #if (np.median(visibility[predClassification == i]) == 1): #If visibilities are mostly 1, this is the non-rain cluster
     """
-    for i in range(classification.size):
-        if(classification[i] == dataClassification[i]):
-            if(classification[i] == 1):
-                truePositives += 1
-                positives += 1
+    for i in range(predClassification.size):
+            if(predClassification[i] == dataClassification[i]):
+                if(predClassification[i] == 1):
+                    truePositives += 1
+                    positives += 1
                 else:
                     trueNegatives += 1
                     negatives += 1
             else:
-                if(classification[i] == 0):
+                if(predClassification[i] == 0):
                     falsePositives += 1
                     positives += 1
                 else:
