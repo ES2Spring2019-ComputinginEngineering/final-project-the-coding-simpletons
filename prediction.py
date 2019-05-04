@@ -51,7 +51,7 @@ def tomorrow(bestDateSet, time, humidity, pressure, visibility, temp, wind, Nhum
     Nnextpress= weightedValues(time, worth, Npressure)
     Nnextvis= weightedValues(time, worth, Nvisibility)
     
-    return nexthum, nextvis, nextpress, nexttemp, nextwind, Nnexthum, Nnextpress, Nnextvis
+    return nexthum, nextpress, nextvis, nexttemp, nextwind, Nnexthum, Nnextpress, Nnextvis
 
 def predictedAccuracy(humidity, pressure, visibility, temp, wind, nexthum, nextpress, nextvis, nexttemp, nextwind):
     actualValues = [humidity[57:], visibility[57:], pressure[57:], temp[57:], wind[57:]]
