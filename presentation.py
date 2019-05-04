@@ -24,7 +24,7 @@ btime, bhourlytemp, bhourlyprecip, bhourlyseapress, bhourlyhum, bhourlyVis, bhou
 
 
 #COLLECTING PREDICTED VALUES
-humidity, pressure, visibility, temperature, winds, Nhumidity, Nvisibility, Npressure, Ntemperature, Nwinds= prediction.tomorrow(bestDateSet, btime, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, bnhourlyhum, bnhourlyVis, bnhourlyseapress, bnhourlytemp, bnhourlyWind)
+humidity, pressure, visibility, temperature, winds, Nhumidity, Nvisibility, Npressure = prediction.tomorrow(bestDateSet, btime, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, bnhourlyhum, bnhourlyVis, bnhourlyseapress)
 rain_value, rain_percent = prediction.kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyVis, hourlyprecip, Nhumidity, Npressure, Nvisibility)
 
 # ROUNDING VALUES FOR PRESENTATION
@@ -70,20 +70,25 @@ class interface(tk.Frame):
         plt.show()
         
     def temp(self):
-        print("Average Temperature: " + str(temperature) + " F\n")
+        accuracy = round(prediction.predictedAccuracy(bhourlytemp, temperature))
+        print("Average Temperature for Tomorrow is " + str(temperature) + " F, with a Reported Accuracy of " + str(accuracy) + "%")
         
     def hum(self):
-        print("Humidity: " + str(humidity) + "%\n")
+        accuracy = round(prediction.predictedAccuracy(bhourlyhum, humidity))
+        print("Humidity for Tomorrow is " + str(humidity) + "%, with a Reported Accuracy of " + str(accuracy) + "%")
         
     def wind(self):
-        print("Wind: " + str(winds) + " mph\n")
+        accuracy = round(prediction.predictedAccuracy(bhourlyWind, winds))
+        print("Average Wind for tomorrow is " + str(winds) + " mph, with a Reported Accuracy of " + str(accuracy) + "%")
         
     def press(self):
-        print("Pressure: " + str(pressure) + "Pa\n")
+        accuracy = round(prediction.predictedAccuracy(bhourlyseapress, pressure))
+        print("Pressure for Tomorrow is " + str(pressure) + "Pa, with a Reported Accuracy of " + str(accuracy) + "%")
     
     def vis(self):
+        accuracy = round(prediction.predictedAccuracy(bhourlyVis, visibility))
         if visibility > 9.7:
-            print("Visibility: Clear Skies\n")
+            print("Clear Skies Tomorrow with " + str(accuracy) + "% Accuracy")
         else:
-            print("Visibility: " + str(visibility) + "\n")
+            print("Visibility for Tomorrow is " + str(visibility) + "with" + str(accuracy) + "% Accuracy")
 
