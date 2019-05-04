@@ -67,5 +67,4 @@ import presentation
 import tkinter as tk
 
 root = tk.Tk()
-face = presentation.interface(master=root)
-face.mainloop()
+presentation.interface(master=root).mainloop()
