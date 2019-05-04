@@ -3,8 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-# clustering
-
+# 3D clustering
 def create_centroids(K):    
     return np.random.random((K,3))
 
@@ -110,40 +109,39 @@ def clusterAccuracy(predClassification, dataClassification, finalCentroids, visi
                         
 def graphing(humidity, visibility, pressure, centroids, newassignments):
     K = centroids.shape[0]
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    while (((np.median(visibility[newassignments == 0])) == 1) and (np.median(visibility[newassignments == 1]) == 1)):
+        centroids = create_centroids(K)
+        final_centroids, newassignments = iteration(centroids, humidity, pressure, visibility)
+        centroids = final_centroids
     centx = centroids[:,0]
     centy = centroids[:,1]
     centz = centroids[:,2]
     
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    
     for i in range(K):
-        ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, label = 'Centroid ' + str(i))  
-        ax.scatter(humidity[newassignments==i],visibility[newassignments==i], pressure[newassignments==i], label = 'Cluster ' + str(i))
-        """
-        centlabel = 'Centroid NA' 
-        labelname = 'NA'
-        centcolor = 'magenta'
-        valuecolor = 'chartreuse'
-        if (np.mean(visibility[newassignments == i]) == 1):
-            centlabel = 'Centroid No Rain' 
+        if (np.median(visibility[newassignments == i]) == 1):
+            centlabel = 'No Rain Centroid' 
             labelname = 'No Rain'
             centcolor = 'maroon'
             valuecolor = 'orange'
         else:
-            centlabel = 'Centroid Rain'
+            centlabel = 'Rain Centroid'
             labelname = 'Rain'
             centcolor = 'blue'
             valuecolor = 'teal'
 
         ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, color = centcolor, label = centlabel)  
         ax.scatter(humidity[newassignments==i],visibility[newassignments==i], pressure[newassignments==i], color = valuecolor, label = labelname) 
-        """
     
     # making headings and a legend for the graph
     ax.set_xlabel('Humidity')
     ax.set_ylabel('Visibility')
     ax.set_zlabel('Pressure')
+    ax.set_xlim(0,1)
+    ax.set_ylim(0,1)
+    ax.set_zlim(0,1)
     ax.set_title('Classified Data Using ' + str(K) + ' Centroids', fontsize = 14)
     plt.legend(bbox_to_anchor = (1.43, 1.025))
     plt.show

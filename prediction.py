@@ -88,20 +88,14 @@ def kNearestNeighborClassifier(humidity, pressure, visibility, precip, nexthumid
     indexes = np.argsort(distance_arr)
     
     for i in range(10):
-        closest[i] = precip[indexes[i]] 
-        
-    raining = int(np.median(closest))
+        closest[i] = precip[indexes[i]]  
+    raining = int(np.median(closest)) # overall rain calssification
     
+    # calculating chance of rain
     rain = 0
-    
     for i in range(closest.size):
         if (closest[i] > 0): 
             rain += 1
-            
     likelihood = (rain/10)*100
-    
-<<<<<<< HEAD
     return raining, likelihood
-=======
-    return raining, likelihood
->>>>>>> 1f643b09af13b4faf26cb2f688bf294c58d75148
+
