@@ -11,7 +11,6 @@ import clustering
 import prediction
 import presentation
 import tkinter as tk
-import time as TIME
 
 
 # DEMONSTRATION CODE
@@ -28,32 +27,6 @@ nexthum, nextpress, nextvis, nexttemp, nextwind, Nnexthum, Nnextpress, Nnextvis 
 
 data.graphData3D(nhourlyhum, nhourlyseapress, nhourlyVis, nhourlyprecip, Nnexthum, Nnextvis, Nnextpress)
 
-
-
-#data.graphData3D(nhourlyseapress, nhourlyhum, nhourlyWind, nhourlyVis, nhourlytemp, nhourlyprecip, Nnexthum, Nnextvis, Nnextpress)
-
-"""
-K=2
-centroids = clustering.create_centroids(K)
-
-final_centroids, assignments = clustering.iteration(centroids, hourlyhum, hourlyseapress, hourlyVis)
-
-clustering.graphing(K, hourlyhum, hourlyVis, hourlyseapress, final_centroids, assignments)
-"""
-
-# This files should not contain any function defitions
-
-
-# IMPORT STATEMENTS
-
-
-
-
-# DEMONSTRATION CODE
-
-
-data.graphData3D(nhourlyhum, nhourlyseapress, nhourlyVis, nhourlyprecip, Nnexthum, Nnextpress, Nnextvis)
-
 K=2
 centroids = clustering.create_centroids(K)
 
@@ -61,8 +34,8 @@ final_centroids, assignments = clustering.iteration(centroids, nhourlyhum, nhour
 
 clustering.graphing(nhourlyhum, nhourlyVis, nhourlyseapress, final_centroids, assignments)
 
-
+"""
 root = tk.Tk()
 presentation.interface(master=root).mainloop()
-
+"""
 
