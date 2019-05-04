@@ -8,23 +8,13 @@ might want to test this on a classmates computer to be sure it works!"""
 # IMPORT STATEMENTS
 import data 
 import clustering
-import prediction
-import presentation
+from presentation import *
 import tkinter as tk
-import time as TIME
 
 
 # DEMONSTRATION CODE
 
-bestDateSet, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind = data.readDataFile()
-
 print('The best set of days ranges from:\n' + str(bestDateSet[0]) + ' to ' + str(bestDateSet[len(bestDateSet)-1]))
-
-dateRange = data.sliceOfInterest(bestDateSet, time)
-
-btime, bhourlytemp, bhourlyprecip, bhourlyseapress, bhourlyhum, bhourlyVis, bhourlyPeakWind, bhourlyWind, bnhourlytemp, bnhourlyprecip, bnhourlyseapress, bnhourlyhum, bnhourlyVis, bnhourlyPeakWind, bnhourlyWind = data.dataOfInterest(dateRange, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind)
-
-nexthum, nextpress, nextvis, nexttemp, nextwind, Nnexthum, Nnextpress, Nnextvis = prediction.tomorrow(bestDateSet, btime, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, bnhourlyhum, bnhourlyseapress, bnhourlyVis)
 
 data.graphData3D(nhourlyhum, nhourlyseapress, nhourlyVis, nhourlyprecip, Nnexthum, Nnextvis, Nnextpress)
 
@@ -37,6 +27,4 @@ clustering.graphing(nhourlyhum, nhourlyVis, nhourlyseapress, final_centroids, as
 
 
 root = tk.Tk()
-presentation.interface(master=root).mainloop()
-
-
+interface(master=root).mainloop()
