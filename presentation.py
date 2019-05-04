@@ -58,7 +58,7 @@ class interface(tk.Frame):
         tk.Button(root,text="Visibility",command=self.vis).pack(side="top")
 
     def rain(self):
-        if rain_value == 1:
+        if rain_value == 0:
             im = np.array(imageio.imread('SUN.png', as_gray=False), dtype = "int64")
         else:
             print("Chance of Rain: " + str(rain_percent) + "%\n")
