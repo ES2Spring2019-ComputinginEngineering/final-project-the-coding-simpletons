@@ -26,7 +26,7 @@ nexthum, nextpress, nextvis, nexttemp, nextwind, Nnexthum, Nnextpress, Nnextvis 
 prediction.predictedAccuracy(bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthum, nextpress, nextvis, nexttemp, nextwind)
 
 
-data.graphData3D(nhourlyseapress, nhourlyhum, nhourlyWind, nhourlyVis, nhourlytemp, nhourlyprecip, Nnexthum, Nnextvis, Nnextpress)
+#data.graphData3D(nhourlyseapress, nhourlyhum, nhourlyWind, nhourlyVis, nhourlytemp, nhourlyprecip, Nnexthum, Nnextvis, Nnextpress)
 
 """
 K=2
