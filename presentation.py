@@ -86,3 +86,4 @@ class interface(tk.Frame):
             print("Visibility: Clear Skies\n")
         else:
             print("Visibility: " + str(visibility) + "\n")
+
