@@ -53,9 +53,6 @@ clustering.graphing(K, hourlyhum, hourlyVis, hourlyseapress, final_centroids, as
 # DEMONSTRATION CODE
 
 
-will_it_rain = prediction.nearest_neighbor(nhourlyhum, nhourlyseapress, nhourlyVis, hourlyprecip, Nnexthum, Nnextpress, Nnextvis)
-is_it_raining, rain_percent = prediction.kNearestNeighborClassifier(nhourlyhum, nhourlyseapress, nhourlyVis, hourlyprecip, Nnexthum, Nnextpress, Nnextvis)
-
 #data.graphData3D(hourlyseapress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip, next_hum, 0.95, next_press)
 
 K=2

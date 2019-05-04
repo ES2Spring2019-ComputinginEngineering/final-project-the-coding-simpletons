@@ -56,9 +56,10 @@ class interface(tk.Frame):
         tk.Button(root,text="Wind Speed",command=self.wind).pack(side="top")
         tk.Button(root,text="Pressure",command=self.press).pack(side="top")
         tk.Button(root,text="Visibility",command=self.vis).pack(side="top")
+        tk.Button(root,text="All Done.", command=root.destroy).pack(side="top")
 
     def rain(self):
-        if rain_value == 1:
+        if rain_value == 0:
             im = np.array(imageio.imread('SUN.png', as_gray=False), dtype = "int64")
         else:
             print("Chance of Rain: " + str(rain_percent) + "%\n")
@@ -81,7 +82,7 @@ class interface(tk.Frame):
         print("Pressure: " + str(pressure) + "Pa\n")
     
     def vis(self):
-        if visibility == 1:
+        if visibility > .98:
             print("Visibility: Clear Skies\n")
         else:
             print("Visibility: " + str(visibility) + "\n")
