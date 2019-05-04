@@ -9,34 +9,38 @@ humidity
 pressure
 visibility
 '''
-from prediction import *
-from data import *
+import prediction
+import data
 from clustering import *
 import tkinter as tk
 import imageio
 import matplotlib.pyplot as plt
 import numpy as np
 
-#rain_value, rain_percent = kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyprecip, next_hum, next_press)
+#VALUES REQUIRED TO OBTAIN PREDICTIONS
+bestDateSet, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind = data.readDataFile()
+dateRange = data.sliceOfInterest(bestDateSet, time)
+btime, bhourlytemp, bhourlyprecip, bhourlyseapress, bhourlyhum, bhourlyVis, bhourlyPeakWind, bhourlyWind, bnhourlytemp, bnhourlyprecip, bnhourlyseapress, bnhourlyhum, bnhourlyVis, bnhourlyPeakWind, bnhourlyWind = data.dataOfInterest(dateRange, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind)
 
-ave_temp = 'interpolated ave'
 
-high_temp = 'interpolated high'
+#COLLECTING PREDICTED VALUES
+humidity, pressure, visibility, temperature, winds, Nhumidity, Nvisibility, Npressure, Ntemperature, Nwinds= prediction.tomorrow(bestDateSet, btime, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, bnhourlyhum, bnhourlyVis, bnhourlyseapress, bnhourlytemp, bnhourlyWind)
+rain_value, rain_percent = prediction.kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyVis, hourlyprecip, Nhumidity, Npressure, Nvisibility)
 
-low_temp = 'interpolated low'
+# ROUNDING VALUES FOR PRESENTATION
+rain_percent = round(rain_percent)
 
-temp = 'interpolated ave' + '(high_temp/low_temp)'
+humidity = round(humidity)
 
-winds = 'interpolated speed' + 'direction'
+pressure = round(pressure)
 
-humidity = 'interpolated humidity'
+visibility = round(visibility)
 
-pressure = 'interpolated pressure'
+temperature = round(temperature)
 
-visibility = 'interpolated visibility'
+winds = round(winds)
 
 root = tk.Tk()
-
 
 class interface(tk.Frame):
     def __init__(self, master=None):
@@ -57,7 +61,7 @@ class interface(tk.Frame):
         if rain_value == 1:
             im = np.array(imageio.imread('SUN.png', as_gray=False), dtype = "int64")
         else:
-            print("Chance of Rain: " + str(rain_percent) + "\n")
+            print("Chance of Rain: " + str(rain_percent) + "%\n")
             im = np.array(imageio.imread('RAIN.jpg', as_gray=False), dtype = "int64")
         plt.figure()
         plt.imshow(im)
@@ -65,13 +69,13 @@ class interface(tk.Frame):
         plt.show()
         
     def temp(self):
-        print("Average Temperature: " + str(ave_temp) + "F\n")
+        print("Average Temperature: " + str(temperature) + " F\n")
         
     def hum(self):
         print("Humidity: " + str(humidity) + "%\n")
         
     def wind(self):
-        print("Wind: " + str(winds) + "mph\n")
+        print("Wind: " + str(winds) + " mph\n")
         
     def press(self):
         print("Pressure: " + str(pressure) + "Pa\n")
@@ -81,4 +85,3 @@ class interface(tk.Frame):
             print("Visibility: Clear Skies\n")
         else:
             print("Visibility: " + str(visibility) + "\n")
-
