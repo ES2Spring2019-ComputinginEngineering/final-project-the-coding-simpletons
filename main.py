@@ -21,8 +21,10 @@ btime, bhourlytemp, bhourlyprecip, bhourlyseapress, bhourlyhum, bhourlyVis, bhou
 K = 2
 centroids = clustering.create_centroids(K)
 final_centroids, assignments = clustering.iteration(centroids, nhourlyhum, nhourlyseapress, nhourlyVis)
-    #COLLECTING PREDICTED VALUES
+
+#COLLECTING PREDICTED VALUES
 nexthumidity, nextpressure, nextvisibility, nexttemperature, nextwind, nextnhum, nextnpress, nextnvis = prediction.tomorrow(bestDateSet, btime, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, bnhourlyhum, bnhourlyVis, bnhourlyseapress)
+
 rain_value, rain_percent = prediction.kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyVis, hourlyprecip, nextnhum, nextnpress, nextnvis)
 
 #print('The best set of days ranges from:\n' + str(bestDateSet[0]) + ' to ' + str(bestDateSet[len(bestDateSet)-1]))
@@ -31,4 +33,6 @@ rain_value, rain_percent = prediction.kNearestNeighborClassifier(hourlyhum, hour
 
 #clustering.graphing(nhourlyhum, nhourlyVis, nhourlyseapress, final_centroids, assignments)
 
-presentation.report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthumidity, nextpressure, nextvisibility, nexttemperature, nextwind)
+#presentation.report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthumidity, nextpressure, nextvisibility, nexttemperature, nextwind)
+
+clustering.clusterAccuracy(nhourlyhum, nhourlyVis, nhourlyseapress, assignments, nhourlyprecip, final_centroids)

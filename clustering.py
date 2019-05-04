@@ -74,8 +74,10 @@ def iteration(centroids, humidity, pressure, visibility):
     
     return centroids, assignments 
 
-def clusterAccuracy(predClassification, dataClassification, finalCentroids, visibility):
-    
+def clusterAccuracy(humidity, visibility, pressure, assignments, rain, finalCentroids):
+    K = finalCentroids.shape[0]
+    newCentroids = finalCentroids
+    newAssignments = assignments
     falsePositives = 0
     falseNegatives = 0
     truePositives = 0
@@ -83,24 +85,26 @@ def clusterAccuracy(predClassification, dataClassification, finalCentroids, visi
     positives = 0 
     negatives = 0
     
+    
+    while (((np.median(visibility[newAssignments == 0])) == 1) and (np.median(visibility[newAssignments == 1]) == 1) and (np.median(newAssignments) == 1)):
+        newCentroids = create_centroids(K)
+        newCentroids, newAssignments = iteration(finalCentroids, humidity, pressure, visibility)
+        
     #if (np.median(visibility[predClassification == i]) == 1): #If visibilities are mostly 1, this is the non-rain cluster
-    """
-    for i in range(predClassification.size):
-            if(predClassification[i] == dataClassification[i]):
-                if(predClassification[i] == 1):
-                    truePositives += 1
-                    positives += 1
-                else:
+    for i in range(newAssignments.size):
+            if ((newAssignments[i] == 1) and (rain[i] != 0)):
+                truePositives += 1
+                positives += 1
+            elif((newAssignments[i] == 0) and (rain[i] == 0)):
                     trueNegatives += 1
                     negatives += 1
+            elif((newAssignments[i] == 1) and (rain[i] == 0)):
+                falsePositives += 1
+                positives += 1
             else:
-                if(predClassification[i] == 0):
-                    falsePositives += 1
-                    positives += 1
-                else:
-                    falseNegatives += 1
-                    negatives += 1
-    """
+                falseNegatives += 1
+                negatives += 1
+    
     print('False Positives Rate: ' + str((falsePositives/positives)*100))
     print('False Negatives Rate: ' + str((falseNegatives/negatives)*100))
     print('True Positives Rate: ' + str((truePositives/positives)*100))
@@ -112,10 +116,11 @@ def graphing(humidity, visibility, pressure, centroids, newassignments):
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
+    
     while (((np.median(visibility[newassignments == 0])) == 1) and (np.median(visibility[newassignments == 1]) == 1)):
         centroids = create_centroids(K)
-        final_centroids, newassignments = iteration(centroids, humidity, pressure, visibility)
-        centroids = final_centroids
+        centroids, newassignments = iteration(centroids, humidity, pressure, visibility)
+        
     centx = centroids[:,0]
     centy = centroids[:,1]
     centz = centroids[:,2]
@@ -133,7 +138,7 @@ def graphing(humidity, visibility, pressure, centroids, newassignments):
             valuecolor = 'teal'
 
         ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, color = centcolor, label = centlabel)  
-        ax.scatter(humidity[newassignments==i],visibility[newassignments==i], pressure[newassignments==i], color = valuecolor, label = labelname) 
+        ax.scatter(humidity[newassignments==i], visibility[newassignments==i], pressure[newassignments==i], color = valuecolor, label = labelname) 
     
     # making headings and a legend for the graph
     ax.set_xlabel('Humidity')
