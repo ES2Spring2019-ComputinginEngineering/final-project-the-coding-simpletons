@@ -2,7 +2,8 @@
 
 import numpy as np
 
-def weights(best, time, data):
+#figure out how to make this take in any best date set and still work
+def weights(bestDateSet, time, data):
     #1653 is 1 the sum of through 57
     weights = []
     for i in range(1, 58): #57 hourly values from the week prior to the 8th day
@@ -16,18 +17,18 @@ def weights(best, time, data):
     
     return prediction
 
-def tomorrow(best, time, humidity, pressure, visibility, temp, wind, Nhumidity, Nvisibility, Npressure, Ntemp, Nwind):
-    Nnexthum= weights(best, time, Nhumidity)
-    Nnextvis= weights(best, time, Nvisibility)
-    Nnextpress= weights(best, time, Npressure)
-    Nnexttemp = weights(best, time, Ntemp)
-    Nnextwind = weights(best, time, Nwind)
+def tomorrow(bestDateSet, time, humidity, pressure, visibility, temp, wind, Nhumidity, Nvisibility, Npressure, Ntemp, Nwind):
+    Nnexthum= weights(bestDateSet, time, Nhumidity)
+    Nnextvis= weights(bestDateSet, time, Nvisibility)
+    Nnextpress= weights(bestDateSet, time, Npressure)
+    Nnexttemp = weights(bestDateSet, time, Ntemp)
+    Nnextwind = weights(bestDateSet, time, Nwind)
     
-    nexthum= weights(best, time, humidity)
-    nextvis= weights(best, time, visibility)
-    nextpress= weights(best, time, pressure)
-    nexttemp = weights(best, time, temp)
-    nextwind = weights(best, time, wind)
+    nexthum= weights(bestDateSet, time, humidity)
+    nextvis= weights(bestDateSet, time, visibility)
+    nextpress= weights(bestDateSet, time, pressure)
+    nexttemp = weights(bestDateSet, time, temp)
+    nextwind = weights(bestDateSet, time, wind)
     
     return nexthum, nextvis, nextpress, nexttemp, nextwind, Nnexthum, Nnextvis, Nnextpress, Nnexttemp, Nnextwind
 
