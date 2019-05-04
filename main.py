@@ -48,7 +48,7 @@ clustering.graphing(K, hourlyhum, hourlyVis, hourlyseapress, final_centroids, as
 # DEMONSTRATION CODE
 
 
-#data.graphData3D(hourlyseapress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip, next_hum, 0.95, next_press)
+data.graphData3D(nhourlyhum, nhourlyseapress, nhourlyVis, nhourlyprecip, Nnexthum, Nnextpress, Nnextvis)
 
 K=2
 centroids = clustering.create_centroids(K)

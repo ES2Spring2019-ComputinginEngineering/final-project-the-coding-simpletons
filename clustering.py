@@ -111,7 +111,7 @@ def graphing(humidity, visibility, pressure, centroids, newassignments):
     ax = fig.add_subplot(111, projection='3d')
     
     for i in range(K):
-        if (np.median(visibility[newassignments == i]) == 1):
+        if (np.mean(visibility[newassignments == i]) > 0.8):
             centlabel = 'Centroid No Rain' 
             labelname = 'No Rain'
             centcolor = 'maroon'
