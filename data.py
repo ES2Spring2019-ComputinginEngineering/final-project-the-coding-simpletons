@@ -232,7 +232,7 @@ def exploringGraphs(pressure, humidity, windspeed, visibility, temperature, prec
                 plt.title(selectLabels[j] + ' vs. ' + selectLabels[i])
                 plt.show()
                 
-def graphData3D(pressure, humidity, windspeed, visibility, temperature, precipitation, newx, newz, newy):
+def graphData3D(humidity, pressure, visibility, precipitation, nhum, npress, nvis):
     #matplotlib.use('MacOSX')
     #print(matplotlib.is_interactive())
     # graphing our parsed, and normalized data 
@@ -241,7 +241,7 @@ def graphData3D(pressure, humidity, windspeed, visibility, temperature, precipit
     ax.view_init(elev=50, azim=200)
     ax.scatter(humidity[precipitation!=0], visibility[precipitation!=0], pressure[precipitation!=0], label='Rain')
     ax.scatter(humidity[precipitation==0], visibility[precipitation==0], pressure[precipitation==0], label ='No rain')
-    ax.scatter(newx, newy, newz, color = 'black', label='Tomorrow')
+    ax.scatter(nhum, nvis, npress, color = 'black', label='Tomorrow')
     ax.set_xlabel('Humidity')
     ax.set_ylabel('Visibility')
     ax.set_zlabel('Pressure')
@@ -253,7 +253,7 @@ def graphData3D(pressure, humidity, windspeed, visibility, temperature, precipit
     ax = fig.add_subplot(111, projection='3d')
     ax.scatter(humidity[precipitation!=0], visibility[precipitation!=0], pressure[precipitation!=0], label='Rain')
     ax.scatter(humidity[precipitation==0], visibility[precipitation==0], pressure[precipitation==0], label ='No rain')
-    ax.scatter(newx, newy, newz, color = 'black', label='Tomorrow')
+    ax.scatter(nhum, nvis, npress, color = 'black', label='Tomorrow')
     ax.set_xlabel('Humidity')
     ax.set_ylabel('Visibility')
     ax.set_zlabel('Pressure')
