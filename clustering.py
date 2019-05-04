@@ -50,19 +50,27 @@ def updateCent(centroids, assignments, humidity, pressure, visibility):
 
 def iteration(centroids, humidity, pressure, visibility):    
     assignments = assign(centroids, humidity, pressure, visibility) 
-    newcentroids = updateCent(centroids, assignments, humidity, pressure, visibility) 
-    discent = centroids - newcentroids 
-    centroids = newcentroids 
-    maxdist = np.abs(np.amax(discent)) 
+    newcentroids = updateCent(centroids, assignments, humidity, pressure, visibility)
+    
+    discent = centroids - newcentroids  
+    maxdist = np.abs(np.amax(discent))
+    
+    centroids = newcentroids
+    
     count = 0
-    while maxdist >= (1*(10**(-300))): 
+    
+    while (maxdist >= (10**(-100))): 
         newassignments = assign(centroids, humidity, pressure, visibility) 
-        newcentroids = updateCent(centroids, newassignments, humidity, pressure, visibility)         
+        newcentroids = updateCent(centroids, newassignments, humidity, pressure, visibility)
+         
         discent = centroids - newcentroids 
-        centroids = newcentroids 
-        assignments = newassignments
+        
         maxdist = np.amax(np.abs(discent)) 
         count += 1         
+        
+        centroids = newcentroids 
+        assignments = newassignments
+        
     print('Centroids moved ' + str(count) + ' times')
     assignments = assign(centroids, humidity, pressure, visibility)
     
@@ -111,7 +119,14 @@ def graphing(humidity, visibility, pressure, centroids, newassignments):
     ax = fig.add_subplot(111, projection='3d')
     
     for i in range(K):
-        if (np.mean(visibility[newassignments == i]) > 0.8):
+        ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, label = 'Centroid ' + str(i))  
+        ax.scatter(humidity[newassignments==i],visibility[newassignments==i], pressure[newassignments==i], label = 'Cluster ' + str(i))
+        """
+        centlabel = 'Centroid NA' 
+        labelname = 'NA'
+        centcolor = 'magenta'
+        valuecolor = 'chartreuse'
+        if (np.mean(visibility[newassignments == i]) == 1):
             centlabel = 'Centroid No Rain' 
             labelname = 'No Rain'
             centcolor = 'maroon'
@@ -121,9 +136,10 @@ def graphing(humidity, visibility, pressure, centroids, newassignments):
             labelname = 'Rain'
             centcolor = 'blue'
             valuecolor = 'teal'
+
         ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, color = centcolor, label = centlabel)  
         ax.scatter(humidity[newassignments==i],visibility[newassignments==i], pressure[newassignments==i], color = valuecolor, label = labelname) 
-
+        """
     
     # making headings and a legend for the graph
     ax.set_xlabel('Humidity')
