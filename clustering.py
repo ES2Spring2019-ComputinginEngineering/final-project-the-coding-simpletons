@@ -71,7 +71,7 @@ def iteration(centroids, humidity, pressure, visibility):
         centroids = newcentroids 
         assignments = newassignments
         
-    print('Centroids moved ' + str(count) + ' times')
+    print('\nCentroids moved ' + str(count) + ' times\n')
     assignments = assign(centroids, humidity, pressure, visibility)
     
     return centroids, assignments 
@@ -145,6 +145,6 @@ def graphing(humidity, visibility, pressure, centroids, newassignments):
     ax.set_xlabel('Humidity')
     ax.set_ylabel('Visibility')
     ax.set_zlabel('Pressure')
-    ax.set_title('Classified Data Using ' + str(K) + ' Centroids')
+    ax.set_title('Classified Data Using ' + str(K) + ' Centroids', fontsize = 14)
     plt.legend(bbox_to_anchor = (1.43, 1.025))
     plt.show
