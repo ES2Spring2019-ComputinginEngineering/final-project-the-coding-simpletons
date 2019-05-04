@@ -189,7 +189,7 @@ def sliceOfInterest(bestDateSet, time): #2/8/19 to 2/15/19 7 days to pull data f
                 
             elif (len(dates) == len(bestDateSet)): 
                 end = i #the index of the first hourly value for the 9th day in the bestDateSet
-                break
+                break #to save time, ends the loop once the ending index has been found
     
     return [start, end]
 

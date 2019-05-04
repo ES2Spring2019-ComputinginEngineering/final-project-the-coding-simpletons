@@ -3,14 +3,33 @@
 import numpy as np
 
 #figure out how to make this take in any best date set and still work
-def weights(bestDateSet, time, data):
-    #1653 is 1 the sum of through 57
+def weights(bestDateSet, time):
     weights = []
-    for i in range(1, 58): #57 hourly values from the week prior to the 8th day
-        weights.append(i/1653)
+    weekEndIndex = 0
+    dates = []
+    
+    for i in range(len(time)):
         
-    weighted=[]
-    for i in range(len(time[:-2])):
+        if (time[i][:10] in bestDateSet):
+            
+            if (time[i][:10] not in dates):
+                dates.append(time[i][:10])
+                
+            if (len(dates) == (len(bestDateSet) - 1)): 
+                weekEndIndex = i #the index of the first hourly value for the 8th day in the bestDateSet
+                break #so as to avoid using the index of future hourly values on the 8th day
+                
+    weightSum = ((weekEndIndex)*(weekEndIndex + 1))/2 #the sum of the numbers from 1 to 57 using the formula n(n+1)/2
+                                                      
+    for i in range(1, (weekEndIndex+1)): #57 hourly values from the week prior to the 8th day
+        weights.append(i/weightSum)
+    
+    return weights
+
+def weightedValues(time, weights, data):
+    weighted = []        
+    
+    for i in range(len(time[:-(len(time) - len(weights))])): #for each value in the past week
        weighted.append((data[i])*weights[i])
             
     prediction = np.sum(weighted)
@@ -18,19 +37,23 @@ def weights(bestDateSet, time, data):
     return prediction
 
 def tomorrow(bestDateSet, time, humidity, pressure, visibility, temp, wind, Nhumidity, Npressure, Nvisibility):
-    nexthum= weights(bestDateSet, time, humidity)
-    nextvis= weights(bestDateSet, time, visibility)
-    nextpress= weights(bestDateSet, time, pressure)
-    nexttemp = weights(bestDateSet, time, temp)
-    nextwind = weights(bestDateSet, time, wind)
+    worth = weights(bestDateSet, time)
     
-    Nnexthum= weights(bestDateSet, time, Nhumidity)
-    Nnextvis= weights(bestDateSet, time, Nvisibility)
-    Nnextpress= weights(bestDateSet, time, Npressure)
+    #non-normalized values to be returned in the weather report
+    nexthum= weightedValues(time, worth, humidity)
+    nextpress= weightedValues(time, worth, pressure)
+    nextvis= weightedValues(time, worth, visibility)
+    nexttemp = weightedValues(time, worth, temp)
+    nextwind = weightedValues(time, worth, wind)
+    
+    #normalized values used to predict if it's raining the next day
+    Nnexthum= weightedValues(time, worth, Nhumidity)
+    Nnextpress= weightedValues(time, worth, Npressure)
+    Nnextvis= weightedValues(time, worth, Nvisibility)
     
     return nexthum, nextvis, nextpress, nexttemp, nextwind, Nnexthum, Nnextpress, Nnextvis
 
-def predictedAccuracy(humidity, pressure, visibility, temp, wind, nexthum, nextvis, nextpress, nexttemp, nextwind):
+def predictedAccuracy(humidity, pressure, visibility, temp, wind, nexthum, nextpress, nextvis, nexttemp, nextwind):
     actualValues = [humidity[57:], visibility[57:], pressure[57:], temp[57:], wind[57:]]
     predictedValues = [nexthum, nextvis, nextpress, nexttemp, nextwind]
     values = ['humidity', 'visibility', 'pressure', 'temperature', 'wind']
