@@ -10,11 +10,15 @@ import data
 import clustering
 import prediction
 import presentation
+import tkinter as tk
+import time as TIME
 
 
 # DEMONSTRATION CODE
 
 bestDateSet, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind = data.readDataFile()
+
+print('The best set of days ranges from:\n' + str(bestDateSet[0]) + ' to ' + str(bestDateSet[len(bestDateSet)-1]))
 
 dateRange = data.sliceOfInterest(bestDateSet, time)
 
@@ -24,7 +28,6 @@ nexthum, nextpress, nextvis, nexttemp, nextwind, Nnexthum, Nnextpress, Nnextvis 
 
 data.graphData3D(nhourlyhum, nhourlyseapress, nhourlyVis, nhourlyprecip, Nnexthum, Nnextvis, Nnextpress)
 
-prediction.predictedAccuracy(bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthum, nextpress, nextvis, nexttemp, nextwind)
 
 
 #data.graphData3D(nhourlyseapress, nhourlyhum, nhourlyWind, nhourlyVis, nhourlytemp, nhourlyprecip, Nnexthum, Nnextvis, Nnextpress)
@@ -58,11 +61,8 @@ final_centroids, assignments = clustering.iteration(centroids, nhourlyhum, nhour
 
 clustering.graphing(nhourlyhum, nhourlyVis, nhourlyseapress, final_centroids, assignments)
 
-"""
-import presentation
-import tkinter as tk
 
 root = tk.Tk()
 presentation.interface(master=root).mainloop()
-"""
+
 

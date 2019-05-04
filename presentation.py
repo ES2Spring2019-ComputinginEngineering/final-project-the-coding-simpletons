@@ -11,7 +11,6 @@ visibility
 '''
 import prediction
 import data
-from clustering import *
 import tkinter as tk
 import imageio
 import matplotlib.pyplot as plt
@@ -71,24 +70,24 @@ class interface(tk.Frame):
         
     def temp(self):
         accuracy = round(prediction.predictedAccuracy(bhourlytemp, temperature))
-        print("Average Temperature for Tomorrow is " + str(temperature) + " F, with a Reported Accuracy of " + str(accuracy) + "%")
+        print("Average Temperature for Tomorrow is " + str(temperature) + " F, with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
         
     def hum(self):
         accuracy = round(prediction.predictedAccuracy(bhourlyhum, humidity))
-        print("Humidity for Tomorrow is " + str(humidity) + "%, with a Reported Accuracy of " + str(accuracy) + "%")
+        print("Humidity for Tomorrow is " + str(humidity) + "%, with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
         
     def wind(self):
         accuracy = round(prediction.predictedAccuracy(bhourlyWind, winds))
-        print("Average Wind for tomorrow is " + str(winds) + " mph, with a Reported Accuracy of " + str(accuracy) + "%")
+        print("Average Wind for tomorrow is " + str(winds) + " mph, with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
         
     def press(self):
         accuracy = round(prediction.predictedAccuracy(bhourlyseapress, pressure))
-        print("Pressure for Tomorrow is " + str(pressure) + "Pa, with a Reported Accuracy of " + str(accuracy) + "%")
+        print("Pressure for Tomorrow is " + str(pressure) + "Pa, with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
     
     def vis(self):
         accuracy = round(prediction.predictedAccuracy(bhourlyVis, visibility))
         if visibility > 9.7:
-            print("Clear Skies Tomorrow with " + str(accuracy) + "% Accuracy")
+            print("Clear Skies Tomorrow with " + str(100.0-accuracy) + "% Accuracy\n")
         else:
-            print("Visibility for Tomorrow is " + str(visibility) + "with" + str(accuracy) + "% Accuracy")
+            print("Visibility for Tomorrow is " + str(visibility) + "with" + str(100.0-accuracy) + "% Accuracy\n")
 
