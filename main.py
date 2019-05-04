@@ -22,7 +22,7 @@ dateRange = data.sliceOfInterest(bestDateSet, time)
 btime, bhourlytemp, bhourlyprecip, bhourlyseapress, bhourlyhum, bhourlyVis, bhourlyPeakWind, bhourlyWind, bnhourlytemp, bnhourlyprecip, bnhourlyseapress, bnhourlyhum, bnhourlyVis, bnhourlyPeakWind, bnhourlyWind = data.dataOfInterest(dateRange, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind)
 #indexRange = dataOfInterest()
 
-nexthum, nextpress, nextvis, nexttemp, nextwind, Nnexthum, Nnextvis, Nnextpress, Nnexttemp, Nnextwind = prediction.tomorrow(bestDateSet, btime, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, bnhourlyhum, bnhourlyVis, bnhourlyseapress, bnhourlytemp, bnhourlyWind)
+nexthum, nextpress, nextvis, nexttemp, nextwind, Nnexthum, Nnextpress, Nnextvis = prediction.tomorrow(bestDateSet, btime, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, bnhourlyhum, bnhourlyseapress, bnhourlyVis)
 
 prediction.predictedAccuracy(bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthum, nextpress, nextvis, nexttemp, nextwind)
 
@@ -65,10 +65,11 @@ centroids = clustering.create_centroids(K)
 
 #clustering.graphing(K, hourlyhum, hourlyVis, hourlyseapress, final_centroids, assignments)
 
-
+"""
 import presentation
 import tkinter as tk
 
 root = tk.Tk()
 face = presentation.interface(master=root)
 face.mainloop()
+"""

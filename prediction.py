@@ -17,20 +17,18 @@ def weights(bestDateSet, time, data):
     
     return prediction
 
-def tomorrow(bestDateSet, time, humidity, pressure, visibility, temp, wind, Nhumidity, Nvisibility, Npressure, Ntemp, Nwind):
-    Nnexthum= weights(bestDateSet, time, Nhumidity)
-    Nnextvis= weights(bestDateSet, time, Nvisibility)
-    Nnextpress= weights(bestDateSet, time, Npressure)
-    Nnexttemp = weights(bestDateSet, time, Ntemp)
-    Nnextwind = weights(bestDateSet, time, Nwind)
-    
+def tomorrow(bestDateSet, time, humidity, pressure, visibility, temp, wind, Nhumidity, Npressure, Nvisibility):
     nexthum= weights(bestDateSet, time, humidity)
     nextvis= weights(bestDateSet, time, visibility)
     nextpress= weights(bestDateSet, time, pressure)
     nexttemp = weights(bestDateSet, time, temp)
     nextwind = weights(bestDateSet, time, wind)
     
-    return nexthum, nextvis, nextpress, nexttemp, nextwind, Nnexthum, Nnextvis, Nnextpress, Nnexttemp, Nnextwind
+    Nnexthum= weights(bestDateSet, time, Nhumidity)
+    Nnextvis= weights(bestDateSet, time, Nvisibility)
+    Nnextpress= weights(bestDateSet, time, Npressure)
+    
+    return nexthum, nextvis, nextpress, nexttemp, nextwind, Nnexthum, Nnextpress, Nnextvis
 
 def predictedAccuracy(humidity, pressure, visibility, temp, wind, nexthum, nextvis, nextpress, nexttemp, nextwind):
     actualValues = [humidity[57:], visibility[57:], pressure[57:], temp[57:], wind[57:]]
