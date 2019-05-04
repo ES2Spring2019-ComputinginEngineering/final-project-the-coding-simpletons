@@ -57,7 +57,7 @@ def predictedAccuracy(humidity, pressure, visibility, temp, wind, nexthum, nextp
     actualValues = [humidity[57:], visibility[57:], pressure[57:], temp[57:], wind[57:]]
     predictedValues = [nexthum, nextvis, nextpress, nexttemp, nextwind]
     values = ['Humidity', 'Visibility', 'Pressure', 'Temperature', 'Wind']
-    print('\nThe percent error associated with:')
+    print('\nThe percent error associated with:\n')
     for i in range(len(values)):
         percentError = np.abs(((predictedValues[i] - np.mean(actualValues[i]))/(np.mean(actualValues[i])))*100)
         #uses the mean of the actual values because this gives an approximation of the daily value from the hourly values
