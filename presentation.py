@@ -1,30 +1,10 @@
 # Ben and Rónán
-'''
-date
-image
-rain/percipitation  (give percentages from k nearest neighbor)
-temp (high/low)
-winds
-humidity
-pressure
-visibility
-'''
 import prediction
-import data
 import tkinter as tk
 import imageio
+from main import *
 import matplotlib.pyplot as plt
-import numpy as np
 
-#VALUES REQUIRED TO OBTAIN PREDICTIONS
-bestDateSet, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind = data.readDataFile()
-dateRange = data.sliceOfInterest(bestDateSet, time)
-btime, bhourlytemp, bhourlyprecip, bhourlyseapress, bhourlyhum, bhourlyVis, bhourlyPeakWind, bhourlyWind, bnhourlytemp, bnhourlyprecip, bnhourlyseapress, bnhourlyhum, bnhourlyVis, bnhourlyPeakWind, bnhourlyWind = data.dataOfInterest(dateRange, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind)
-
-
-#COLLECTING PREDICTED VALUES
-humidity, pressure, visibility, temperature, winds, Nhumidity, Nvisibility, Npressure = prediction.tomorrow(bestDateSet, btime, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, bnhourlyhum, bnhourlyVis, bnhourlyseapress)
-rain_value, rain_percent = prediction.kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyVis, hourlyprecip, Nhumidity, Npressure, Nvisibility)
 
 # ROUNDING VALUES FOR PRESENTATION
 rain_percent = round(rain_percent)
