@@ -134,7 +134,7 @@ def readDataFile():
     for i in maxIndices:
         for j in dateRanges[i]:
             bestDateSet.append(dates[j])
-    print('The best set of days is ' + str(bestDateSet))
+    print('The best set of days ranges from:\n' + str(bestDateSet[0]) + ' to ' + str(bestDateSet[maxDays - 1]))
     
     #Normalization and array conversion
     nhourlyTemp = np.zeros(len(hourlyTemp))
