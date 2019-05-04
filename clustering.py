@@ -71,7 +71,6 @@ def iteration(centroids, humidity, pressure, visibility):
         centroids = newcentroids 
         assignments = newassignments
         
-    print('\nCentroids moved ' + str(count) + ' times\n')
     assignments = assign(centroids, humidity, pressure, visibility)
     
     return centroids, assignments 

@@ -101,12 +101,3 @@ def kNearestNeighborClassifier(humidity, pressure, visibility, precip, nhumidity
     likelihood = (rain/10)*100
     
     return raining, likelihood
-
-
-# Getting our predicted values in terms of actual numbers
-def denormalize(normal, data_set):
-    maximum = np.amax(data_set)
-    minimum = np.amin(data_set)
-    value = (normal*(maximum-minimum)) + minimum
-    return value
-    

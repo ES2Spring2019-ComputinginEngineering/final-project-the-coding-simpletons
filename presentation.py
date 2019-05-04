@@ -2,22 +2,23 @@
 import prediction
 import tkinter as tk
 import imageio
-from main import *
+import main
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 # ROUNDING VALUES FOR PRESENTATION
-rain_percent = round(rain_percent)
+rain_percentage = round((main.rain_percent))
 
-humidity = round(humidity)
+humidity = round((main.humidity), 1)
 
-pressure = round(pressure)
+pressure = round((main.pressure), 1)
 
-visibility = round(visibility)
+visibility = round((main.visibility), 1)
 
-temperature = round(temperature)
+temperature = round((main.temperature), 1)
 
-winds = round(winds)
+winds = round((main.winds), 1)
 
 root = tk.Tk()
 
@@ -38,7 +39,7 @@ class interface(tk.Frame):
         tk.Button(root,text="All Done.", command=root.destroy).pack(side="top")
 
     def rain(self):
-        if rain_value == 0:
+        if main.rain_value == 0:
             im = np.array(imageio.imread('SUN.png', as_gray=False), dtype = "int64")
         else:
             print("Chance of Rain: " + str(rain_percent) + "%\n")
@@ -49,25 +50,26 @@ class interface(tk.Frame):
         plt.show()
         
     def temp(self):
-        accuracy = round(prediction.predictedAccuracy(bhourlytemp, temperature))
+        accuracy = round(prediction.predictedAccuracy(main.bhourlytemp, temperature),1)
         print("Average Temperature for Tomorrow is " + str(temperature) + " F, with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
         
     def hum(self):
-        accuracy = round(prediction.predictedAccuracy(bhourlyhum, humidity))
+        accuracy = round(prediction.predictedAccuracy(main.bhourlyhum, humidity),1)
         print("Humidity for Tomorrow is " + str(humidity) + "%, with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
         
     def wind(self):
-        accuracy = round(prediction.predictedAccuracy(bhourlyWind, winds))
+        accuracy = round(prediction.predictedAccuracy(main.bhourlyWind, winds),1)
         print("Average Wind for tomorrow is " + str(winds) + " mph, with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
         
     def press(self):
-        accuracy = round(prediction.predictedAccuracy(bhourlyseapress, pressure))
+        accuracy = round(prediction.predictedAccuracy(main.bhourlyseapress, pressure),1)
         print("Pressure for Tomorrow is " + str(pressure) + "Pa, with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
     
     def vis(self):
-        accuracy = round(prediction.predictedAccuracy(bhourlyVis, visibility))
+        accuracy = round(prediction.predictedAccuracy(main.bhourlyVis, visibility),1)
         if visibility > 9.7:
             print("Clear Skies Tomorrow with " + str(100.0-accuracy) + "% Accuracy\n")
         else:
             print("Visibility for Tomorrow is " + str(visibility) + "with" + str(100.0-accuracy) + "% Accuracy\n")
 
+interface(master=root).mainloop()
