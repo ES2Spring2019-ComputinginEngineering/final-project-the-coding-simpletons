@@ -121,23 +121,23 @@ def clusterAccuracy(humidity, visibility, pressure, assignments, rain, finalCent
     print('True Positives Rate: ' + str(round(((truePositives/positives)*100), 2)) + '%')
     print('True Negatives Rate: ' + str(round(((trueNegatives/negatives)*100), 2)) + '%\n')
                         
-def graphing(nhourlyhum, nhourlyVis, nhourlypress, centroids, newassignments):
+def graphing(nhourlyhum, nhourlyVis, nhourlypress, hourlyhum, hourlyVis, hourlypress, centroids, newassignments):
     K = centroids.shape[0]
 
     fig = plt.figure(figsize = (8, 6))
     ax = fig.add_subplot(111, projection='3d')
     ax.dist = 12 #viewing distance
     
-    while (((np.median(visibility[newassignments == 0])) == 1) and (np.median(visibility[newassignments == 1]) == 1)):
+    while (((np.median(nhourlyVis[newassignments == 0])) == 1) and (np.median(nhourlyVis[newassignments == 1]) == 1)):
         centroids = create_centroids(K)
-        centroids, newassignments = iteration(centroids, humidity, pressure, visibility)
+        centroids, newassignments = iteration(centroids, nhourlyhum, nhourlypress, nhourlyVis)
         
     centx = centroids[:,0]
     centy = centroids[:,1]
     centz = centroids[:,2]
     
     for i in range(K):
-        if (np.median(visibility[newassignments == i]) == 1):
+        if (np.median(nhourlyVis[newassignments == i]) == 1):
             centlabel = 'No Rain Centroid' 
             labelname = 'No Rain'
             centcolor = 'maroon'
@@ -149,7 +149,7 @@ def graphing(nhourlyhum, nhourlyVis, nhourlypress, centroids, newassignments):
             valuecolor = 'teal'
 
         ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, color = centcolor, label = centlabel)  
-        ax.scatter(humidity[newassignments==i], visibility[newassignments==i], pressure[newassignments==i], color = valuecolor, label = labelname) 
+        ax.scatter(hourlyhum[newassignments==i], hourlyVis[newassignments==i], hourlypress[newassignments==i], color = valuecolor, label = labelname) 
     
     # making headings and a legend for the graph
     ax.set_xlabel('\n\nRelative Humidity\n(%)', fontsize = 12)

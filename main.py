@@ -37,7 +37,7 @@ print('The best set of days ranges from:\n' + str(bestDateSet[0]) + ' to ' + str
 
 data.graphData3D(hourlyhum, hourlypress, hourlyVis, hourlyprecip, nexthumidity, nextpressure, nextvisibility)
 
-clustering.graphing(hourlyhum, hourlyVis, hourlypress, final_centroids, assignments)
+clustering.graphing(nhourlyhum, nhourlyVis, nhourlypress, hourlyhum, hourlyVis, hourlypress, final_centroids, assignments)
 
 clustering.clusterAccuracy(nhourlyhum, nhourlyVis, nhourlypress, assignments, nhourlyprecip, final_centroids)
 
