@@ -24,21 +24,21 @@ Pressing the 'Finished' button will discontinue the code, but may leave the wind
 
 Create a list of all of the files in your repository with one sentence descriptions
 
-1. ### weather.csv ###  -->  CSV file with all of the climatological data from NOAA
-2. ### RAIN.jpg ###  -->  Pic Art of a rainy cloud used as a forecast image
-3. ### SUN.png ###  -->  Pic Art of a sun used as a forecast image
-4. ### main.py ###  -->  Action of the program: variable assignment and produces weather report
-5. ### presentation.py ###  -->  tk button weather report
+1. ***weather.csv***  -->  CSV file with all of the climatological data from NOAA
+2. ***RAIN.jpg***  -->  Pic Art of a rainy cloud used as a forecast image
+3. ***SUN.png***  -->  Pic Art of a sun used as a forecast image
+4. ***main.py***  -->  Action of the program: variable assignment and produces weather report
+5. ***presentation.py***  -->  tk button weather report
     *  **report(args)** : when called opens a new tk window with buttons that return weather information when clicked
         * parameters : bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthum, nextpress, nextvis, nexttemp, nextwind
         * returns : void
-6. ### data.py ###  -->  Data parsing, cleaning, and graphing
+6. ***data.py***  -->  Data parsing, cleaning, and graphing
     *  **readDataFile()** : reads in climatological data from the CSV file, cleans values, and produces normalized values as well
         * parameters : void
         * returns : valuesOfInterest (a list of the climatological values we were interested in analyzing) : bestDateSet (list of dates 02/08/19 - 02/16/19), time (list of data collection times), hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind
-7. ### clustering.py ###  -->  Clustering, graphing of centroids with clusters, and accuracy of clusters
+7. ***clustering.py***  -->  Clustering, graphing of centroids with clusters, and accuracy of clusters
     *  test
-8. ### prediction.py ###  -->  Weighted averaging, weather value prediction, K-nearest neighbor classifcation, and accuracy of predicted values. 
+8. ***prediction.py***  -->  Weighted averaging, weather value prediction, K-nearest neighbor classifcation, and accuracy of predicted values. 
     *  test
 
 **Note**: Meaing of different prefixes on variable names:
