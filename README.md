@@ -10,7 +10,11 @@
 
 ## Instructions
 
-Describe how the users(instructors) should run your code to see an ***easy to run example of the functionality***. This should all be in a *main.py* "driver" script.
+Running the code in the main class will produce an additional window on your screen with several buttons on it. Clicking the different buttons will produce data relevant to the button title in the environment you are running the code in (we used Spyder). This relevant data is the weather report. 
+
+Pressing the 'Finished' button will discontinue the code, but may leave the window open with a color wheel of death. Not to worry, simply running the code once more allows one to use the weather report (although it will open a new window).
+
+*Note*: The window does not always appear in an obvious location. It usually likes to hide to in the top left corner of the screen behind any other windows you may have open on your screen. You can also find it in your toolbar (if on a mac), by clicking on the white paper file named 'python'. 
 
 ## File List
 
