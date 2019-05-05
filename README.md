@@ -24,7 +24,7 @@ Create a list of all of the files in your repository with one sentence descripti
 2. **RAIN.jpg**  -->  Pic Art of a rainy cloud used as a forecast image
 3. **SUN.png**  -->  Pic Art of a sun used as a forecast image
 4. **main.py**  -->  Action of the program: variable assignment and produces weather report
-  *  test
+    *  test
 5. **presentation.py**  -->  Tk button weather report functions and classes
 6. **data.py**  -->  Data parsing, cleaning, and graphing
 7. **clustering.py**  -->  Clustering, graphing of centroids with clusters, and accuracy of clusters
