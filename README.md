@@ -93,3 +93,11 @@ Using climatological data from NOAA (National Oceanic and Atmospheric Administra
     *  *kNearestNeighborClassifier(args)* : Using K-nearest classification of the predicted data point compared to hourly values from Jan-April 2019, the predicted data point, 'tomorrow', is classified as rain or not rain and a percent chance of precipitation is given using the 10 closest neighbors. 
         * parameters : nhourlyhum (1-D array), nhourlypress (1-D array), nhourlyVis (1-D array), nhourlyprecip (1-D array), nextnhum (float), nextnpress (float), nextnvis (float)
         * returns : raining (float), likelihood (float)
+
+## Features
+
+1. Numpy
+2. Matplotlib
+3. tkinter
+4. imageio
+5. csv
