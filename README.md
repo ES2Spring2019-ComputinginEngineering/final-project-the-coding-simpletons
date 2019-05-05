@@ -41,8 +41,8 @@ Create a list of all of the files in your repository with one sentence descripti
 
 **Note**: Meaing of different prefixes on variable names:
 
-    * **b** : a value from the selected time period of the relevant 8 days of interest (02/08/19 - 02/15/19)
-    
-    * **n** : a normalized value
-    
-    * **next** : a predicted value
+   - **b** : a value from the selected time period of the relevant 8 days of interest (02/08/19 - 02/15/19)
+   
+   - **n** : a normalized value
+   
+   - **next** : a predicted value
