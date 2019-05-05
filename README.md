@@ -20,7 +20,7 @@ Using climatological data from NOAA (National Oceanic and Atmospheric Administra
 
 3. **Press the 'Finished' button.** This will discontinue the code, but may leave the window open with a color wheel of death. Not to worry, simply running the code once more allows one to use the weather report (although it will open a new window).
 
-4. To view the information relevant to the report you may uncomment the large block quote in the main file and comment the presentation line. Running the code again, will produce this information. 
+4. To view the information relevant to the report you may uncomment the large block quote in the main file and comment out the presentation line. Running the code again, will produce this information. 
 
 **Note**: The window does not always appear in an obvious location. It should appear in the center of the screen and may hide behind any other windows you have open on your screen. You can also find it in your toolbar (if on a mac), by clicking on the white paper file named 'python'. 
 
