@@ -30,26 +30,34 @@ Create a list of all of the files in your repository with one sentence descripti
 4. ***main.py***  -->  Action of the program: variable assignment and produces weather report
 5. ***presentation.py***  -->  tk button weather report
     *  *report(args)* : Opens a new tk window with buttons that return weather information when clicked.
-        * parameters : bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthum, nextpress, nextvis, nexttemp, nextwind
+        * parameters : bhourlyprecip (1-D list), bhourlyhum (1-D list), bhourlyseapress (1-D list), bhourlyVis (1-D list), bhourlytemp (1-D list), bhourlyWind (1-D list), nexthum (float), nextpress (float), nextvis (float), nexttemp (float), nextwind (float)
         * returns : void
 6. ***data.py***  -->  Data parsing, cleaning, and graphing
     *  *readDataFile()* : Reads in climatological data from the CSV file, cleans values, and produces normalized values as well.
         * parameters : void
-        * returns : valuesOfInterest (a list of the climatological values we were interested in analyzing) : bestDateSet (list of dates 02/08/19 - 02/16/19), time (list of data collection times), hourlytemp, hourlyprecip (precipitation), hourlyseapress (pressure), hourlyhum (humidity), hourlyVis (visibility), hourlyPeakWind (peak wind speed), hourlyWind (average wind speed), nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind
+        * returns : valuesOfInterest (a list of the climatological values we were interested in analyzing) : bestDateSet (list of dates 02/08/19 - 02/16/19), time (list of data collection times), hourlytemp (1-D list), hourlyprecip (precipitation)(1-D list), hourlyseapress (pressure)(1-D list), hourlyhum (humidity)(1-D list), hourlyVis (visibility)(1-D list), hourlyPeakWind (peak wind speed)(1-D list), hourlyWind (average wind speed)(1-D list), nhourlytemp (1-D array), nhourlyprecip (1-D array), nhourlyseapress (1-D array), nhourlyhum (1-D array), nhourlyVis (1-D array), nhourlyPeakWind (1-D array), nhourlyWind (1-D array)
     *  *sliceOfInterest(args)* : Using the identified set of dates and the list of data collection times, a indexing slice is identified which can be used to access the hourly values for climatological data during the period of interest. 
-        * parameters : bestDateSet, time
-        * returns : [start, end]
+        * parameters : bestDateSet (1-D list), time (1-D list)
+        * returns : [start (int), end (int)]
     *  *dataOfInterest(args)* : Using the slice of interest, the hourly values for climatological data during the period of interest are sliced and then returned. 
-        * parameters : sliceRange ([start, end]), time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind
-        * returns : btime, bhourlytemp, bhourlyprecip, bhourlyseapress, bhourlyhum, bhourlyVis, bhourlyPeakWind, bhourlyWind, bnhourlytemp, bnhourlyprecip, bnhourlyseapress, bnhourlyhum, bnhourlyVis, bnhourlyPeakWind, bnhourlyWind
+        * parameters : sliceRange ([start (int), end (int)]), time (1-D list), hourlytemp (1-D list), hourlyprecip (1-D list), (1-D list), hourlyVis (1-D list), hourlyPeakWind (1-D list), hourlyWind (1-D list), nhourlytemp (1-D array), nhourlyprecip (1-D array), nhourlyseapress (1-D array), nhourlyhum (1-D array), nhourlyVis (1-D array), nhourlyPeakWind (1-D array), nhourlyWind (1-D array)
+        * returns : btime (1-D list), bhourlytemp (1-D list), bhourlyprecip (1-D list), bhourlyseapress (1-D list), bhourlyhum (1-D list), bhourlyVis (1-D list), bhourlyPeakWind (1-D list), bhourlyWind (1-D list), bnhourlytemp (1-D array), bnhourlyprecip (1-D array), bnhourlyseapress (1-D array), bnhourlyhum (1-D array), bnhourlyVis (1-D array), bnhourlyPeakWind (1-D array), bnhourlyWind (1-D array)
     *  *exploringGraphs(args)* : Produces 2-D graphs comparing all pairs of climatological variables, used to identify which variables are associated with precipitation. 
-        * parameters : hourlypress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip
+        * parameters : hourlypress (1-D list), hourlyhum (1-D list), hourlyWind (1-D list), hourlyVis (1-D list), hourlytemp (1-D list), hourlyprecip (1-D list)
         * returns : void
     *  *graphData3d(args)* : Produces 2-D graphs comparing all pairs of climatological variables, used to identify which variables are associated with precipitation. 
-        * parameters : hourlyhum, hourlypress, hourlyVis, hourlyprecip, nexthum, nextpress, nextvis
+        * parameters : nhourlyhum (1-D array), nhourlypress (1-D array), nhourlyVis (1-D array), nhourlyprecip (1-D array), nextnhum (float), nextnpress (float), nextnvis (float)
         * returns : void
 7. ***clustering.py***  -->  Clustering, graphing of centroids with clusters, and accuracy of clusters
-    *  test
+   *  *create_centroids(args)* : Generates K random centroids 
+        * parameters : K (int)
+        * returns : array with shape (K, 3) and filled with random values for humidity, visibility, and pressure
+   *  *assign(args)* : Assign each data point to a centroid
+        * parameters : centroids (array with shape (K, 3)), nhourlyhum (1-D array), nhourlypress (1-D array), nhourlyVis (1-D array)
+        * returns : assignments (centroid assignments for each point (humidity, visibility, pressure))(1-D array)
+   *  *updateCent(args)* : Updates the location of each centroid based on the mean of the values assigned to each one. 
+        * parameters : centroids (array with shape (K, 3)), assignments (1-D array), nhourlyhum (1-D array), nhourlypress (1-D array), nhourlyVis (1-D array)
+        * returns : newCentroids (array with shape (K, 3))
 8. ***prediction.py***  -->  Weighted averaging, weather value prediction, K-nearest neighbor classifcation, and accuracy of predicted values. 
     *  test
 
