@@ -29,17 +29,3 @@ Create a list of all of the files in your repository with one sentence descripti
 7. **clustering.py**  -->  Clustering, graphing of centroids with clusters, and accuracy of clusters
 8. **prediction.py**  -->  Weighted averaging, weather value prediction, K-nearest neighbor classifcation, and accuracy of predicted values. 
 
-
-## How to format your readme
-
-In your readme, you can:
-```
-Give code examples
-```
-
-You can also include useful links, like this one with information about [formatting markdown](https://help.github.com/en/articles/basic-writing-and-formatting-syntax)
-
-You can 
-- Also
-- Make
-- Lists
