@@ -10,7 +10,7 @@ Using climatological data from NOAA (National Oceanic and Atmospheric Administra
   
   Using K-nearest neighbor classification with the classification being precipitation (rain/no rain), the 'tomorrow' point is classified with a percent chance of rain determined from the classifications of the 10 nearest neighboring points. The predicted values, prediction classification (rain/no rain), and chance of rain can be accessed by the user from a tk button window. Clicking on different buttons returns data relevant to that button title (including a forecast image)
   
-  Additionally, a K-means clustering alogorithm is generated to separate the hourly values for humidity, pressure, and visibility from January to April of 2019 into two clusters (rain/no rain). The accuracy of this clustering algorithm is determined by comparing the assigned classifications with the actual classifications accessed from the data. 
+  Additionally, a K-means clustering algorithm is generated to separate the hourly values for humidity, pressure, and visibility from January to April of 2019 into two clusters (rain/no rain). The accuracy of this clustering algorithm is determined by comparing the assigned classifications with the actual classifications accessed from the data. 
 
 ## Instructions
 
@@ -45,7 +45,7 @@ Create a list of all of the files in your repository with one sentence descripti
     *  *exploringGraphs(args)* : Produces 2-D graphs comparing all pairs of climatological variables, used to identify which variables are associated with precipitation. 
         * parameters : hourlypress (1-D list), hourlyhum (1-D list), hourlyWind (1-D list), hourlyVis (1-D list), hourlytemp (1-D list), hourlyprecip (1-D list)
         * returns : void
-    *  *graphData3d(args)* : Produces 2-D graphs comparing all pairs of climatological variables, used to identify which variables are associated with precipitation. 
+    *  *graphData3d(args)* : Produces a 3-D graph (x = humidity, y = visibility, z = presure) classified by precipitation (rain/no rain)
         * parameters : nhourlyhum (1-D array), nhourlypress (1-D array), nhourlyVis (1-D array), nhourlyprecip (1-D array), nextnhum (float), nextnpress (float), nextnvis (float)
         * returns : void
 7. ***clustering.py***  -->  Clustering, graphing of centroids with clusters, and accuracy of clusters
@@ -58,6 +58,15 @@ Create a list of all of the files in your repository with one sentence descripti
    *  *updateCent(args)* : Updates the location of each centroid based on the mean of the values assigned to each one. 
         * parameters : centroids (array with shape (K, 3)), assignments (1-D array), nhourlyhum (1-D array), nhourlypress (1-D array), nhourlyVis (1-D array)
         * returns : newCentroids (array with shape (K, 3))
+   *  *iteration(args)* : Calls the assign and update functions until the centroids effectively stop moving 
+        * parameters : centroids (array with shape (K, 3)), nhourlyhum (1-D array), nhourlypress (1-D array), nhourlyVis (1-D array)
+        * returns : centroids (final centroid points)(array with shape (K, 3)), assignments (final data assignments)(1-D array)
+    *  *clusterAccuracy(args)* : Prints the rate of false positives, false negatives, true positives, and true negatives in assignment using the clustering algorithm
+        * parameters : nhourlyhum (1-D array), nhourlypress (1-D array), nhourlyVis (1-D array), assignments (1-D array), nhourlyprecip (1-D array), centroids (array with shape (K, 3))
+        * returns : void
+    *  *graphing(args)* : Produces a 3-D graph (x = humidity, y = visibility, z = presure) classified by clusters (rain/no rain)
+        * parameters : nhourlyhum (1-D array), nhourlypress (1-D array), nhourlyVis (1-D array), centroids (array with shape (K, 3)), assignments (1-D array)
+        * returns : void
 8. ***prediction.py***  -->  Weighted averaging, weather value prediction, K-nearest neighbor classifcation, and accuracy of predicted values. 
     *  test
 
