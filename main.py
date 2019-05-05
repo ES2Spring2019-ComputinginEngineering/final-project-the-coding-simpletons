@@ -18,10 +18,6 @@ dateRange = data.sliceOfInterest(bestDateSet, time)
 
 btime, bhourlytemp, bhourlyprecip, bhourlyseapress, bhourlyhum, bhourlyVis, bhourlyPeakWind, bhourlyWind, bnhourlytemp, bnhourlyprecip, bnhourlyseapress, bnhourlyhum, bnhourlyVis, bnhourlyPeakWind, bnhourlyWind = data.dataOfInterest(dateRange, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind)
 
-K = 2
-centroids = clustering.create_centroids(K)
-final_centroids, assignments = clustering.iteration(centroids, nhourlyhum, nhourlyseapress, nhourlyVis)
-
 #COLLECTING PREDICTED VALUES
 nexthumidity, nextpressure, nextvisibility, nexttemperature, nextwind, nextnhum, nextnpress, nextnvis = prediction.tomorrow(bestDateSet, btime, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, bnhourlyhum, bnhourlyVis, bnhourlyseapress)
 
@@ -33,6 +29,10 @@ rain_value, rain_percent = prediction.kNearestNeighborClassifier(hourlyhum, hour
 #classified into two clusters (rain/no rain), and the accuracy of our K-means clustering alogrithim 
 #on this particular data set
 """
+K = 2
+centroids = clustering.create_centroids(K)
+final_centroids, assignments = clustering.iteration(centroids, nhourlyhum, nhourlyseapress, nhourlyVis)
+
 print('The best set of days ranges from:\n' + str(bestDateSet[0]) + ' to ' + str(bestDateSet[len(bestDateSet)-1]))
 
 data.graphData3D(nhourlyhum, nhourlyseapress, nhourlyVis, nhourlyprecip, nextnhum, nextnpress, nextnvis)
