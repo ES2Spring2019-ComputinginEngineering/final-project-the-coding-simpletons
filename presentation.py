@@ -5,9 +5,8 @@ import imageio
 import matplotlib.pyplot as plt
 import numpy as np
 
-def report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthum, nextpress, nextvis, nexttemp, nextwind):
+def report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthum, nextpress, nextvis, nexttemp, nextwind, rain_value, rain_percent):
     bC = 'navy' #background color on window
-    rain_value, rain_percent = prediction.kNearestNeighborClassifier(bhourlyhum, bhourlyseapress, bhourlyVis, bhourlyprecip, nexthum, nextpress, nextvis)
     # ROUNDING VALUES FOR PRESENTATION
     rain_percent = round(rain_percent, 1)
     

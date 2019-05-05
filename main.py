@@ -47,4 +47,4 @@ clustering.clusterAccuracy(nhourlyhum, nhourlyVis, nhourlyseapress, assignments,
 #pop up in the middle of the screen.
 #Pressing the 'Finished' button will discontinue the code, but may leave the window open with a 
 #color wheel of death. Not to worry, simply running the code once more allows one to use the weather report.
-presentation.report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthumidity, nextpressure, nextvisibility, nexttemperature, nextwind)
+presentation.report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthumidity, nextpressure, nextvisibility, nexttemperature, nextwind, rain_value, rain_percent)
