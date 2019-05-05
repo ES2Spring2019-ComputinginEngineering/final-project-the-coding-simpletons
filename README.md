@@ -1,20 +1,12 @@
-# This is your Final Project ReadMe Template
+# Weather Report 
 
-The file is inside your final project repository called "README.md"
-
-You should include in your final project readme a description of the project, a list of all the files that you have created and instructions for use.
-
-This readme is written in a language called markdown. This is not a programming language but a formatting langauge. There are symbols (syntax) used to indicate how to format the text. For example the pound symbol (i.e. the hashtag) is used to format a title; two of the same symbol format a heading, and three format a sub-heading.
-
-Below is some example text in markdown however this alone is not suffiecent for the final project. **Make sure you follow the directions on Canvas.**
-
-Delete the instructions above this line and the line:
-
----------------------------------------------
-
-# Project Title
-
-Short project description here, click the **EDIT (pencil) button** in the top right corner of this frame to copy the markdown formatted template.
+  The program examines climatological data (accessed from a CSV file downloaded from NOAA's website) from the week of 02/08/19 - 02/14/19 to predict the weather for 02/15/19, 'tomorrow'. 
+  
+  Using weighted averages of the hourly values for humidity, pressure, visibility, temperature, and windspeed; a daily value for 'tomorrow' is predicted for each of these variables. Using the predicted values for humidity, pressure, and visibility; a new point is created for 'tomorrow' on a 3-dimensional graph including all the hourly values for humidity, pressure, and visibility from January to April of 2019. 
+  
+  Using K-nearest neighbor classification with the classification being precipitation (rain/no rain), the 'tomorrow' point is classified with a percent chance of rain determined from the classifications of the 10 nearest neighboring points. The predicted values, prediction classification (rain/no rain), and chance of rain can be accessed by the user from a tk button window. Clicking on different buttons returns data relevant to that button title (including a forecast image)
+  
+  Additionally, a K-means clustering alogorithm is generated to separate the hourly values for humidity, pressure, and visibility from January to April of 2019 into two clusters (rain/no rain). The accuracy of this clustering algorithm is determined by comparing the assigned classifications with the actual classifications accessed from the data. 
 
 ## Instructions
 
@@ -22,7 +14,17 @@ Describe how the users(instructors) should run your code to see an ***easy to ru
 
 ## File List
 
-Create a list of all of the files in your repository with one sentence descriptions 
+Create a list of all of the files in your repository with one sentence descriptions
+
+1. *weather.csv*  -->  CSV file with all of the climatological data from NOAA
+2. *RAIN.jpg*  -->  Pic Art of a rainy cloud used as a forecast image
+3. *SUN.png*  -->  Pic Art of a sun used as a forecast image
+4. *main.py*  -->  Action of the program: variable assignment and produces weather report
+5. *presentation.py*  -->  Tk button weather report functions and classes
+6. *data.py*  -->  Data parsing, cleaning, and graphing
+7. *clustering.py*  -->  Clustering, graphing of centroids with clusters, and accuracy of clusters
+8. *prediction.py*  -->  Weighted averaging, weather value prediction, K-nearest neighbor classifcation, and accuracy of predicted values. 
+
 
 ## How to format your readme
 
