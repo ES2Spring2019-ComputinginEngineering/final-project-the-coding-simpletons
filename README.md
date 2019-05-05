@@ -22,6 +22,14 @@ Pressing the 'Finished' button will discontinue the code, but may leave the wind
 
 ## File List
 
+**Note**: Meaing of different prefixes on variable names:
+
+   - **b** : a value from the selected time period of the relevant 8 days of interest (02/08/19 - 02/15/19)
+   
+   - **n** : a normalized value
+   
+   - **next** : a predicted value
+
 1. ***weather.csv***  -->  CSV file with all of the climatological data from NOAA
 2. ***RAIN.jpg***  -->  Pic Art of a rainy cloud used as a forecast image
 3. ***SUN.png***  -->  Pic Art of a sun used as a forecast image
@@ -75,11 +83,9 @@ Pressing the 'Finished' button will discontinue the code, but may leave the wind
     *  *tomorrow(args)* : Calls weightedValues to produce the predicted values of interest
         * parameters : bestDateSet (1-D list), btime (1-D list), bhourlyhum (1-D list), bhourlyseapress (1-D list), bhourlyVis (1-D list), bhourlytemp (1-D list), bhourlyWind (1-D list), bnhourlyhum (1-D array), bnhourlyseapress (1-D array), bnhourlyVis (1-D array)
         * returns : nexthum (float), nextpress (float), nextvis (float), nexttemp (float), nextwind (float), nextnhum (float), nextnpress (float), nextnvis (float)
-
-**Note**: Meaing of different prefixes on variable names:
-
-   - **b** : a value from the selected time period of the relevant 8 days of interest (02/08/19 - 02/15/19)
-   
-   - **n** : a normalized value
-   
-   - **next** : a predicted value
+    *  *predictedAccuracy(args)* : Calculates the percent error associated with a predicted value
+        * parameters : data (float), nextData (float)
+        * returns : percent error (float)
+    *  *kNearestNeighborClassifier(args)* : Using K-nearest classification of the predicted data point compared to hourly values from Jan-April 2019, the predicted data point, 'tomorrow', is classified as rain or not rain and a percent chance of precipitation is given using the 10 closest neighbors. 
+        * parameters : nhourlyhum (1-D array), nhourlypress (1-D array), nhourlyVis (1-D array), nhourlyprecip (1-D array), nextnhum (float), nextnpress (float), nextnvis (float)
+        * returns : raining (float), likelihood (float)
