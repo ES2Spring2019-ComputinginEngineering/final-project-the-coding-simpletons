@@ -75,7 +75,7 @@ Using climatological data from NOAA (National Oceanic and Atmospheric Administra
         * parameters : nhourlyhum (1-D array), nhourlypress (1-D array), nhourlyVis (1-D array), assignments (1-D array), nhourlyprecip (1-D array), centroids (array with shape (K, 3))
         * returns : void
     *  *graphing(args)* : Produces a 3-D graph (x = humidity, y = visibility, z = presure) classified by clusters (rain/no rain)
-        * parameters : nhourlyhum (1-D array), nhourlypress (1-D array), nhourlyVis (1-D array), centroids (array with shape (K, 3)), assignments (1-D array)
+        * parameters : nhourlyhum (1-D array), nhourlyVis (1-D array), nhourlypress (1-D array), centroids (array with shape (K, 3)), assignments (1-D array)
         * returns : void
 8. ***prediction.py***  -->  Weighted averaging, weather value prediction, K-nearest neighbor classifcation, and accuracy of predicted values. 
     *  *weights(args)* : Makes a list of weights based upon the number of hourly values in the week of interest (02/08/19 - 02/14/19)
