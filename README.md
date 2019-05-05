@@ -29,13 +29,25 @@ Create a list of all of the files in your repository with one sentence descripti
 3. ***SUN.png***  -->  Pic Art of a sun used as a forecast image
 4. ***main.py***  -->  Action of the program: variable assignment and produces weather report
 5. ***presentation.py***  -->  tk button weather report
-    *  *report(args)* : when called opens a new tk window with buttons that return weather information when clicked
+    *  *report(args)* : Opens a new tk window with buttons that return weather information when clicked.
         * parameters : bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthum, nextpress, nextvis, nexttemp, nextwind
         * returns : void
 6. ***data.py***  -->  Data parsing, cleaning, and graphing
-    *  *readDataFile()* : reads in climatological data from the CSV file, cleans values, and produces normalized values as well
+    *  *readDataFile()* : Reads in climatological data from the CSV file, cleans values, and produces normalized values as well.
         * parameters : void
-        * returns : valuesOfInterest (a list of the climatological values we were interested in analyzing) : bestDateSet (list of dates 02/08/19 - 02/16/19), time (list of data collection times), hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind
+        * returns : valuesOfInterest (a list of the climatological values we were interested in analyzing) : bestDateSet (list of dates 02/08/19 - 02/16/19), time (list of data collection times), hourlytemp, hourlyprecip (precipitation), hourlyseapress (pressure), hourlyhum (humidity), hourlyVis (visibility), hourlyPeakWind (peak wind speed), hourlyWind (average wind speed), nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind
+    *  *sliceOfInterest(args)* : Using the identified set of dates and the list of data collection times, a indexing slice is identified which can be used to access the hourly values for climatological data during the period of interest. 
+        * parameters : bestDateSet, time
+        * returns : [start, end]
+    *  *dataOfInterest(args)* : Using the slice of interest, the hourly values for climatological data during the period of interest are sliced and then returned. 
+        * parameters : sliceRange ([start, end]), time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind
+        * returns : btime, bhourlytemp, bhourlyprecip, bhourlyseapress, bhourlyhum, bhourlyVis, bhourlyPeakWind, bhourlyWind, bnhourlytemp, bnhourlyprecip, bnhourlyseapress, bnhourlyhum, bnhourlyVis, bnhourlyPeakWind, bnhourlyWind
+    *  *exploringGraphs(args)* : Produces 2-D graphs comparing all pairs of climatological variables, used to identify which variables are associated with precipitation. 
+        * parameters : hourlypress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip
+        * returns : void
+    *  *graphData3d(args)* : Produces 2-D graphs comparing all pairs of climatological variables, used to identify which variables are associated with precipitation. 
+        * parameters : hourlyhum, hourlypress, hourlyVis, hourlyprecip, nexthum, nextpress, nextvis
+        * returns : void
 7. ***clustering.py***  -->  Clustering, graphing of centroids with clusters, and accuracy of clusters
     *  test
 8. ***prediction.py***  -->  Weighted averaging, weather value prediction, K-nearest neighbor classifcation, and accuracy of predicted values. 
