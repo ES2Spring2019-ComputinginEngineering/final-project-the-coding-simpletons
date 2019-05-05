@@ -16,14 +16,14 @@ Describe how the users(instructors) should run your code to see an ***easy to ru
 
 Create a list of all of the files in your repository with one sentence descriptions
 
-1. weather.csv  -->  CSV file with all of the climatological data from NOAA
-2. RAIN.jpg  -->  Pic Art of a rainy cloud used as a forecast image
-3. SUN.png  -->  Pic Art of a sun used as a forecast image
-4. main.py  -->  Action of the program: variable assignment and produces weather report
-5. presentation.py  -->  Tk button weather report functions and classes
-6. data.py  -->  Data parsing, cleaning, and graphing
-7. clustering.py  -->  Clustering, graphing of centroids with clusters, and accuracy of clusters
-8. prediction.py  -->  Weighted averaging, weather value prediction, K-nearest neighbor classifcation, and accuracy of predicted values. 
+1. *weather.csv*  -->  CSV file with all of the climatological data from NOAA
+2. *RAIN.jpg*  -->  Pic Art of a rainy cloud used as a forecast image
+3. *SUN.png*  -->  Pic Art of a sun used as a forecast image
+4. *main.py*  -->  Action of the program: variable assignment and produces weather report
+5. *presentation.py*  -->  Tk button weather report functions and classes
+6. *data.py*  -->  Data parsing, cleaning, and graphing
+7. *clustering.py*  -->  Clustering, graphing of centroids with clusters, and accuracy of clusters
+8. *prediction.py*  -->  Weighted averaging, weather value prediction, K-nearest neighbor classifcation, and accuracy of predicted values. 
 
 
 ## How to format your readme
