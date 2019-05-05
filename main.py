@@ -27,12 +27,25 @@ nexthumidity, nextpressure, nextvisibility, nexttemperature, nextwind, nextnhum,
 
 rain_value, rain_percent = prediction.kNearestNeighborClassifier(hourlyhum, hourlyseapress, hourlyVis, hourlyprecip, nextnhum, nextnpress, nextnvis)
 
-#print('The best set of days ranges from:\n' + str(bestDateSet[0]) + ' to ' + str(bestDateSet[len(bestDateSet)-1]))
+#Uncommenting the below lines outputs information relevant to the report including the 
+#range of dates we used to predict the weather and then measure our accuracy in those predictions,
+#the graph of hourly values classified by precipitation (rain/no rain), the graph of hourly values 
+#classified into two clusters (rain/no rain), and the accuracy of our K-means clustering alogrithim 
+#on this particular data set
+"""
+print('The best set of days ranges from:\n' + str(bestDateSet[0]) + ' to ' + str(bestDateSet[len(bestDateSet)-1]))
 
-#data.graphData3D(nhourlyhum, nhourlyseapress, nhourlyVis, nhourlyprecip, nextnhum, nextnpress, nextnvis)
+data.graphData3D(nhourlyhum, nhourlyseapress, nhourlyVis, nhourlyprecip, nextnhum, nextnpress, nextnvis)
 
-#clustering.graphing(nhourlyhum, nhourlyVis, nhourlyseapress, final_centroids, assignments)
-
-#presentation.report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthumidity, nextpressure, nextvisibility, nexttemperature, nextwind)
+clustering.graphing(nhourlyhum, nhourlyVis, nhourlyseapress, final_centroids, assignments)
 
 clustering.clusterAccuracy(nhourlyhum, nhourlyVis, nhourlyseapress, assignments, nhourlyprecip, final_centroids)
+"""
+
+#The below line of code is what produces and runs the interactive (buttons) weather report
+#It may not pop up on your screen in an obvious location. For us the new window tends to pop up
+#in the top left corner for the most part. 
+#Pressing the 'Finished' button will discontinue the code, but may leave the window open with a 
+#color wheel of death. Not to worry, simply running the code once more allows one to once again
+#use the weather report.
+presentation.report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthumidity, nextpressure, nextvisibility, nexttemperature, nextwind)

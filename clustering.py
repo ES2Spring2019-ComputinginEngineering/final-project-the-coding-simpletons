@@ -86,30 +86,43 @@ def clusterAccuracy(humidity, visibility, pressure, assignments, rain, finalCent
     negatives = 0
     
     
-    while (((np.median(visibility[newAssignments == 0])) == 1) and (np.median(visibility[newAssignments == 1]) == 1) and (np.median(newAssignments) == 1)):
+    while (((np.median(visibility[newAssignments == 0])) == 1) and (np.median(visibility[newAssignments == 1]) == 1)):
         newCentroids = create_centroids(K)
-        newCentroids, newAssignments = iteration(finalCentroids, humidity, pressure, visibility)
+        newCentroids, newAssignments = iteration(newCentroids, humidity, pressure, visibility)
         
-    #if (np.median(visibility[predClassification == i]) == 1): #If visibilities are mostly 1, this is the non-rain cluster
-    for i in range(newAssignments.size):
-            if ((newAssignments[i] == 1) and (rain[i] != 0)):
-                truePositives += 1
-                positives += 1
-            elif((newAssignments[i] == 0) and (rain[i] == 0)):
+    if (np.median(newAssignments) == 0):
+        for i in range(newAssignments.size):
+                if ((newAssignments[i] == 1) and (rain[i] != 0)):
+                    truePositives += 1
+                    positives += 1
+                elif((newAssignments[i] == 0) and (rain[i] == 0)):
                     trueNegatives += 1
                     negatives += 1
-            elif((newAssignments[i] == 1) and (rain[i] == 0)):
-                falsePositives += 1
-                positives += 1
-            else:
-                falseNegatives += 1
-                negatives += 1
+                elif((newAssignments[i] == 1) and (rain[i] == 0)):
+                    falsePositives += 1
+                    negatives += 1
+                else:
+                    falseNegatives += 1
+                    positives += 1
+    else:
+        for i in range(newAssignments.size):
+                if ((newAssignments[i] == 0) and (rain[i] != 0)):
+                    truePositives += 1
+                    positives += 1
+                elif((newAssignments[i] == 1) and (rain[i] == 0)):
+                    trueNegatives += 1
+                    negatives += 1
+                elif((newAssignments[i] == 0) and (rain[i] == 0)):
+                    falsePositives += 1
+                    negatives += 1
+                else:
+                    falseNegatives += 1
+                    positives += 1
     
-    print('False Positives Rate: ' + str((falsePositives/positives)*100))
-    print('False Negatives Rate: ' + str((falseNegatives/negatives)*100))
-    print('True Positives Rate: ' + str((truePositives/positives)*100))
-    print('True Negatives Rate: ' + str((trueNegatives/negatives)*100))
-    print('(Values given in percent)')
+    print('\nFalse Positives Rate: ' + str(round(((falsePositives/positives)*100), 2)) + '%')
+    print('False Negatives Rate: ' + str(round(((falseNegatives/negatives)*100), 2)) + '%')
+    print('True Positives Rate: ' + str(round(((truePositives/positives)*100), 2)) + '%')
+    print('True Negatives Rate: ' + str(round(((trueNegatives/negatives)*100), 2)) + '%\n')
                         
 def graphing(humidity, visibility, pressure, centroids, newassignments):
     K = centroids.shape[0]
@@ -141,12 +154,12 @@ def graphing(humidity, visibility, pressure, centroids, newassignments):
         ax.scatter(humidity[newassignments==i], visibility[newassignments==i], pressure[newassignments==i], color = valuecolor, label = labelname) 
     
     # making headings and a legend for the graph
-    ax.set_xlabel('Humidity')
-    ax.set_ylabel('Visibility')
-    ax.set_zlabel('Pressure')
+    ax.set_xlabel('Humidity', fontsize = 12)
+    ax.set_ylabel('Visibility', fontsize = 12)
+    ax.set_zlabel('Pressure', fontsize = 12)
     ax.set_xlim(0,1)
     ax.set_ylim(0,1)
     ax.set_zlim(0,1)
-    ax.set_title('Classified Data Using ' + str(K) + ' Centroids', fontsize = 14)
+    ax.set_title('Pressure, Humidity, and Visibility\n Classified Using ' + str(K) + ' Centroids\n(Hourly Values Jan-April 2019)', fontsize = 14)
     plt.legend(bbox_to_anchor = (1.43, 1.025))
     plt.show
