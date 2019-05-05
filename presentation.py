@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthum, nextpress, nextvis, nexttemp, nextwind):
+    bC = 'navy' #background color on window
     rain_value, rain_percent = prediction.kNearestNeighborClassifier(bhourlyhum, bhourlyseapress, bhourlyVis, bhourlyprecip, nexthum, nextpress, nextvis)
     # ROUNDING VALUES FOR PRESENTATION
     rain_percent = round(rain_percent, 1)
@@ -21,6 +22,9 @@ def report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, 
     winds = round(nextwind, 1)
     
     root = tk.Tk()
+    root.geometry("200x180")
+    root.configure(background=bC)
+    root.title('Weather Report')
 
     class interface(tk.Frame):
         def __init__(self, master=None):
@@ -30,14 +34,15 @@ def report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, 
             self.create_widgets()
     
         def create_widgets(self):
-            tk.Button(root,text="Tomorrow's Date",command=self.tomorrow).pack(side="top")
-            tk.Button(root,text="Tomorrow's Weather",command=self.weather).pack(side="top")
-            tk.Button(root,text="Average Temperature",command=self.temp).pack(side="top")      
-            tk.Button(root,text="Humidity",command=self.hum).pack(side="top")        
-            tk.Button(root,text="Wind Speed",command=self.wind).pack(side="top")
-            tk.Button(root,text="Pressure",command=self.press).pack(side="top")
-            tk.Button(root,text="Visibility",command=self.vis).pack(side="top")
-            tk.Button(root,text="Finished", command=root.destroy).pack(side="top")
+            tk.Label(text = 'test')
+            tk.Button(root, text="Tomorrow's Date", command=self.tomorrow, highlightbackground=bC).pack(side="top")
+            tk.Button(root, text="Tomorrow's Weather", command=self.weather, highlightbackground=bC).pack(side="top")
+            tk.Button(root, text="Average Temperature", command=self.temp, highlightbackground=bC).pack(side="top")      
+            tk.Button(root, text="Humidity", command=self.hum, highlightbackground=bC).pack(side="top")        
+            tk.Button(root, text="Wind Speed", command=self.wind, highlightbackground=bC).pack(side="top")
+            tk.Button(root, text="Pressure", command=self.press, highlightbackground=bC).pack(side="top")
+            tk.Button(root, text="Visibility", command=self.vis, highlightbackground=bC).pack(side="top")
+            tk.Button(root, text="Finished", command=root.destroy, highlightbackground=bC).pack(side="top")
     
         def tomorrow(self):
             print('Tomorrow is February 15, 2019\n')
