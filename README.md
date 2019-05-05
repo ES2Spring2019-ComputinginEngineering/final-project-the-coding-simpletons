@@ -1,6 +1,10 @@
 # Weather Report 
 
-  The program examines climatological data (accessed from a CSV file downloaded from NOAA's website) from the week of 02/08/19 - 02/14/19 to predict the weather for 02/15/19, 'tomorrow'. 
+## Brief Description
+Using climatological data from NOAA (National Oceanic and Atmospheric Administration) during the week of 02/08/19 - 02/14/19, the climatological data for the following day (02/15/19) is predicted using weighted averaging and a weather forecast of rain or no rain is made using K-nearest Neighbor classification. A K-means clustering algorithm is also applied to the climatological data to form rain/no rain clusters and its assignment accuracy is measured. 
+
+## In-depth Description
+  The program examines climatological data (accessed from a CSV file downloaded from NOAA's website) from the week of 02/08/19 - 02/14/19 to predict the weather for 02/15/19, 'tomorrow' in Boston, Massachusetts. 
   
   Using weighted averages of the hourly values for humidity, pressure, visibility, temperature, and windspeed; a daily value for 'tomorrow' is predicted for each of these variables. Using the predicted values for humidity, pressure, and visibility; a new point is created for 'tomorrow' on a 3-dimensional graph including all the hourly values for humidity, pressure, and visibility from January to April of 2019. 
   
@@ -24,9 +28,14 @@ Create a list of all of the files in your repository with one sentence descripti
 2. **RAIN.jpg**  -->  Pic Art of a rainy cloud used as a forecast image
 3. **SUN.png**  -->  Pic Art of a sun used as a forecast image
 4. **main.py**  -->  Action of the program: variable assignment and produces weather report
-    *  test
-5. **presentation.py**  -->  Tk button weather report functions and classes
+5. **presentation.py**  -->  tk button weather report
+    *  report(args) : when called opens a new tk window with buttons that return weather information when clicked
+        * parameters :
+        * returns :
 6. **data.py**  -->  Data parsing, cleaning, and graphing
+    *  test
 7. **clustering.py**  -->  Clustering, graphing of centroids with clusters, and accuracy of clusters
+    *  test
 8. **prediction.py**  -->  Weighted averaging, weather value prediction, K-nearest neighbor classifcation, and accuracy of predicted values. 
+    *  test
 
