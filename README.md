@@ -1,6 +1,10 @@
-# Weather Report 
+# Rain or Shine? 
 
-  The program examines climatological data (accessed from a CSV file downloaded from NOAA's website) from the week of 02/08/19 - 02/14/19 to predict the weather for 02/15/19, 'tomorrow'. 
+## Brief Description
+Using climatological data from NOAA (National Oceanic and Atmospheric Administration) during the week of 02/08/19 - 02/14/19, the climatological data for the following day (02/15/19) is predicted using weighted averaging and a weather forecast of rain or no rain is made using K-nearest Neighbor classification. A K-means clustering algorithm is also applied to the climatological data to form rain/no rain clusters and its assignment accuracy is measured. 
+
+## In-depth Description
+  The program examines climatological data (accessed from a CSV file downloaded from NOAA's website) from the week of 02/08/19 - 02/14/19 to predict the weather for 02/15/19, 'tomorrow' in Boston, Massachusetts. 
   
   Using weighted averages of the hourly values for humidity, pressure, visibility, temperature, and windspeed; a daily value for 'tomorrow' is predicted for each of these variables. Using the predicted values for humidity, pressure, and visibility; a new point is created for 'tomorrow' on a 3-dimensional graph including all the hourly values for humidity, pressure, and visibility from January to April of 2019. 
   
@@ -20,12 +24,39 @@ Pressing the 'Finished' button will discontinue the code, but may leave the wind
 
 Create a list of all of the files in your repository with one sentence descriptions
 
-1. **weather.csv**  -->  CSV file with all of the climatological data from NOAA
-2. **RAIN.jpg**  -->  Pic Art of a rainy cloud used as a forecast image
-3. **SUN.png**  -->  Pic Art of a sun used as a forecast image
-4. **main.py**  -->  Action of the program: variable assignment and produces weather report
-5. **presentation.py**  -->  Tk button weather report functions and classes
-6. **data.py**  -->  Data parsing, cleaning, and graphing
-7. **clustering.py**  -->  Clustering, graphing of centroids with clusters, and accuracy of clusters
-8. **prediction.py**  -->  Weighted averaging, weather value prediction, K-nearest neighbor classifcation, and accuracy of predicted values. 
+1. ***weather.csv***  -->  CSV file with all of the climatological data from NOAA
+2. ***RAIN.jpg***  -->  Pic Art of a rainy cloud used as a forecast image
+3. ***SUN.png***  -->  Pic Art of a sun used as a forecast image
+4. ***main.py***  -->  Action of the program: variable assignment and produces weather report
+5. ***presentation.py***  -->  tk button weather report
+    *  *report(args)* : Opens a new tk window with buttons that return weather information when clicked.
+        * parameters : bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthum, nextpress, nextvis, nexttemp, nextwind
+        * returns : void
+6. ***data.py***  -->  Data parsing, cleaning, and graphing
+    *  *readDataFile()* : Reads in climatological data from the CSV file, cleans values, and produces normalized values as well.
+        * parameters : void
+        * returns : valuesOfInterest (a list of the climatological values we were interested in analyzing) : bestDateSet (list of dates 02/08/19 - 02/16/19), time (list of data collection times), hourlytemp, hourlyprecip (precipitation), hourlyseapress (pressure), hourlyhum (humidity), hourlyVis (visibility), hourlyPeakWind (peak wind speed), hourlyWind (average wind speed), nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind
+    *  *sliceOfInterest(args)* : Using the identified set of dates and the list of data collection times, a indexing slice is identified which can be used to access the hourly values for climatological data during the period of interest. 
+        * parameters : bestDateSet, time
+        * returns : [start, end]
+    *  *dataOfInterest(args)* : Using the slice of interest, the hourly values for climatological data during the period of interest are sliced and then returned. 
+        * parameters : sliceRange ([start, end]), time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind
+        * returns : btime, bhourlytemp, bhourlyprecip, bhourlyseapress, bhourlyhum, bhourlyVis, bhourlyPeakWind, bhourlyWind, bnhourlytemp, bnhourlyprecip, bnhourlyseapress, bnhourlyhum, bnhourlyVis, bnhourlyPeakWind, bnhourlyWind
+    *  *exploringGraphs(args)* : Produces 2-D graphs comparing all pairs of climatological variables, used to identify which variables are associated with precipitation. 
+        * parameters : hourlypress, hourlyhum, hourlyWind, hourlyVis, hourlytemp, hourlyprecip
+        * returns : void
+    *  *graphData3d(args)* : Produces 2-D graphs comparing all pairs of climatological variables, used to identify which variables are associated with precipitation. 
+        * parameters : hourlyhum, hourlypress, hourlyVis, hourlyprecip, nexthum, nextpress, nextvis
+        * returns : void
+7. ***clustering.py***  -->  Clustering, graphing of centroids with clusters, and accuracy of clusters
+    *  test
+8. ***prediction.py***  -->  Weighted averaging, weather value prediction, K-nearest neighbor classifcation, and accuracy of predicted values. 
+    *  test
 
+**Note**: Meaing of different prefixes on variable names:
+
+   - **b** : a value from the selected time period of the relevant 8 days of interest (02/08/19 - 02/15/19)
+   
+   - **n** : a normalized value
+   
+   - **next** : a predicted value
