@@ -43,8 +43,8 @@ clustering.clusterAccuracy(nhourlyhum, nhourlyVis, nhourlyseapress, assignments,
 """
 
 #The below line of code is what produces and runs the interactive (buttons) weather report
-#It may not pop up on your screen in an obvious location. For us the new window tends to pop up
-#in the top left corner for the most part. 
+#It may not pop up on your screen in an obvious location. The new window should
+#pop up in the middle of the screen.
 #Pressing the 'Finished' button will discontinue the code, but may leave the window open with a 
 #color wheel of death. Not to worry, simply running the code once more allows one to use the weather report.
 presentation.report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthumidity, nextpressure, nextvisibility, nexttemperature, nextwind)
