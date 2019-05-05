@@ -99,6 +99,6 @@ Using climatological data from NOAA (National Oceanic and Atmospheric Administra
 ### Libraries
 1. Numpy  -->  numerical calculations
 2. Matplotlib  -->  graphing
-3. tkinter  -->  creating widgets
+3. tkinter  -->  creating widgets (windows with buttons)
 4. imageio  -->  importing and displaying images
 5. csv  -->  accessing csv file 
