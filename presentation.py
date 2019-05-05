@@ -22,7 +22,7 @@ def report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, 
     winds = round(nextwind, 1)
     
     root = tk.Tk()
-    root.geometry("200x180")
+    root.geometry("200x180+550+350")
     root.configure(background=bC)
     root.title('Weather Report')
 
