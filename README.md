@@ -30,7 +30,7 @@ Create a list of all of the files in your repository with one sentence descripti
 4. **main.py**  -->  Action of the program: variable assignment and produces weather report
 5. **presentation.py**  -->  tk button weather report
     *  report(args) : when called opens a new tk window with buttons that return weather information when clicked
-        * parameters :
+        * parameters : bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, bhourlyWind, nexthum, nextpress, nextvis, nexttemp, nextwind
         * returns :
 6. **data.py**  -->  Data parsing, cleaning, and graphing
     *  test
@@ -39,3 +39,7 @@ Create a list of all of the files in your repository with one sentence descripti
 8. **prediction.py**  -->  Weighted averaging, weather value prediction, K-nearest neighbor classifcation, and accuracy of predicted values. 
     *  test
 
+**Note**: Meaing of different prefixes on variable names:
+    * **b** : a value from the selected time period of the relevant 8 days of interest (02/08/19 - 02/15/19)
+    * **n** : a normalized value
+    * **next** : a predicted value
