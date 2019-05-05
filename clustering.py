@@ -116,11 +116,23 @@ def clusterAccuracy(humidity, visibility, pressure, assignments, rain, finalCent
                     falseNegatives += 1
                     positives += 1
     
-    print('\nFalse Positives Rate: ' + str(round(((falsePositives/positives)*100), 2)) + '%')
-    print('False Negatives Rate: ' + str(round(((falseNegatives/negatives)*100), 2)) + '%')
+    print('\nFalse Positives Rate: ' + str(round(((falsePositives/negatives)*100), 2)) + '%')
+    print('False Negatives Rate: ' + str(round(((falseNegatives/positives)*100), 2)) + '%')
     print('True Positives Rate: ' + str(round(((truePositives/positives)*100), 2)) + '%')
     print('True Negatives Rate: ' + str(round(((trueNegatives/negatives)*100), 2)) + '%\n')
-                        
+
+def denormalizeCent(centroids, hourlyhum, hourlyVis, hourlypress):
+    values = [hourlyhum, hourlyVis, hourlypress]
+    returnCentroids = np.zeros((centroids.shape[0], centroids.shape[1]))
+    
+    for i in range(centroids.shape[0]):
+        for j in range(centroids.shape[1]):
+            maximum = np.amax(values[j])
+            minimum = np.amin(values[j])
+            returnCentroids[i][j] = (centroids[i][j]*(maximum-minimum)) + minimum
+            
+    return returnCentroids
+                     
 def graphing(nhourlyhum, nhourlyVis, nhourlypress, hourlyhum, hourlyVis, hourlypress, centroids, newassignments):
     K = centroids.shape[0]
 
@@ -131,10 +143,11 @@ def graphing(nhourlyhum, nhourlyVis, nhourlypress, hourlyhum, hourlyVis, hourlyp
     while (((np.median(nhourlyVis[newassignments == 0])) == 1) and (np.median(nhourlyVis[newassignments == 1]) == 1)):
         centroids = create_centroids(K)
         centroids, newassignments = iteration(centroids, nhourlyhum, nhourlypress, nhourlyVis)
-        
-    centx = centroids[:,0]
-    centy = centroids[:,1]
-    centz = centroids[:,2]
+    
+    newCentroids = denormalizeCent(centroids, hourlyhum, hourlyVis, hourlypress)    
+    centx = newCentroids[:,0]
+    centy = newCentroids[:,1]
+    centz = newCentroids[:,2]
     
     for i in range(K):
         if (np.median(nhourlyVis[newassignments == i]) == 1):
