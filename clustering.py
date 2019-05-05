@@ -20,7 +20,7 @@ def assign(centroids, humidity, pressure, visibility):
         
     assignments = np.argmin(distances, axis = 0)  
     
-    if (0 in assignments) and (1 in assignments):# and (2 in assignments):
+    if (0 in assignments) and (1 in assignments):
         return assignments
     else:
         centroids = create_centroids(K)
