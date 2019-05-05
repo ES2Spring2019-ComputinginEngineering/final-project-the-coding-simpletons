@@ -96,6 +96,7 @@ Using climatological data from NOAA (National Oceanic and Atmospheric Administra
 
 ## Features
 
+### Libraries
 1. Numpy
 2. Matplotlib
 3. tkinter
