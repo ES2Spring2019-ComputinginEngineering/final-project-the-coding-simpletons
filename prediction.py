@@ -2,7 +2,6 @@
 
 import numpy as np
 
-#figure out how to make this take in any best date set and still work
 def weights(bestDateSet, time):
     weights = []
     weekEndIndex = 0
@@ -30,7 +29,7 @@ def weights(bestDateSet, time):
 def weightedValues(time, weights, data):
     weighted = []        
     
-    for i in range(len(time[:-(len(time) - len(weights))])): #for each value in the past week
+    for i in range(len(time[:-(len(time) - len(weights))])): #weights each value in the past week
        weighted.append((data[i])*weights[i])
             
     prediction = np.sum(weighted)
@@ -59,6 +58,7 @@ def predictedAccuracy(data, nextdata):
     actual = data[57:]
     percentError = np.abs(((nextdata - np.mean(actual))/(np.mean(actual)))*100)
     #uses the mean of the actual values because this gives an approximation of the daily value from the hourly values
+    
     return percentError
 
 #In addition to using the median we could use the percentage of nearest points that are rain to predict likelihood

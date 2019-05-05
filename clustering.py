@@ -16,60 +16,71 @@ def assign(centroids, humidity, pressure, visibility):
         y = centroids[i,1] 
         x = centroids[i,0] 
         
+        #fills each row with an array of the distances from each data point to the current centroid
         distances[i] = np.sqrt(((x-humidity)**2)+((y-visibility)**2)+((z-pressure)**2))
         
+    #returns the index of the minimum distance from each point to the K centroids which is also the nearest centroid    
     assignments = np.argmin(distances, axis = 0)  
     
-    if (0 in assignments) and (1 in assignments):
+    #prevents assignments from failing and classifying all points into the same assignment
+    check = True
+    for i in range(K):
+        if (i not in assignments):
+            check = False
+            
+    if (check):
         return assignments
-    else:
+    else: #repeat process to return good assignments
         centroids = create_centroids(K)
         assignments = assign(centroids, humidity, pressure, visibility)
         return assignments
     
 def updateCent(centroids, assignments, humidity, pressure, visibility):
     K = centroids.shape[0]
-    
     newCentroids = np.zeros(centroids.shape)
     
+     #for each centroid
     for i in range(K): 
         hum = [] 
         press = []
         vis = []
+        
+         #for every data point
         for j in range(assignments.size): 
             if assignments[j] == i: 
                 hum.append(humidity[j])
                 press.append(pressure[j])
                 vis.append(visibility[j])
+        
+        #updates centroid locations        
         newCentroids[i,0] = np.mean(hum)
         newCentroids[i,1] = np.mean(vis)
         newCentroids[i,2] = np.mean(press)
         
     return newCentroids 
 
-def iteration(centroids, humidity, pressure, visibility):    
+def iteration(centroids, humidity, pressure, visibility):
+    pastCentroids = centroids    
     assignments = assign(centroids, humidity, pressure, visibility) 
     newcentroids = updateCent(centroids, assignments, humidity, pressure, visibility)
     
-    discent = centroids - newcentroids  
-    maxdist = np.abs(np.amax(discent))
+    discent = pastCentroids - newcentroids  
+    maxdist = np.abs(np.amax(discent)) #arbitrary value to start the loop, just has to be greater than (10**-100)
     
-    centroids = newcentroids
+    pastCentroids = newcentroids
     
     while (maxdist >= (10**(-100))): 
-        newassignments = assign(centroids, humidity, pressure, visibility) 
-        newcentroids = updateCent(centroids, newassignments, humidity, pressure, visibility)
+        newassignments = assign(pastCentroids, humidity, pressure, visibility) 
+        newcentroids = updateCent(pastCentroids, newassignments, humidity, pressure, visibility)
          
-        discent = centroids - newcentroids 
+        discent = pastCentroids - newcentroids 
         
         maxdist = np.amax(np.abs(discent)) 
         
-        centroids = newcentroids 
+        pastCentroids = newcentroids 
         assignments = newassignments
-        
-    assignments = assign(centroids, humidity, pressure, visibility)
     
-    return centroids, assignments 
+    return pastCentroids, assignments 
 
 def clusterAccuracy(humidity, visibility, pressure, assignments, rain, finalCentroids):
     K = finalCentroids.shape[0]
@@ -81,13 +92,14 @@ def clusterAccuracy(humidity, visibility, pressure, assignments, rain, finalCent
     trueNegatives = 0
     positives = 0 
     negatives = 0
-    
-    
+      
+    #this loop ensures that the clusters identified are rain/no rain clusters. It will not run if
+    #both clusters are no rain clusters (when the median visibility of both clusters is a 1 (i.e. clear day))
     while (((np.median(visibility[newAssignments == 0])) == 1) and (np.median(visibility[newAssignments == 1]) == 1)):
         newCentroids = create_centroids(K)
         newCentroids, newAssignments = iteration(newCentroids, humidity, pressure, visibility)
         
-    if (np.median(newAssignments) == 0):
+    if (np.median(newAssignments) == 0): #no rain assignments are 0, since they make up the majority of the weather
         for i in range(newAssignments.size):
                 if ((newAssignments[i] == 1) and (rain[i] != 0)):
                     truePositives += 1
@@ -101,7 +113,7 @@ def clusterAccuracy(humidity, visibility, pressure, assignments, rain, finalCent
                 else:
                     falseNegatives += 1
                     positives += 1
-    else:
+    else: #no rain assignments are 1
         for i in range(newAssignments.size):
                 if ((newAssignments[i] == 0) and (rain[i] != 0)):
                     truePositives += 1
@@ -125,6 +137,7 @@ def denormalizeCent(centroids, hourlyhum, hourlyVis, hourlypress):
     values = [hourlyhum, hourlyVis, hourlypress]
     returnCentroids = np.zeros((centroids.shape[0], centroids.shape[1]))
     
+    #populates returnCentroids with the denormalized values
     for i in range(centroids.shape[0]):
         for j in range(centroids.shape[1]):
             maximum = np.amax(values[j])
@@ -140,6 +153,8 @@ def graphing(nhourlyhum, nhourlyVis, nhourlypress, hourlyhum, hourlyVis, hourlyp
     ax = fig.add_subplot(111, projection='3d')
     ax.dist = 12 #viewing distance
     
+    #this loop ensures that the clusters identified are rain/no rain clusters. It will not run if
+    #both clusters are no rain clusters (when the median visibility of both clusters is a 1 (i.e. clear day))
     while (((np.median(nhourlyVis[newassignments == 0])) == 1) and (np.median(nhourlyVis[newassignments == 1]) == 1)):
         centroids = create_centroids(K)
         centroids, newassignments = iteration(centroids, nhourlyhum, nhourlypress, nhourlyVis)
@@ -164,7 +179,6 @@ def graphing(nhourlyhum, nhourlyVis, nhourlypress, hourlyhum, hourlyVis, hourlyp
         ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, color = centcolor, label = centlabel)  
         ax.scatter(hourlyhum[newassignments==i], hourlyVis[newassignments==i], hourlypress[newassignments==i], color = valuecolor, label = labelname) 
     
-    # making headings and a legend for the graph
     ax.set_xlabel('\n\nRelative Humidity\n(%)', fontsize = 12)
     ax.set_ylabel('\n\nVisibility\n(miles)', fontsize = 12)
     ax.set_zlabel('\n\nPressure\n(inches of mercurcy)', fontsize = 12)

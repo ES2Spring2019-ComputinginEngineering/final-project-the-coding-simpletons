@@ -21,10 +21,12 @@ def report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, 
     winds = round(nextwind, 1)
     
     root = tk.Tk()
-    root.geometry("200x200+550+350")
-    root.configure(background=bC)
+    root.geometry("200x200+550+350") #dimensions of window and centering window on screen
+    root.configure(background=bC) #adding background color
     root.title('Weather Report')
-
+    
+    #The interface class is effectively the window being opened with each function
+    #contained within being a unqiue button with the exception of __init__() and creat_widgets()
     class interface(tk.Frame):
         def __init__(self, master=None):
             super().__init__(master)
@@ -71,7 +73,7 @@ def report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, 
             
         def wind(self):
             accuracy = round(prediction.predictedAccuracy(bhourlyWind, winds),1)
-            print("Average Wind for tomorrow is " + str(winds) + " mph, with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
+            print("Average Wind Speed for tomorrow is " + str(winds) + " mph, with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
             
         def press(self):
             accuracy = round(prediction.predictedAccuracy(bhourlyseapress, pressure),1)

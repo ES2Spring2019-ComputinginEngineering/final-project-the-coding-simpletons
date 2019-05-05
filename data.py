@@ -11,7 +11,7 @@ def readDataFile():
     index = 0
     dayIndices = []
     
-    csv_file = open('weather.csv')
+    csv_file = open('weather.csv') #Accessed from https://www.ncdc.noaa.gov/
 
     numRows = sum(1 for row in csv_file)
     
@@ -35,7 +35,7 @@ def readDataFile():
     hourlyPeakWind = [] # Hourly peak wind speed
     hourlyWindSpeed = [] # Hourly sustained wind speed
             
-    badCounter2 = 0
+    badCounter = 0
     for i in range(numRows):
         try:
             data[i][1][11:]
@@ -47,7 +47,7 @@ def readDataFile():
             float(data[i][55])
             float(data[i][56])
         except:
-            badCounter2 += 1
+            badCounter += 1
         else: #completed for hours when all values can be converted to floats (cells not empty or letters)
             time.append(data[i][1][:])
             hourlyTemp.append(float(data[i][43]))
@@ -58,22 +58,23 @@ def readDataFile():
             hourlyPeakWind.append(float(data[i][55]))
             hourlyWindSpeed.append(float(data[i][56]))
             
-    #print(str(badCounter2) + ' hourly values did not contain useable data\n')
+    #print(str(badCounter) + ' hourly values did not contain useable data\n')
     
     
-    #Makes a list of the dates with hourly values associated with them
+    #Makes a list of the dates that have hourly values associated with them
     dates = []
     for i in time:
         if (i[:10] not in dates):
             dates.append(i[:10])
     
     
-    #Measures the number of hourly associated with each day and removes the hourly values
+    #Measures the number of hourly values associated with each day and removes the hourly values
     #from the list if two or less hourly values are associated with that day
     newTime = []              
     for i in range(len(dates)):
         
         counter = 1
+        #slice range of values to keep from time
         lowerIndex = 0
         upperIndex = 0
         
@@ -101,40 +102,45 @@ def readDataFile():
                 break
     dates = newDates
     
-    
+    #Creates a list of all the different groupings of consecutive days
+    #so that the longest grouping of consecutive days can be selected
+    #with the hope that it contains a week to predict from and a 
+    #day after that to compare predicted values with (8 days total)
     dateRanges = [] #list of all the differents groupings of consecutive days
     cDateRange = [] #current date ranges, individual groupings of consecutive days
-    pastIndex = 0
+    pastIndex = 0 #index of the last value looked at
+    
     for i in range(1, len(dates)):
         
-        if (len(cDateRange) == 0):
+        if (len(cDateRange) == 0): #for the starting case only
             cDateRange.append(pastIndex)
             
-        newIndex = i
+        newIndex = i #index of the current value being looked at
         
-        if (int(dates[newIndex][8:]) == (int(dates[pastIndex][8:]) + 1)):
+        if (int(dates[newIndex][8:]) == (int(dates[pastIndex][8:]) + 1)): #if consecutive dates
             cDateRange.append(newIndex)
         else:
             dateRanges.append(cDateRange)
             cDateRange = []
             
-        pastIndex = newIndex
+        pastIndex = newIndex #moving on to compare next element
       
     
     maxDays = 0 #maximum number of days grouped together
     maxIndices = [] #indices at which these maximum number of days are grouped in dateRanges
+    
     for i in range(len(dateRanges)):
         if (len(dateRanges[i]) > maxDays):
             maxDays = len(dateRanges[i])
             maxIndices = [i]
-        elif (len(dateRanges[i]) == maxDays):
+        elif (len(dateRanges[i]) == maxDays): #in the case there are several long groupings of the same size
             maxIndices.append(i)
     
-    bestDateSet = [] #the longest group of dates
+    bestDateSet = [] #the longest groups of dates
     for i in maxIndices:
         for j in dateRanges[i]:
             bestDateSet.append(dates[j])
-    #print('The best set of days ranges from:\n' + str(bestDateSet[0]) + ' to ' + str(bestDateSet[maxDays - 1]))
+    #thankfully there is only one set with the longest length and it has 9 values
     
     #Normalization and array conversion
     nhourlyTemp = np.zeros(len(hourlyTemp))
@@ -177,7 +183,8 @@ def readDataFile():
 def sliceOfInterest(bestDateSet, time): #2/8/19 to 2/15/19 7 days to pull data from, 1 day to compare with predictions 
     start = 0 #start of the slice
     end = 0 #end of the slice
-    dates = [] #used as a form of counter in this case so to know what dates have already been looked at
+    dates = [] #used as a form of counter in this case to know what dates have already been looked at
+    
     for i in range(len(time)):
         
         if (time[i][:10] in bestDateSet):
@@ -220,12 +227,14 @@ def exploringGraphs(hourlyPress, hourlyHum, hourlyWind, hourlyVis, hourlyTemp, h
     #graphs every unqiue pair of the selected hourly variables
     selectValues = [hourlyPress, hourlyHum, hourlyWind, hourlyVis, hourlyTemp]
     selectLabels = ['pressure', 'humidity', 'windspeed', 'visibility', 'temperature']
+    
     for i in range(len(selectValues)):
         for j in range(len(selectValues)):
             if (j > i):
                 # graphing our parsed, and normalized data 
-                plt.plot(selectValues[i][hourlyPrecip!=0],selectValues[j][hourlyPrecip!=0],'b.',label='Rain')
-                plt.plot(selectValues[i][hourlyPrecip==0],selectValues[j][hourlyPrecip==0],'r.',label ='No rain')
+                plt.plot(selectValues[i][hourlyPrecip != 0],selectValues[j][hourlyPrecip != 0],'b.',label='Rain')
+                plt.plot(selectValues[i][hourlyPrecip == 0],selectValues[j][hourlyPrecip == 0],'r.',label ='No rain')
+                
                 plt.xlabel(selectLabels[i])
                 plt.ylabel(selectLabels[j])
                 plt.legend(loc = 3)
@@ -237,9 +246,11 @@ def graphData3D(hourlyHum, hourlyPress, hourlyVis, hourlyPrecip, nextHum, nextPr
     fig = plt.figure(figsize = (8, 6))
     ax = fig.add_subplot(111, projection='3d')
     ax.dist = 12 #viewing distance
-    ax.scatter(hourlyHum[hourlyPrecip!=0], hourlyVis[hourlyPrecip!=0], hourlyPress[hourlyPrecip!=0], label='Rain')
-    ax.scatter(hourlyHum[hourlyPrecip==0], hourlyVis[hourlyPrecip==0], hourlyPress[hourlyPrecip==0], label ='No Rain')
+    
+    ax.scatter(hourlyHum[hourlyPrecip != 0], hourlyVis[hourlyPrecip != 0], hourlyPress[hourlyPrecip != 0], label='Rain')
+    ax.scatter(hourlyHum[hourlyPrecip == 0], hourlyVis[hourlyPrecip == 0], hourlyPress[hourlyPrecip == 0], label ='No Rain')
     ax.scatter(nextHum, nextVis, nextPress, color = 'black', label='Tomorrow', s= 300, marker = 'p')
+   
     ax.set_xlabel('\n\nRelative Humidity\n(%)', fontsize = 12)
     ax.set_ylabel('\n\nVisibility\n(miles)', fontsize = 12)
     ax.set_zlabel('\n\nPressure\n(inches of mercurcy)', fontsize = 12)
