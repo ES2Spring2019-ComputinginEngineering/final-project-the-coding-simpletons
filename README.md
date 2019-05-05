@@ -22,8 +22,6 @@ Pressing the 'Finished' button will discontinue the code, but may leave the wind
 
 ## File List
 
-Create a list of all of the files in your repository with one sentence descriptions
-
 1. ***weather.csv***  -->  CSV file with all of the climatological data from NOAA
 2. ***RAIN.jpg***  -->  Pic Art of a rainy cloud used as a forecast image
 3. ***SUN.png***  -->  Pic Art of a sun used as a forecast image
@@ -68,7 +66,15 @@ Create a list of all of the files in your repository with one sentence descripti
         * parameters : nhourlyhum (1-D array), nhourlypress (1-D array), nhourlyVis (1-D array), centroids (array with shape (K, 3)), assignments (1-D array)
         * returns : void
 8. ***prediction.py***  -->  Weighted averaging, weather value prediction, K-nearest neighbor classifcation, and accuracy of predicted values. 
-    *  test
+    *  *weights(args)* : Makes a list of weights based upon the number of hourly values in the week of interest (02/08/19 - 02/14/19)
+        * parameters : bestDateSet (1-D list), btime (1-D list)
+        * returns : weights (1-D list)
+    *  *weightedValues(args)* : Takes in the hourly values from the week of interest for a specific variable, applies the weights, and returns a predicted value
+        * parameters : btime (1-D list), weights (1-D list), bhourlyData (1-D list)
+        * returns : predictedValue (float)
+    *  *tomorrow(args)* : Calls weightedValues to produce the predicted values of interest
+        * parameters : bestDateSet (1-D list), btime (1-D list), bhourlyhum (1-D list), bhourlyseapress (1-D list), bhourlyVis (1-D list), bhourlytemp (1-D list), bhourlyWind (1-D list), bnhourlyhum (1-D array), bnhourlyseapress (1-D array), bnhourlyVis (1-D array)
+        * returns : nexthum (float), nextpress (float), nextvis (float), nexttemp (float), nextwind (float), nextnhum (float), nextnpress (float), nextnvis (float)
 
 **Note**: Meaing of different prefixes on variable names:
 
