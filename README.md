@@ -40,23 +40,23 @@ Using climatological data from NOAA (National Oceanic and Atmospheric Administra
 4. ***main.py***  -->  Action of the program: variable assignment and produces weather report
 5. ***presentation.py***  -->  tk button weather report
     *  *report(args)* : Opens a new tk window with buttons that return weather information when clicked.
-        * parameters : bhourlyprecip (1-D list), bhourlyhum (1-D list), bhourlyseapress (1-D list), bhourlyVis (1-D list), bhourlytemp (1-D list), bhourlyWind (1-D list), nexthum (float), nextpress (float), nextvis (float), nexttemp (float), nextwind (float)
+        * parameters : bhourlyprecip (1-D array), bhourlyhum (1-D array), bhourlypress (1-D array), bhourlyVis (1-D array), bhourlytemp (1-D array), bhourlyWind (1-D array), nexthum (float), nextpress (float), nextvis (float), nexttemp (float), nextwind (float)
         * returns : void
 6. ***data.py***  -->  Data parsing, cleaning, and graphing
     *  *readDataFile()* : Reads in climatological data from the CSV file, cleans values, and produces normalized values as well.
         * parameters : void
-        * returns : valuesOfInterest (a list of the climatological values we were interested in analyzing) : bestDateSet (list of dates 02/08/19 - 02/16/19), time (list of data collection times), hourlytemp (1-D list), hourlyprecip (precipitation)(1-D list), hourlyseapress (pressure)(1-D list), hourlyhum (humidity)(1-D list), hourlyVis (visibility)(1-D list), hourlyPeakWind (peak wind speed)(1-D list), hourlyWind (average wind speed)(1-D list), nhourlytemp (1-D array), nhourlyprecip (1-D array), nhourlyseapress (1-D array), nhourlyhum (1-D array), nhourlyVis (1-D array), nhourlyPeakWind (1-D array), nhourlyWind (1-D array)
+        * returns : valuesOfInterest (a list of the climatological values we were interested in analyzing) : bestDateSet (1-D list of dates 02/08/19 - 02/16/19), time (1-D list of data collection times), hourlytemp (1-D array), hourlyprecip (precipitation)(1-D array), hourlypress (pressure)(1-D array), hourlyhum (humidity)(1-D array), hourlyVis (visibility)(1-D array), hourlyPeakWind (peak wind speed)(1-D array), hourlyWind (average wind speed)(1-D array), nhourlytemp (1-D array), nhourlyprecip (1-D array), nhourlypress (1-D array), nhourlyhum (1-D array), nhourlyVis (1-D array), nhourlyPeakWind (1-D array), nhourlyWind (1-D array)
     *  *sliceOfInterest(args)* : Using the identified set of dates and the list of data collection times, a indexing slice is identified which can be used to access the hourly values for climatological data during the period of interest. 
         * parameters : bestDateSet (1-D list), time (1-D list)
         * returns : [start (int), end (int)]
     *  *dataOfInterest(args)* : Using the slice of interest, the hourly values for climatological data during the period of interest are sliced and then returned. 
-        * parameters : sliceRange ([start (int), end (int)]), time (1-D list), hourlytemp (1-D list), hourlyprecip (1-D list), (1-D list), hourlyVis (1-D list), hourlyPeakWind (1-D list), hourlyWind (1-D list), nhourlytemp (1-D array), nhourlyprecip (1-D array), nhourlyseapress (1-D array), nhourlyhum (1-D array), nhourlyVis (1-D array), nhourlyPeakWind (1-D array), nhourlyWind (1-D array)
-        * returns : btime (1-D list), bhourlytemp (1-D list), bhourlyprecip (1-D list), bhourlyseapress (1-D list), bhourlyhum (1-D list), bhourlyVis (1-D list), bhourlyPeakWind (1-D list), bhourlyWind (1-D list), bnhourlytemp (1-D array), bnhourlyprecip (1-D array), bnhourlyseapress (1-D array), bnhourlyhum (1-D array), bnhourlyVis (1-D array), bnhourlyPeakWind (1-D array), bnhourlyWind (1-D array)
+        * parameters : sliceRange ([start (int), end (int)]), time (1-D list), hourlytemp (1-D array), hourlyprecip (1-D array), hourlypress (1-D array), hourlyhum (1-D array), hourlyVis (1-D array), hourlyPeakWind (1-D array), hourlyWind (1-D array), nhourlytemp (1-D array), nhourlyprecip (1-D array), nhourlypress (1-D array), nhourlyhum (1-D array), nhourlyVis (1-D array), nhourlyPeakWind (1-D array), nhourlyWind (1-D array)
+        * returns : btime (1-D list), bhourlytemp (1-D array), bhourlyprecip (1-D array), bhourlypress (1-D array), bhourlyhum (1-D array), bhourlyVis (1-D array), bhourlyPeakWind (1-D array), bhourlyWind (1-D array), bnhourlytemp (1-D array), bnhourlyprecip (1-D array), bnhourlypress (1-D array), bnhourlyhum (1-D array), bnhourlyVis (1-D array), bnhourlyPeakWind (1-D array), bnhourlyWind (1-D array)
     *  *exploringGraphs(args)* : Produces 2-D graphs comparing all pairs of climatological variables, used to identify which variables are associated with precipitation. 
-        * parameters : hourlypress (1-D list), hourlyhum (1-D list), hourlyWind (1-D list), hourlyVis (1-D list), hourlytemp (1-D list), hourlyprecip (1-D list)
+        * parameters : hourlypress (1-D array), hourlyhum (1-D array), hourlyWind (1-D array), hourlyVis (1-D array), hourlytemp (1-D array), hourlyprecip (1-D array)
         * returns : void
     *  *graphData3d(args)* : Produces a 3-D graph (x = humidity, y = visibility, z = presure) classified by precipitation (rain/no rain)
-        * parameters : nhourlyhum (1-D array), nhourlypress (1-D array), nhourlyVis (1-D array), nhourlyprecip (1-D array), nextnhum (float), nextnpress (float), nextnvis (float)
+        * parameters : hourlyhum (1-D array), hourlypress (1-D array), hourlyVis (1-D array), hourlyprecip (1-D array), nexthum (float), nextpress (float), nextvis (float)
         * returns : void
 7. ***clustering.py***  -->  Clustering, graphing of centroids with clusters, and accuracy of clusters
    *  *create_centroids(args)* : Generates K random centroids 
@@ -74,18 +74,21 @@ Using climatological data from NOAA (National Oceanic and Atmospheric Administra
     *  *clusterAccuracy(args)* : Prints the rate of false positives, false negatives, true positives, and true negatives in assignment using the clustering algorithm
         * parameters : nhourlyhum (1-D array), nhourlypress (1-D array), nhourlyVis (1-D array), assignments (1-D array), nhourlyprecip (1-D array), centroids (array with shape (K, 3))
         * returns : void
+    *  *denormalizeCent(args)* : Produces a denormalized centroid
+        * parameters : centroids (array with shape (K, 3)), hourlyhum (1-D array), hourlyVis (1-D array), hourlypress (1-D array)
+        * returns : returnCentroids (array with shape (K, 3))
     *  *graphing(args)* : Produces a 3-D graph (x = humidity, y = visibility, z = presure) classified by clusters (rain/no rain)
-        * parameters : nhourlyhum (1-D array), nhourlyVis (1-D array), nhourlypress (1-D array), centroids (array with shape (K, 3)), assignments (1-D array)
+        * parameters : nhourlyhum (1-D array), nhourlyVis (1-D array), nhourlypress (1-D array), hourlyhum, hourlyVis, hourlypress, centroids (array with shape (K, 3)), assignments (1-D array)
         * returns : void
 8. ***prediction.py***  -->  Weighted averaging, weather value prediction, K-nearest neighbor classifcation, and accuracy of predicted values. 
     *  *weights(args)* : Makes a list of weights based upon the number of hourly values in the week of interest (02/08/19 - 02/14/19)
         * parameters : bestDateSet (1-D list), btime (1-D list)
         * returns : weights (1-D list)
     *  *weightedValues(args)* : Takes in the hourly values from the week of interest for a specific variable, applies the weights, and returns a predicted value
-        * parameters : btime (1-D list), weights (1-D list), bhourlyData (1-D list)
+        * parameters : btime (1-D list), weights (1-D list), bhourlyData (1-D array)
         * returns : predictedValue (float)
     *  *tomorrow(args)* : Calls weightedValues to produce the predicted values of interest
-        * parameters : bestDateSet (1-D list), btime (1-D list), bhourlyhum (1-D list), bhourlyseapress (1-D list), bhourlyVis (1-D list), bhourlytemp (1-D list), bhourlyWind (1-D list), bnhourlyhum (1-D array), bnhourlyseapress (1-D array), bnhourlyVis (1-D array)
+        * parameters : bestDateSet (1-D list), btime (1-D list), bhourlyhum (1-D array), bhourlypress (1-D array), bhourlyVis (1-D array), bhourlytemp (1-D array), bhourlyWind (1-D array), bnhourlyhum (1-D array), bnhourlyseapress (1-D array), bnhourlyVis (1-D array)
         * returns : nexthum (float), nextpress (float), nextvis (float), nexttemp (float), nextwind (float), nextnhum (float), nextnpress (float), nextnvis (float)
     *  *predictedAccuracy(args)* : Calculates the percent error associated with a predicted value
         * parameters : data (float), nextData (float)
