@@ -7,9 +7,9 @@ from mpl_toolkits.mplot3d import Axes3D
 def create_centroids(K):    
     return np.random.random((K,3))
 
-def assign(centroids, humidity, pressure, visibility):
+def assign(centroids, nHourlyHum, nHourlyPress, nHourlyVis):
     K = centroids.shape[0]
-    distances = np.zeros((K, visibility.size))
+    distances = np.zeros((K, nHourlyVis.size))
     
     for i in range(K):
         z = centroids[i,2]
@@ -17,7 +17,7 @@ def assign(centroids, humidity, pressure, visibility):
         x = centroids[i,0] 
         
         #fills each row with an array of the distances from each data point to the current centroid
-        distances[i] = np.sqrt(((x-humidity)**2)+((y-visibility)**2)+((z-pressure)**2))
+        distances[i] = np.sqrt(((x-nHourlyHum)**2)+((y-nHourlyVis)**2)+((z-nHourlyPress)**2))
         
     #returns the index of the minimum distance from each point to the K centroids which is also the nearest centroid    
     assignments = np.argmin(distances, axis = 0)  
@@ -32,10 +32,10 @@ def assign(centroids, humidity, pressure, visibility):
         return assignments
     else: #repeat process to return good assignments
         centroids = create_centroids(K)
-        assignments = assign(centroids, humidity, pressure, visibility)
+        assignments = assign(centroids, nHourlyHum, nHourlyPress, nHourlyVis)
         return assignments
     
-def updateCent(centroids, assignments, humidity, pressure, visibility):
+def updateCent(centroids, assignments, nHourlyHum, nHourlyPress, nHourlyVis):
     K = centroids.shape[0]
     newCentroids = np.zeros(centroids.shape)
     
@@ -48,9 +48,9 @@ def updateCent(centroids, assignments, humidity, pressure, visibility):
          #for every data point
         for j in range(assignments.size): 
             if assignments[j] == i: 
-                hum.append(humidity[j])
-                press.append(pressure[j])
-                vis.append(visibility[j])
+                hum.append(nHourlyHum[j])
+                press.append(nHourlyPress[j])
+                vis.append(nHourlyVis[j])
         
         #updates centroid locations        
         newCentroids[i,0] = np.mean(hum)
@@ -59,30 +59,29 @@ def updateCent(centroids, assignments, humidity, pressure, visibility):
         
     return newCentroids 
 
-def iteration(centroids, humidity, pressure, visibility):
+def iteration(centroids, nHourlyHum, nHourlyPress, nHourlyVis):
     pastCentroids = centroids    
-    assignments = assign(centroids, humidity, pressure, visibility) 
-    newcentroids = updateCent(centroids, assignments, humidity, pressure, visibility)
+    newAssignments = assign(centroids, nHourlyHum, nHourlyPress, nHourlyVis) 
+    newcentroids = updateCent(centroids, newAssignments, nHourlyHum, nHourlyPress, nHourlyVis)
     
-    discent = pastCentroids - newcentroids  
-    maxdist = np.abs(np.amax(discent)) #arbitrary value to start the loop, just has to be greater than (10**-100)
+    disCent = pastCentroids - newcentroids  
+    maxDist = np.abs(np.amax(disCent)) #arbitrary value to start the loop, just has to be greater than (10**-100)
     
     pastCentroids = newcentroids
     
-    while (maxdist >= (10**(-100))): 
-        newassignments = assign(pastCentroids, humidity, pressure, visibility) 
-        newcentroids = updateCent(pastCentroids, newassignments, humidity, pressure, visibility)
+    while (maxDist > (10**(-100))): 
+        newAssignments = assign(pastCentroids, nHourlyHum, nHourlyPress, nHourlyVis) 
+        newcentroids = updateCent(pastCentroids, newAssignments, nHourlyHum, nHourlyPress, nHourlyVis)
          
-        discent = pastCentroids - newcentroids 
+        disCent = pastCentroids - newcentroids 
         
-        maxdist = np.amax(np.abs(discent)) 
+        maxDist = np.amax(np.abs(disCent)) 
         
         pastCentroids = newcentroids 
-        assignments = newassignments
     
-    return pastCentroids, assignments 
+    return pastCentroids, newAssignments 
 
-def clusterAccuracy(humidity, visibility, pressure, assignments, rain, finalCentroids):
+def clusterAccuracy(nHourlyHum, nHourlyVis, nHourlyPress, assignments, nHourlyPrecip, finalCentroids):
     K = finalCentroids.shape[0]
     newCentroids = finalCentroids
     newAssignments = assignments
@@ -95,19 +94,19 @@ def clusterAccuracy(humidity, visibility, pressure, assignments, rain, finalCent
       
     #this loop ensures that the clusters identified are rain/no rain clusters. It will not run if
     #both clusters are no rain clusters (when the median visibility of both clusters is a 1 (i.e. clear day))
-    while (((np.median(visibility[newAssignments == 0])) == 1) and (np.median(visibility[newAssignments == 1]) == 1)):
+    while (((np.median(nHourlyVis[newAssignments == 0])) == 1) and (np.median(nHourlyVis[newAssignments == 1]) == 1)):
         newCentroids = create_centroids(K)
-        newCentroids, newAssignments = iteration(newCentroids, humidity, pressure, visibility)
+        newCentroids, newAssignments = iteration(newCentroids, nHourlyHum, nHourlyPress, nHourlyVis)
         
     if (np.median(newAssignments) == 0): #no rain assignments are 0, since they make up the majority of the weather
         for i in range(newAssignments.size):
-                if ((newAssignments[i] == 1) and (rain[i] != 0)):
+                if ((newAssignments[i] == 1) and (nHourlyPrecip[i] != 0)):
                     truePositives += 1
                     positives += 1
-                elif((newAssignments[i] == 0) and (rain[i] == 0)):
+                elif((newAssignments[i] == 0) and (nHourlyPrecip[i] == 0)):
                     trueNegatives += 1
                     negatives += 1
-                elif((newAssignments[i] == 1) and (rain[i] == 0)):
+                elif((newAssignments[i] == 1) and (nHourlyPrecip[i] == 0)):
                     falsePositives += 1
                     negatives += 1
                 else:
@@ -115,13 +114,13 @@ def clusterAccuracy(humidity, visibility, pressure, assignments, rain, finalCent
                     positives += 1
     else: #no rain assignments are 1
         for i in range(newAssignments.size):
-                if ((newAssignments[i] == 0) and (rain[i] != 0)):
+                if ((newAssignments[i] == 0) and (nHourlyPrecip[i] != 0)):
                     truePositives += 1
                     positives += 1
-                elif((newAssignments[i] == 1) and (rain[i] == 0)):
+                elif((newAssignments[i] == 1) and (nHourlyPrecip[i] == 0)):
                     trueNegatives += 1
                     negatives += 1
-                elif((newAssignments[i] == 0) and (rain[i] == 0)):
+                elif((newAssignments[i] == 0) and (nHourlyPrecip[i] == 0)):
                     falsePositives += 1
                     negatives += 1
                 else:
@@ -133,8 +132,8 @@ def clusterAccuracy(humidity, visibility, pressure, assignments, rain, finalCent
     print('True Positives Rate: ' + str(round(((truePositives/positives)*100), 2)) + '%')
     print('True Negatives Rate: ' + str(round(((trueNegatives/negatives)*100), 2)) + '%\n')
 
-def denormalizeCent(centroids, hourlyhum, hourlyVis, hourlypress):
-    values = [hourlyhum, hourlyVis, hourlypress]
+def denormalizeCent(centroids, hourlyHum, hourlyVis, hourlyPress):
+    values = [hourlyHum, hourlyVis, hourlyPress]
     returnCentroids = np.zeros((centroids.shape[0], centroids.shape[1]))
     
     #populates returnCentroids with the denormalized values
@@ -146,7 +145,7 @@ def denormalizeCent(centroids, hourlyhum, hourlyVis, hourlypress):
             
     return returnCentroids
                      
-def graphing(nhourlyhum, nhourlyVis, nhourlypress, hourlyhum, hourlyVis, hourlypress, centroids, newassignments):
+def graphing(nHourlyHum, nHourlyVis, nHourlyPress, hourlyHum, hourlyVis, hourlyPress, centroids, newAssignments):
     K = centroids.shape[0]
 
     fig = plt.figure(figsize = (8, 6))
@@ -155,17 +154,17 @@ def graphing(nhourlyhum, nhourlyVis, nhourlypress, hourlyhum, hourlyVis, hourlyp
     
     #this loop ensures that the clusters identified are rain/no rain clusters. It will not run if
     #both clusters are no rain clusters (when the median visibility of both clusters is a 1 (i.e. clear day))
-    while (((np.median(nhourlyVis[newassignments == 0])) == 1) and (np.median(nhourlyVis[newassignments == 1]) == 1)):
+    while (((np.median(nHourlyVis[newAssignments == 0])) == 1) and (np.median(nHourlyVis[newAssignments == 1]) == 1)):
         centroids = create_centroids(K)
-        centroids, newassignments = iteration(centroids, nhourlyhum, nhourlypress, nhourlyVis)
+        centroids, newAssignments = iteration(centroids, nHourlyHum, nHourlyPress, nHourlyVis)
     
-    newCentroids = denormalizeCent(centroids, hourlyhum, hourlyVis, hourlypress)    
+    newCentroids = denormalizeCent(centroids, hourlyHum, hourlyVis, hourlyPress)    
     centx = newCentroids[:,0]
     centy = newCentroids[:,1]
     centz = newCentroids[:,2]
     
     for i in range(K):
-        if (np.median(nhourlyVis[newassignments == i]) == 1):
+        if (np.median(nHourlyVis[newAssignments == i]) == 1):
             centlabel = 'No Rain Centroid' 
             labelname = 'No Rain'
             centcolor = 'maroon'
@@ -177,7 +176,7 @@ def graphing(nhourlyhum, nhourlyVis, nhourlypress, hourlyhum, hourlyVis, hourlyp
             valuecolor = 'teal'
 
         ax.scatter(centx[i], centy[i], centz[i], marker = '*', s = 300, color = centcolor, label = centlabel)  
-        ax.scatter(hourlyhum[newassignments==i], hourlyVis[newassignments==i], hourlypress[newassignments==i], color = valuecolor, label = labelname) 
+        ax.scatter(hourlyHum[newAssignments==i], hourlyVis[newAssignments==i], hourlyPress[newAssignments==i], color = valuecolor, label = labelname) 
     
     ax.set_xlabel('\n\nRelative Humidity\n(%)', fontsize = 12)
     ax.set_ylabel('\n\nVisibility\n(miles)', fontsize = 12)

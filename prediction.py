@@ -37,44 +37,44 @@ def weightedValues(time, weights, data):
     return prediction
 
 
-def tomorrow(bestDateSet, time, humidity, pressure, visibility, temp, wind, Nhumidity, Npressure, Nvisibility):
-    worth = weights(bestDateSet, time)
+def tomorrow(bestDateSet, bTime, bHourlyHum, bHourlyPress, bHourlyVis, bHourlyTemp, bHourlyWind, bnHourlyHum, bnHourlyPress, bnHourlyVis):
+    worth = weights(bestDateSet, bTime)
     
     #non-normalized values to be returned in the weather report
-    nexthum= weightedValues(time, worth, humidity)
-    nextpress= weightedValues(time, worth, pressure)
-    nextvis= weightedValues(time, worth, visibility)
-    nexttemp = weightedValues(time, worth, temp)
-    nextwind = weightedValues(time, worth, wind)
+    nextHum= weightedValues(bTime, worth, bHourlyHum)
+    nextPress= weightedValues(bTime, worth, bHourlyPress)
+    nextVis= weightedValues(bTime, worth, bHourlyVis)
+    nextTemp = weightedValues(bTime, worth, bHourlyTemp)
+    nextWind = weightedValues(bTime, worth, bHourlyWind)
     
     #normalized values used to predict if it's raining the next day
-    Nnexthum= weightedValues(time, worth, Nhumidity)
-    Nnextpress= weightedValues(time, worth, Npressure)
-    Nnextvis= weightedValues(time, worth, Nvisibility)
+    nextnHum= weightedValues(bTime, worth, bnHourlyHum)
+    nextnPress= weightedValues(bTime, worth, bnHourlyPress)
+    nextnVis= weightedValues(bTime, worth, bnHourlyVis)
     
-    return nexthum, nextpress, nextvis, nexttemp, nextwind, Nnexthum, Nnextpress, Nnextvis
+    return nextHum, nextPress, nextVis, nextTemp, nextWind, nextnHum, nextnPress, nextnVis
 
-def predictedAccuracy(data, nextdata):
+def predictedAccuracy(data, nextData):
     actual = data[57:]
-    percentError = np.abs(((nextdata - np.mean(actual))/(np.mean(actual)))*100)
+    percentError = np.abs(((nextData - np.mean(actual))/(np.mean(actual)))*100)
     #uses the mean of the actual values because this gives an approximation of the daily value from the hourly values
     
     return percentError
 
 #In addition to using the median we could use the percentage of nearest points that are rain to predict likelihood
-def kNearestNeighborClassifier(humidity, pressure, visibility, precip, nexthumidity, nextpressure, nextvisibility):
+def kNearestNeighborClassifier(nHourlyHum, nHourlyPress, nHourlyVis, nHourlyPrecip, nextnHum, nextnPress, nextnVis):
     closest = np.zeros(10)
-    distance_arr = np.zeros(len(humidity))
+    distance_arr = np.zeros(len(nHourlyHum))
     
-    for i in range(humidity.size):
-        distance_squared = (((humidity[i]-nexthumidity)**2)+((pressure[i]-nextpressure)**2)+((visibility[i]-nextvisibility)**2))
+    for i in range(nHourlyHum.size):
+        distance_squared = (((nHourlyHum[i]-nextnHum)**2)+((nHourlyPress[i]-nextnPress)**2)+((nHourlyVis[i]-nextnVis)**2))
         distance = np.sqrt(distance_squared)
         distance_arr[i] = distance
         
     indexes = np.argsort(distance_arr)
     
     for i in range(10):
-        closest[i] = precip[indexes[i]]  
+        closest[i] = nHourlyPrecip[indexes[i]]  
     raining = int(np.median(closest)) # overall rain calssification
     
     # calculating chance of rain
@@ -83,5 +83,6 @@ def kNearestNeighborClassifier(humidity, pressure, visibility, precip, nexthumid
         if (closest[i] > 0): 
             rain += 1
     likelihood = (rain/10)*100
+    
     return raining, likelihood
 

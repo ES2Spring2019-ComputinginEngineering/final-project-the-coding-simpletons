@@ -12,18 +12,22 @@ import presentation
 import prediction
 
 #Variable assignments
-bestDateSet, time, hourlytemp, hourlyprecip, hourlypress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlypress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind = data.readDataFile()
+bestDateSet, time, hourlyTemp, hourlyPrecip, hourlyPress, hourlyHum, hourlyVis, hourlyPeakWind, hourlyWind, nHourlyTemp, nHourlyPrecip, nHourlyPress, nHourlyHum, nHourlyVis, nHourlyPeakWind, nHourlyWind = data.readDataFile()
 
 dateRange = data.sliceOfInterest(bestDateSet, time)
 
-btime, bhourlytemp, bhourlyprecip, bhourlypress, bhourlyhum, bhourlyVis, bhourlyPeakWind, bhourlyWind, bnhourlytemp, bnhourlyprecip, bnhourlypress, bnhourlyhum, bnhourlyVis, bnhourlyPeakWind, bnhourlyWind = data.dataOfInterest(dateRange, time, hourlytemp, hourlyprecip, hourlypress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlypress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind)
+bTime, bHourlyTemp, bHourlyPrecip, bHourlyPress, bHourlyHum, bHourlyVis, bHourlyPeakWind, bHourlyWind, bnHourlyTemp, bnHourlyPrecip, bnHourlyPress, bnHourlyHum, bnHourlyVis, bnHourlyPeakWind, bnHourlyWind = data.dataOfInterest(dateRange, time, hourlyTemp, hourlyPrecip, hourlyPress, hourlyHum, hourlyVis, hourlyPeakWind, hourlyWind, nHourlyTemp, nHourlyPrecip, nHourlyPress, nHourlyHum, nHourlyVis, nHourlyPeakWind, nHourlyWind)
 
 
 #Predicted Values
-nexthumidity, nextpressure, nextvisibility, nexttemperature, nextwind, nextnhum, nextnpress, nextnvis = prediction.tomorrow(bestDateSet, btime, bhourlyhum, bhourlypress, bhourlyVis, bhourlytemp, bhourlyWind, bnhourlyhum, bnhourlypress, bnhourlyVis)
+nextHum, nextPress, nextVis, nextTemp, nextWind, nextnHum, nextnPress, nextnVis = prediction.tomorrow(bestDateSet, bTime, bHourlyHum, bHourlyPress, bHourlyVis, bHourlyTemp, bHourlyWind, bnHourlyHum, bnHourlyPress, bnHourlyVis)
 
-rain_value, rain_percent = prediction.kNearestNeighborClassifier(hourlyhum, hourlypress, hourlyVis, hourlyprecip, nextnhum, nextnpress, nextnvis)
+rainValue, rainPercent = prediction.kNearestNeighborClassifier(nHourlyHum, nHourlyPress, nHourlyVis, nHourlyPrecip, nextnHum, nextnPress, nextnVis)
 
+#The line below was used at the beginning of the project to determine which climatological variables 
+#should be compared to anticipate rain
+
+#data.exploringGraphs(hourlyPress, hourlyHum, hourlyWind, hourlyVis, hourlyTemp, hourlyPrecip)
 
 #Uncommenting the block quote below outputs information relevant to the report including the 
 #range of dates we used to predict the weather and then measure our accuracy in those predictions,
@@ -34,21 +38,20 @@ rain_value, rain_percent = prediction.kNearestNeighborClassifier(hourlyhum, hour
 """
 K = 2
 centroids = clustering.create_centroids(K)
-final_centroids, assignments = clustering.iteration(centroids, nhourlyhum, nhourlypress, nhourlyVis)
+finalCentroids, assignments = clustering.iteration(centroids, nHourlyHum, nHourlyPress, nHourlyVis)
 
 print('The best set of days ranges from:\n' + str(bestDateSet[0]) + ' to ' + str(bestDateSet[len(bestDateSet)-1]))
 
-data.graphData3D(hourlyhum, hourlypress, hourlyVis, hourlyprecip, nexthumidity, nextpressure, nextvisibility)
+data.graphData3D(hourlyHum, hourlyPress, hourlyVis, hourlyPrecip, nextHum, nextPress, nextVis)
 
-clustering.graphing(nhourlyhum, nhourlyVis, nhourlypress, hourlyhum, hourlyVis, hourlypress, final_centroids, assignments)
+clustering.graphing(nHourlyHum, nHourlyVis, nHourlyPress, hourlyHum, hourlyVis, hourlyPress, finalCentroids, assignments)
 
-clustering.clusterAccuracy(nhourlyhum, nhourlyVis, nhourlypress, assignments, nhourlyprecip, final_centroids)
+clustering.clusterAccuracy(nHourlyHum, nHourlyVis, nHourlyPress, assignments, nHourlyPrecip, finalCentroids)
 """
-
 
 #The below line of code is what produces and runs the interactive (buttons) weather report
 #It may not pop up on your screen in an obvious location. The new window should
 #pop up in the middle of the screen.
 #Pressing the 'Finished' button will discontinue the code, but may leave the window open with a 
 #color wheel of death. Not to worry, simply running the code once more allows one to use the weather report.
-presentation.report(bhourlyprecip, bhourlyhum, bhourlypress, bhourlyVis, bhourlytemp, bhourlyWind, nexthumidity, nextpressure, nextvisibility, nexttemperature, nextwind, rain_value, rain_percent)
+presentation.report(bHourlyPrecip, bHourlyHum, bHourlyPress, bHourlyVis, bHourlyTemp, bHourlyWind, nextHum, nextPress, nextVis, nextTemp, nextWind, rainValue, rainPercent)

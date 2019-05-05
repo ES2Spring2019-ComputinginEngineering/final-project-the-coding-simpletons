@@ -200,26 +200,26 @@ def sliceOfInterest(bestDateSet, time): #2/8/19 to 2/15/19 7 days to pull data f
     
     return [start, end]
 
-def dataOfInterest(sliceRange, time, hourlytemp, hourlyprecip, hourlyseapress, hourlyhum, hourlyVis, hourlyPeakWind, hourlyWind, nhourlytemp, nhourlyprecip, nhourlyseapress, nhourlyhum, nhourlyVis, nhourlyPeakWind, nhourlyWind):
+def dataOfInterest(sliceRange, time, hourlyTemp, hourlyPrecip, hourlyPress, hourlyHum, hourlyVis, hourlyPeakWind, hourlyWind, nHourlyTemp, nHourlyPrecip, nHourlyPress, nHourlyHum, nHourlyVis, nHourlyPeakWind, nHourlyWind):
     returnValues = []
     a = sliceRange[0] #start of the slice
     b = sliceRange[1] #end of the slice
     
     returnValues.append(time[a:b])
-    returnValues.append(hourlytemp[a:b])
-    returnValues.append(hourlyprecip[a:b])
-    returnValues.append(hourlyseapress[a:b])
-    returnValues.append(hourlyhum[a:b])
+    returnValues.append(hourlyTemp[a:b])
+    returnValues.append(hourlyPrecip[a:b])
+    returnValues.append(hourlyPress[a:b])
+    returnValues.append(hourlyHum[a:b])
     returnValues.append(hourlyVis[a:b])
     returnValues.append(hourlyPeakWind[a:b])
     returnValues.append(hourlyWind[a:b])
-    returnValues.append(nhourlytemp[a:b])
-    returnValues.append(nhourlyprecip[a:b])
-    returnValues.append(nhourlyseapress[a:b])
-    returnValues.append(nhourlyhum[a:b])
-    returnValues.append(nhourlyVis[a:b])
-    returnValues.append(nhourlyPeakWind[a:b])
-    returnValues.append(nhourlyWind[a:b])
+    returnValues.append(nHourlyTemp[a:b])
+    returnValues.append(nHourlyPrecip[a:b])
+    returnValues.append(nHourlyPress[a:b])
+    returnValues.append(nHourlyHum[a:b])
+    returnValues.append(nHourlyVis[a:b])
+    returnValues.append(nHourlyPeakWind[a:b])
+    returnValues.append(nHourlyWind[a:b])
     
     return returnValues
     
