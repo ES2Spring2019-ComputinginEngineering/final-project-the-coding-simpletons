@@ -68,7 +68,7 @@ def report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, 
             
         def hum(self):
             accuracy = round(prediction.predictedAccuracy(bhourlyhum, humidity),1)
-            print("Humidity for Tomorrow is " + str(humidity) + "%, with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
+            print("Relative Humidity for Tomorrow is " + str(humidity) + "%, with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
             
         def wind(self):
             accuracy = round(prediction.predictedAccuracy(bhourlyWind, winds),1)
@@ -76,13 +76,13 @@ def report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, 
             
         def press(self):
             accuracy = round(prediction.predictedAccuracy(bhourlyseapress, pressure),1)
-            print("Pressure for Tomorrow is " + str(pressure) + " Pa, with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
+            print("Pressure for Tomorrow is " + str(pressure) + " inches of mercury, with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
         
         def vis(self):
             accuracy = round(prediction.predictedAccuracy(bhourlyVis, visibility),1)
             if visibility > 9.7:
                 print("Clear Skies Tomorrow with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
             else:
-                print("Visibility for Tomorrow is " + str(visibility) + " with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
+                print("Visibility for Tomorrow is " + str(visibility) + " miles, with a Reported Accuracy of " + str(100.0-accuracy) + "%\n")
     
     interface(master=root).mainloop()

@@ -61,26 +61,12 @@ def predictedAccuracy(data, nextdata):
     #uses the mean of the actual values because this gives an approximation of the daily value from the hourly values
     return percentError
 
-def nearest_neighbor(humidity, pressure, visibility, precip, nhumidity, npressure, nvisibility):
-    distance_arr = np.zeros(humidity.size)
-    
-    for i in range(humidity.size):
-        distance_squared = (((humidity[i]-nhumidity)**2)+((pressure[i]-npressure)**2)+((visibility[i]-nvisibility)**2))
-        distance = np.sqrt(distance_squared)
-        distance_arr[i] = distance
-        
-    smallesti = np.argmin(distance_arr)
-    raining = int(precip[smallesti])
-    
-    return raining
-
-
 #In addition to using the median we could use the percentage of nearest points that are rain to predict likelihood
 def kNearestNeighborClassifier(humidity, pressure, visibility, precip, nexthumidity, nextpressure, nextvisibility):
     closest = np.zeros(10)
     distance_arr = np.zeros(len(humidity))
     
-    for i in range(len(humidity)):
+    for i in range(humidity.size):
         distance_squared = (((humidity[i]-nexthumidity)**2)+((pressure[i]-nextpressure)**2)+((visibility[i]-nextvisibility)**2))
         distance = np.sqrt(distance_squared)
         distance_arr[i] = distance

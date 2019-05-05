@@ -9,7 +9,7 @@ def create_centroids(K):
 
 def assign(centroids, humidity, pressure, visibility):
     K = centroids.shape[0]
-    distances = np.zeros((K, len(visibility)))
+    distances = np.zeros((K, visibility.size))
     
     for i in range(K):
         z = centroids[i,2]
@@ -30,7 +30,7 @@ def assign(centroids, humidity, pressure, visibility):
 def updateCent(centroids, assignments, humidity, pressure, visibility):
     K = centroids.shape[0]
     
-    newcentroids = np.zeros(centroids.shape)
+    newCentroids = np.zeros(centroids.shape)
     
     for i in range(K): 
         hum = [] 
@@ -41,11 +41,11 @@ def updateCent(centroids, assignments, humidity, pressure, visibility):
                 hum.append(humidity[j])
                 press.append(pressure[j])
                 vis.append(visibility[j])
-        newcentroids[i,0] = np.mean(hum)
-        newcentroids[i,1] = np.mean(vis)
-        newcentroids[i,2] = np.mean(press)
+        newCentroids[i,0] = np.mean(hum)
+        newCentroids[i,1] = np.mean(vis)
+        newCentroids[i,2] = np.mean(press)
         
-    return newcentroids 
+    return newCentroids 
 
 def iteration(centroids, humidity, pressure, visibility):    
     assignments = assign(centroids, humidity, pressure, visibility) 
@@ -56,8 +56,6 @@ def iteration(centroids, humidity, pressure, visibility):
     
     centroids = newcentroids
     
-    count = 0
-    
     while (maxdist >= (10**(-100))): 
         newassignments = assign(centroids, humidity, pressure, visibility) 
         newcentroids = updateCent(centroids, newassignments, humidity, pressure, visibility)
@@ -65,7 +63,6 @@ def iteration(centroids, humidity, pressure, visibility):
         discent = centroids - newcentroids 
         
         maxdist = np.amax(np.abs(discent)) 
-        count += 1         
         
         centroids = newcentroids 
         assignments = newassignments
@@ -124,11 +121,12 @@ def clusterAccuracy(humidity, visibility, pressure, assignments, rain, finalCent
     print('True Positives Rate: ' + str(round(((truePositives/positives)*100), 2)) + '%')
     print('True Negatives Rate: ' + str(round(((trueNegatives/negatives)*100), 2)) + '%\n')
                         
-def graphing(humidity, visibility, pressure, centroids, newassignments):
+def graphing(nhourlyhum, nhourlyVis, nhourlypress, centroids, newassignments):
     K = centroids.shape[0]
 
-    fig = plt.figure()
+    fig = plt.figure(figsize = (8, 6))
     ax = fig.add_subplot(111, projection='3d')
+    ax.dist = 12 #viewing distance
     
     while (((np.median(visibility[newassignments == 0])) == 1) and (np.median(visibility[newassignments == 1]) == 1)):
         centroids = create_centroids(K)
@@ -154,12 +152,9 @@ def graphing(humidity, visibility, pressure, centroids, newassignments):
         ax.scatter(humidity[newassignments==i], visibility[newassignments==i], pressure[newassignments==i], color = valuecolor, label = labelname) 
     
     # making headings and a legend for the graph
-    ax.set_xlabel('Humidity', fontsize = 12)
-    ax.set_ylabel('Visibility', fontsize = 12)
-    ax.set_zlabel('Pressure', fontsize = 12)
-    ax.set_xlim(0,1)
-    ax.set_ylim(0,1)
-    ax.set_zlim(0,1)
+    ax.set_xlabel('\n\nRelative Humidity\n(%)', fontsize = 12)
+    ax.set_ylabel('\n\nVisibility\n(miles)', fontsize = 12)
+    ax.set_zlabel('\n\nPressure\n(inches of mercurcy)', fontsize = 12)
+    ax.legend(bbox_to_anchor = (1.15, 1))
     ax.set_title('Pressure, Humidity, and Visibility\n Classified Using ' + str(K) + ' Centroids\n(Hourly Values Jan-April 2019)', fontsize = 14)
-    plt.legend(bbox_to_anchor = (1.43, 1.025))
     plt.show
