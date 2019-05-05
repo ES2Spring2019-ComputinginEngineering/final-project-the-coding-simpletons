@@ -22,7 +22,7 @@ def report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, 
     winds = round(nextwind, 1)
     
     root = tk.Tk()
-    root.geometry("200x180+550+350")
+    root.geometry("200x200+550+350")
     root.configure(background=bC)
     root.title('Weather Report')
 
@@ -35,6 +35,7 @@ def report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, 
     
         def create_widgets(self):
             tk.Label(text = 'test')
+            tk.Button(root, text="Location", command=self.location, highlightbackground=bC).pack(side="top")
             tk.Button(root, text="Tomorrow's Date", command=self.tomorrow, highlightbackground=bC).pack(side="top")
             tk.Button(root, text="Tomorrow's Weather", command=self.weather, highlightbackground=bC).pack(side="top")
             tk.Button(root, text="Average Temperature", command=self.temp, highlightbackground=bC).pack(side="top")      
@@ -43,7 +44,10 @@ def report(bhourlyprecip, bhourlyhum, bhourlyseapress, bhourlyVis, bhourlytemp, 
             tk.Button(root, text="Pressure", command=self.press, highlightbackground=bC).pack(side="top")
             tk.Button(root, text="Visibility", command=self.vis, highlightbackground=bC).pack(side="top")
             tk.Button(root, text="Finished", command=root.destroy, highlightbackground=bC).pack(side="top")
-    
+        
+        def location(self):
+            print('This report returns the weather in Boston, Massachussetts\n')
+            
         def tomorrow(self):
             print('Tomorrow is February 15, 2019\n')
             

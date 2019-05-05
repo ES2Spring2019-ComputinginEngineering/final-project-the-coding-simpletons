@@ -216,29 +216,29 @@ def dataOfInterest(sliceRange, time, hourlytemp, hourlyprecip, hourlyseapress, h
     
     return returnValues
     
-def exploringGraphs(pressure, humidity, windspeed, visibility, temperature, precipitation):
+def exploringGraphs(hourlyPress, hourlyHum, hourlyWind, hourlyVis, hourlyTemp, hourlyPrecip):
     #graphs every unqiue pair of the selected hourly variables
-    selectValues = [pressure, humidity, windspeed, visibility, temperature]
+    selectValues = [hourlyPress, hourlyHum, hourlyWind, hourlyVis, hourlyTemp]
     selectLabels = ['pressure', 'humidity', 'windspeed', 'visibility', 'temperature']
     for i in range(len(selectValues)):
         for j in range(len(selectValues)):
             if (j > i):
                 # graphing our parsed, and normalized data 
-                plt.plot(selectValues[i][precipitation!=0],selectValues[j][precipitation!=0],'b.',label='Rain')
-                plt.plot(selectValues[i][precipitation==0],selectValues[j][precipitation==0],'r.',label ='No rain')
+                plt.plot(selectValues[i][hourlyPrecip!=0],selectValues[j][hourlyPrecip!=0],'b.',label='Rain')
+                plt.plot(selectValues[i][hourlyPrecip==0],selectValues[j][hourlyPrecip==0],'r.',label ='No rain')
                 plt.xlabel(selectLabels[i])
                 plt.ylabel(selectLabels[j])
                 plt.legend(loc = 3)
                 plt.title(selectLabels[j] + ' vs. ' + selectLabels[i])
                 plt.show()
                 
-def graphData3D(humidity, pressure, visibility, precipitation, nhum, npress, nvis):
+def graphData3D(hourlyHum, hourlyPress, hourlyVis, hourlyPrecip, nextHum, nextPress, nextVis):
     # graphing our parsed, and normalized data     
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-    ax.scatter(humidity[precipitation!=0], visibility[precipitation!=0], pressure[precipitation!=0], label='Rain')
-    ax.scatter(humidity[precipitation==0], visibility[precipitation==0], pressure[precipitation==0], label ='No Rain')
-    ax.scatter(nhum, nvis, npress, color = 'black', label='Tomorrow', s= 300, marker = 'p')
+    ax.scatter(hourlyHum[hourlyPrecip!=0], hourlyVis[hourlyPrecip!=0], hourlyPress[hourlyPrecip!=0], label='Rain')
+    ax.scatter(hourlyHum[hourlyPrecip==0], hourlyVis[hourlyPrecip==0], hourlyPress[hourlyPrecip==0], label ='No Rain')
+    ax.scatter(nextHum, nextVis, nextPress, color = 'black', label='Tomorrow', s= 300, marker = 'p')
     ax.set_xlabel('Humidity', fontsize = 12)
     ax.set_ylabel('Visibility', fontsize = 12)
     ax.set_zlabel('Pressure', fontsize = 12)
